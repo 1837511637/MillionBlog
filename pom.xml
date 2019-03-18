@@ -32,11 +32,11 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>-->
         <!-- oracle jdbc driver -->
-        <dependency>
+        <!--<dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc6</artifactId>
             <version>11.2.0.1.0</version>
-        </dependency>
+        </dependency>-->
         <!-- mybatis -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
