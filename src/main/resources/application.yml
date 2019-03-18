@@ -1,0 +1,28 @@
+spring:
+    application:
+        name: millionBlog
+    # 环境 dev:开发环境|test:测试环境|prod:生产环境
+    profiles:
+        active: dev #激活的配置文件
+
+    mybatis-plus:
+        mapper-locations: classpath:/sql/*.xml
+        typeAliasesPackage: com.kcy.system.model.*
+
+    thymeleaf:
+        #缓存
+        cache: false
+        #模版
+        mode: HTML5
+        #是否启用
+        enabled: true
+        #前缀
+        prefix: classpath:/templates/
+        #后缀
+        suffix: .html
+        servlet:
+            #文本类型
+            content-type: text/html
+
+logging:
+    config: classpath:logback-spring.xml # 日志配置文件
