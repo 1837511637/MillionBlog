@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <title>Typecho评论者主页链接新窗口打开（非修改程序） - OFFODD</title>
+    <meta name="description"
+          content="Typecho评论者主页链接默认是在当前页面跳转，感觉这一点不是很友好，网上有修改为新窗口跳转的教程，但都是通过修改Typecho程序文件实现的，这样的话，如果更新了程序（虽然TE更新极慢😑），..."/>
+    <meta name="keywords" content="Typecho,功能增强"/>
+    <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+    <script src="/templates/static/js/jquery.min.js"></script>
+    <script src="/templates/static/js/jquery.pjax.min.js"></script>
+</head>
+<body class="head-fixed">
+@include("/templates/views/header.html"){}
+<div id="body">
+    <div class="container clearfix">
+        <div id="main">
+            <div class="breadcrumbs">
+                <a href="https://www.offodd.com/">首页</a> &raquo; <a href="https://www.offodd.com/share/">分享</a> &raquo;
+                正文
+            </div>
+            <article class="post">
+                <h1 class="post-title"><a href="https://www.offodd.com/78.html">Typecho评论者主页链接新窗口打开（非修改程序）</a></h1>
+                <ul class="post-meta">
+                    <li>2019-01-15</li>
+                    <li><a href="https://www.offodd.com/share/">分享</a></li>
+                    <li><a href="https://www.offodd.com/78.html#comments">6 条评论</a></li>
+                    <li>565 次阅读</li>
+                </ul>
+                <div class="post-content">
+                    <p>
+                        Typecho评论者主页链接默认是在当前页面跳转，感觉这一点不是很友好，网上有修改为新窗口跳转的教程，但都是通过修改Typecho程序文件实现的，这样的话，如果更新了程序（虽然TE更新极慢😑），就需要再次修改。最主要的是像我这种做了主题的，想要让每个我的主题用户都实现这个功能，难道要让每个用户都去改程序文件吗？当然是No！</p>
+                    <!--more--><p>
+                    网上找不到方法，就自己做喽，其实很简单，重写一下评论作者函数就OK了，重写后，自己想怎么改就怎么改😎（说是这样说，其实我只是添加了一个评论者主页如果是外链接，就在新窗口跳转而已，其余的都保持原生状态）。</p>
+                    <p>下面就直接说一下怎么操作吧</p>
+                    <h2>修改方法</h2>
+                    <p>修改主题文件：<code>functions.php</code>，在最后一行之前添加下面的代码</p>
+                    <p>然后修改主题评论框架，一般是<code>comments.php</code>这个文件</p>
+                    <p>将原来输出评论作者的函数，替换为新函数</p>
+                    <p>原函数一般是<code>&lt;?php $comments-&gt;author(); ?&gt;</code></p>
+                    <p>改成<code>&lt;?php CommentAuthor($comments); ?&gt;</code>即可</p>
+                    <p>打完收功，在前台查看效果就行。</p>
+                    <p>如果发现问题，欢迎反馈😁</p></div>
+                <p class="rewards">打赏: <a><img src="//static.offodd.com/uploads/weipay.png" alt="微信收款二维码"/>微信</a>,
+                    <a><img src="//static.offodd.com/uploads/alipay.png" alt="支付宝收款二维码"/>支付宝</a></p>
+                <p class="tags">标签: <a href="https://www.offodd.com/tag/Typecho/">Typecho</a>, <a
+                        href="https://www.offodd.com/tag/%E5%8A%9F%E8%83%BD%E5%A2%9E%E5%BC%BA/">功能增强</a></p>
+                <p class="license">本作品采用 <a rel="license nofollow"
+                                            href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank">知识共享署名-相同方式共享
+                    4.0 国际许可协议</a> 进行许可。</p>
+            </article>
+            <div id="comments">
+                <h3>已有 <span class="comment-num">6</span> 条评论</h3>
+                <ol class="comment-list">
+                    <li id="li-comment-1066" class="comment-body comment-parent comment-odd">
+                        <div id="comment-1066">
+                            <div class="comment-author">
+                                <img class="avatar"
+                                     src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
+                                     alt="熊猫小A" width="32" height="32"/><cite><a href="https://blog.imalan.cn"
+                                                                                 rel="external nofollow"
+                                                                                 target="_blank">熊猫小A</a></cite>
+                            </div>
+                            <div class="comment-meta">
+                                <time>2019-01-25 at 08:05</time>
+                            </div>
+                            <div class="comment-content">
+                                <p>我是在前端解析的，所以不管评论还是什么，只要是外链都是新标签打开。</p></div>
+                            <div class="comment-reply">
+                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1066#respond-post-78"
+                                   rel="nofollow" onclick="return TypechoComment.reply('comment-1066', 1066);">回复</a>
+                            </div>
+                        </div>
+                        <div class="comment-children">
+                            <ol class="comment-list">
+                                <li id="li-comment-1072"
+                                    class="comment-body comment-child comment-level-odd comment-even comment-by-author">
+                                    <div id="comment-1072">
+                                        <div class="comment-author">
+                                            <img class="avatar"
+                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
+                                                 alt="JIElive" width="32" height="32"/><cite><a
+                                                href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
+                                            <span class="author-icon">Author</span>
+                                        </div>
+                                        <div class="comment-meta">
+                                            <time>2019-01-25 at 09:18</time>
+                                        </div>
+                                        <div class="comment-content">
+                                            <p>前端也行，更省事了，但是这种问题我个人还是喜欢从后端解决他😂</p></div>
+                                        <div class="comment-reply">
+                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1072#respond-post-78"
+                                               rel="nofollow"
+                                               onclick="return TypechoComment.reply('comment-1072', 1072);">回复</a></div>
+                                    </div>
+                                </li>
+                                <li id="li-comment-1067"
+                                    class="comment-body comment-child comment-level-odd comment-odd">
+                                    <div id="comment-1067">
+                                        <div class="comment-author">
+                                            <img class="avatar"
+                                                 src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
+                                                 alt="小宇" width="32" height="32"/><cite><a href="https://kisxy.com"
+                                                                                           rel="external nofollow"
+                                                                                           target="_blank">小宇</a></cite>
+                                        </div>
+                                        <div class="comment-meta">
+                                            <time>2019-01-25 at 09:08</time>
+                                        </div>
+                                        <div class="comment-content">
+                                            <p>你的主题很棒，我很喜欢，哈哈。</p></div>
+                                        <div class="comment-reply">
+                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1067#respond-post-78"
+                                               rel="nofollow"
+                                               onclick="return TypechoComment.reply('comment-1067', 1067);">回复</a></div>
+                                    </div>
+                                    <div class="comment-children">
+                                        <ol class="comment-list">
+                                            <li id="li-comment-1068"
+                                                class="comment-body comment-child comment-level-even comment-odd">
+                                                <div id="comment-1068">
+                                                    <div class="comment-author">
+                                                        <img class="avatar"
+                                                             src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
+                                                             alt="熊猫小A" width="32" height="32"/><cite><a
+                                                            href="https://blog.imalan.cn" rel="external nofollow"
+                                                            target="_blank">熊猫小A</a></cite>
+                                                    </div>
+                                                    <div class="comment-meta">
+                                                        <time>2019-01-25 at 09:13</time>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        <p>谢谢你~</p></div>
+                                                    <div class="comment-reply">
+                                                        <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1068#respond-post-78"
+                                                           rel="nofollow"
+                                                           onclick="return TypechoComment.reply('comment-1068', 1068);">回复</a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ol>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </li>
+                    <li id="li-comment-920" class="comment-body comment-parent comment-even">
+                        <div id="comment-920">
+                            <div class="comment-author">
+                                <img class="avatar"
+                                     src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
+                                     alt="小宇" width="32" height="32"/><cite><a href="https://sunxyu.cn"
+                                                                               rel="external nofollow" target="_blank">小宇</a></cite>
+                            </div>
+                            <div class="comment-meta">
+                                <time>2019-01-15 at 17:30</time>
+                            </div>
+                            <div class="comment-content">
+                                <p>
+                                    确实，似乎typecho不管是评论还是文章内的超链接，都是在本页打开的。不过评论这里的链接我是直接在主题的comments.php里重写了的，没有通过function.php也可以实现。算是另一种方法吧。</p>
+                            </div>
+                            <div class="comment-reply">
+                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=920#respond-post-78"
+                                   rel="nofollow" onclick="return TypechoComment.reply('comment-920', 920);">回复</a>
+                            </div>
+                        </div>
+                        <div class="comment-children">
+                            <ol class="comment-list">
+                                <li id="li-comment-940"
+                                    class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+                                    <div id="comment-940">
+                                        <div class="comment-author">
+                                            <img class="avatar"
+                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
+                                                 alt="JIElive" width="32" height="32"/><cite><a
+                                                href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
+                                            <span class="author-icon">Author</span>
+                                        </div>
+                                        <div class="comment-meta">
+                                            <time>2019-01-16 at 16:41</time>
+                                        </div>
+                                        <div class="comment-content">
+                                            <p>异曲同工😉</p></div>
+                                        <div class="comment-reply">
+                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=940#respond-post-78"
+                                               rel="nofollow"
+                                               onclick="return TypechoComment.reply('comment-940', 940);">回复</a></div>
+                                    </div>
+                                </li>
+                            </ol>
+                        </div>
+                    </li>
+                </ol>
+                <div id="respond-post-78" class="respond">
+                    <div class="cancel-comment-reply">
+                        <a id="cancel-comment-reply-link" href="https://www.offodd.com/78.html#respond-post-78"
+                           rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a>
+                    </div>
+                    <h3 id="response">添加新评论</h3>
+                    <form method="post" action="https://www.offodd.com/78.html/comment" id="comment-form"
+                          class="comment-form clearfix">
+                        <p class="textarea">
+                            <textarea name="text" id="textarea" placeholder="加入讨论..." required></textarea>
+                        </p>
+                        <p class="textbutton">
+                            <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value=""
+                                   required/>
+                            <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value=""
+                                   required/>
+                            <input type="url" name="url" id="url" class="text" placeholder="http://" value=""/>
+                            <button type="submit" class="submit">提交评论</button>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <ul class="post-near">
+                <li>上一篇: <a href="https://www.offodd.com/77.html" title="Typecho文章和页面内的外链接使用新窗口打开（优化版）">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a>
+                </li>
+                <li>下一篇: <a href="https://www.offodd.com/58.html" title="Initial主题简要使用指南">Initial主题简要使用指南</a></li>
+            </ul>
+        </div>
+        <div id="secondary">
+            <section class="widget">
+                <h3 class="widget-title">热门文章</h3>
+                <ul class="widget-list">
+                    <li><a href="https://www.offodd.com/17.html">Typecho主题 - Initial 简约而不简单（更新v2.4.3版）</a></li>
+                    <li><a href="https://www.offodd.com/58.html">Initial主题简要使用指南</a></li>
+                    <li><a href="https://www.offodd.com/19.html">Markdown 简明语法手册</a></li>
+                    <li><a href="https://www.offodd.com/59.html">为Typecho主题集成链接功能（免插件实现友情链接功能）</a></li>
+                    <li><a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></li>
+                </ul>
+            </section>
+            <section class="widget">
+                <h3 class="widget-title">最近回复</h3>
+                <ul class="widget-list">
+                    <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1416"
+                           title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">小白</a>: 我添加了，又取消了，，，信息内容不多。，直接用顶置插件了…
+                    </li>
+                    <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1412"
+                           title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">Nanlon</a>:
+                        下版更新时能不能对css中的font-size使用rem，发现在...
+                    </li>
+                    <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1411"
+                           title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">Sirit</a>: 哦，我看了代码，logo 和 title
+                        不是同时显示的。我改成...
+                    </li>
+                    <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1410"
+                           title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">Sirit</a>: ###自定义头部站点标题###
+                        [ 大嘴狗的小空间 ]
+                        >仅...
+                    </li>
+                    <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1409"
+                           title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">Sirit</a>:
+                        在iPad里safari浏览器点击分类，弹出菜单，点击菜单后页面...
+                    </li>
+                </ul>
+            </section>
+            <section class="widget">
+                <h3 class="widget-title">标签</h3>
+                <ul class="widget-tile">
+                    <li><a href="https://www.offodd.com/tag/Typecho/">Typecho</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%8A%9F%E8%83%BD%E5%A2%9E%E5%BC%BA/">功能增强</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E4%B8%BB%E9%A2%98/">主题</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E4%BA%8B%E8%BF%B9/">事迹</a></li>
+                    <li><a href="https://www.offodd.com/tag/Initial/">Initial</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%AD%A6%E4%B9%A0/">学习</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%AD%A9%E5%AD%90/">孩子</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E6%88%90%E9%95%BF/">成长</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E7%BE%8E%E5%8C%96/">美化</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E6%B3%A8%E6%84%8F/">注意</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%84%BF%E5%AD%90/">儿子</a></li>
+                    <li><a href="https://www.offodd.com/tag/Markdown/">Markdown</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E6%97%85%E6%B8%B8/">旅游</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E8%8A%82%E6%97%A5/">节日</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E6%95%99%E8%AE%AD/">教训</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E7%8C%AB/">猫</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%AE%A0%E7%89%A9/">宠物</a></li>
+                    <li><a href="https://www.offodd.com/tag/Console/">Console</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E5%AE%B6/">家</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E8%AF%B4%E6%98%8E/">说明</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E7%BB%8F%E9%AA%8C/">经验</a></li>
+                    <li><a href="https://www.offodd.com/tag/%E7%AC%94%E8%AE%B0/">笔记</a></li>
+                </ul>
+            </section>
+            <section class="widget">
+                <h3 class="widget-title">其它</h3>
+                <ul class="widget-list">
+                    <li><a href="https://www.offodd.com/feed/" target="_blank">文章 RSS</a></li>
+                    <li><a href="https://www.offodd.com/feed/comments/" target="_blank">评论 RSS</a></li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+@include("/templates/views/footer.html"){}
+</body>
+</html>

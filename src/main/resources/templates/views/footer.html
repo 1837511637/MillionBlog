@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="shortcut icon" href="/favicon.ico"/>
+    <title>Million - 在思想边缘挖掘的少数派</title>
+    <meta name="description" content="Million的博客，有点不同，记录我的生活，分享一些经历与心得。"/>
+    <meta name="keywords" content="Million's Blog"/>
+    <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+</head>
+<body class="head-fixed">
+<!-- 底部 -->
+<footer id="footer">
+    <div class="container">
+        <p>&copy; 2019 <a href="https://www.offodd.com/">Million</a>. Model by
+            <a href="http://www.typecho.org" target="_blank">Typecho</a> &amp;
+            <a href="http://www.offodd.com/17.html" target="_blank">Initial</a>.
+        </p>
+        <p><a href="https://www.offodd.com/" class="icpnum" target="_blank" rel="nofollow">Template Address：www.offodd.com</a></p>
+    </div>
+</footer>
+<!-- top 按钮 -->
+<div id="cornertool">
+    <ul>
+        <li id="top" class="hidden"></li>
+        <li id="music" class="hidden">
+            <span><i></i></span>
+            <audio id="audio" preload="none"></audio>
+        </li>
+    </ul>
+</div>
+<script>
+    // top按钮
+    window.onscroll = function () {
+        var a = document.documentElement.scrollTop || document.body.scrollTop;
+        var b = document.getElementById("top");
+        if (a >= 200) {
+            b.removeAttribute("class")
+        } else {
+            b.setAttribute("class", "hidden")
+        }
+        b.onclick = function totop() {
+            var a = document.documentElement.scrollTop || document.body.scrollTop;
+            if (a > 0) {
+                requestAnimationFrame(totop);
+                window.scrollTo(0, a - (a / 5))
+            } else {
+                cancelAnimationFrame(totop)
+            }
+        };
+        var d = document.getElementById("header");
+        if (a > 0 && a < 30) {
+            d.style.padding = (15 - a / 2) + "px 0"
+        } else if (a >= 30) {
+            d.style.padding = 0
+        } else {
+            d.removeAttribute("style")
+        }
+        ;var e = document.getElementById("main");
+        var f = document.getElementById("secondary");
+        var g = document.documentElement.clientHeight;
+        var h = 0;
+        if (e.offsetHeight > f.offsetHeight) {
+            if (f.offsetHeight > g - 71 && a > f.offsetHeight + 101 - g) {
+                if (a < e.offsetHeight + 101 - g) {
+                    f.style.marginTop = (a - f.offsetHeight - 101 + g) + "px"
+                } else {
+                    f.style.marginTop = (e.offsetHeight - f.offsetHeight) + "px"
+                }
+            } else if (f.offsetHeight <= g - 71 && a > 30 + h) {
+                if (a < e.offsetHeight - f.offsetHeight + h) {
+                    f.style.marginTop = (a - 30 - h) + "px"
+                } else {
+                    f.style.marginTop = (e.offsetHeight - f.offsetHeight - 30) + "px"
+                }
+            } else {
+                f.removeAttribute("style")
+            }
+        }
+    }
+</script>
+</body>
+</html>
