@@ -18,4 +18,23 @@ public class MillionController {
         return "blog";
     }
 
+    @RequestMapping("/archives")
+    public String archives(Model model) {
+        return "archives";
+    }
+
+    @RequestMapping("/guestbook")
+    public String guestbook(Model model) {
+        return "guestbook";
+    }
+
+    @RequestMapping("/about")
+    public String about(Model model) {
+        return "about";
+    }
+
+    @RequestMapping("/links")
+    public String links(Model model) {
+        return "links";
+    }
 }
