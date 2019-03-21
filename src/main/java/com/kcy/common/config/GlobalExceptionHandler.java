@@ -24,7 +24,7 @@ public class GlobalExceptionHandler {
 
 	private static final String DEFAULT_ERROR_VIEW  = "error";
 
-	@ExceptionHandler(value = Exception.class)
+	/*@ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
 
         String header = req.getHeader("X-Requested-With");
@@ -44,5 +44,22 @@ public class GlobalExceptionHandler {
             mav.addObject("message", "error");
             return mav;
         }
+    }*/
+
+    /**
+     * 系统异常处理，比如：404,500
+     * @param req
+     * @param e
+     * @return
+     * @throws Exception
+     */
+    @ExceptionHandler(value = Exception.class)
+    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e){
+        log.error("", e);
+        ModelAndView modelAndView = new ModelAndView();
+        if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
+            modelAndView.setViewName("error");
+        }
+        return modelAndView;
     }
 }
