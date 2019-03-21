@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>页面没找到 - Million</title>
+    <meta name="description" content="Million的博客，有点不同，记录我的生活，分享一些经历与心得。" />
+    <meta name="keywords" content="MillionBlog,杰生活,个人博客,Million" />
+    <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+    <script src="/templates/static/js/jquery.min.js"></script>
+    <script src="/templates/static/js/jquery.pjax.min.js"></script>
+</head>
+<body class="head-fixed">
+@include("/templates/views/header.html"){}
+<div id="body">
+    <div class="container clearfix">
+        <div id="main">
+            <div class="error-page">
+                <h2 class="post-title">404 - 页面没找到</h2>
+                <p>你想查看的页面已被转移或删除了</p>
+            </div>
+        </div>
+        <!--右侧栏-->
+        @include("/templates/views/menu.html"){}
+    </div>
+</div>
+@include("/templates/views/footer.html"){}
+</body>
+</html>
