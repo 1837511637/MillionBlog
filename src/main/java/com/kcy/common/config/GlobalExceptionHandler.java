@@ -22,43 +22,23 @@ import javax.servlet.http.HttpServletRequest;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	private static final String DEFAULT_ERROR_VIEW  = "error";
-
-	/*@ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
-
-        String header = req.getHeader("X-Requested-With");
-        boolean isAjax = "XMLHttpRequest".equals(header) ? true : false;
-        if(isAjax) {
-            log.info("ajax请求");
-            ModelAndView mav = new ModelAndView(new MappingJackson2JsonView());
-            mav.addObject(ResponseUtils.errorResponse("网络繁忙"));
-            return mav;
-        } else {
-            log.info("页面请求");
-            ModelAndView mav = new ModelAndView(DEFAULT_ERROR_VIEW);
-            mav.addObject("timestamp","2019-03-11 19:12:12");
-            mav.addObject("exception", e);
-            mav.addObject("url", req.getRequestURL());
-            mav.addObject("error", "error");
-            mav.addObject("message", "error");
-            return mav;
-        }
-    }*/
+	private static final String ERROR_VIEWNAME  = "error";
 
     /**
      * 系统异常处理，比如：404,500
-     * @param req
+     * @param request
      * @param e
      * @return
      * @throws Exception
      */
     @ExceptionHandler(value = Exception.class)
-    public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e){
+    public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e){
         log.error("", e);
         ModelAndView modelAndView = new ModelAndView();
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
-            modelAndView.setViewName("error");
+            modelAndView.setViewName(ERROR_VIEWNAME);
+        } else {
+            modelAndView.setViewName(ERROR_VIEWNAME);
         }
         return modelAndView;
     }
