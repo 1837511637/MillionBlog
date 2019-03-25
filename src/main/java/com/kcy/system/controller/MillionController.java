@@ -1,4 +1,4 @@
-package com.kcy.system.conntroller;
+package com.kcy.system.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
