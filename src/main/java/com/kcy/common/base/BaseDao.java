@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @param <T> 泛型用于解耦，同时避免写重复代码
  * */
-public interface BaseDaoImpl<T extends Serializable> {
+public interface BaseDao<T extends Serializable> {
     /**
      * 添加某个对象
      *
