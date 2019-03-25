@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcy.system.dao.MillionBlogMapper" >
+  <resultMap id="BaseResultMap" type="com.kcy.system.model.MillionBlog" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USERID" property="userid" jdbcType="INTEGER" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="IMAGE" property="image" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="EVALNUM" property="evalnum" jdbcType="INTEGER" />
+    <result column="VIEWNUM" property="viewnum" jdbcType="INTEGER" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CROPCONTENT" property="cropcontent" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="ISEVAL" property="iseval" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, TITLE, IMAGE, CREATETIME, EVALNUM, VIEWNUM, CONTENT, CROPCONTENT, STATUS, 
+    ISEVAL
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from million_blog
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from million_blog
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kcy.system.model.MillionBlog" >
+    insert into million_blog (ID, USERID, TITLE, 
+      IMAGE, CREATETIME, EVALNUM, 
+      VIEWNUM, CONTENT, CROPCONTENT, 
+      STATUS, ISEVAL)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, 
+      #{image,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{evalnum,jdbcType=INTEGER}, 
+      #{viewnum,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, #{cropcontent,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{iseval,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kcy.system.model.MillionBlog" >
+    insert into million_blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="image != null" >
+        IMAGE,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="evalnum != null" >
+        EVALNUM,
+      </if>
+      <if test="viewnum != null" >
+        VIEWNUM,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="cropcontent != null" >
+        CROPCONTENT,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="iseval != null" >
+        ISEVAL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evalnum != null" >
+        #{evalnum,jdbcType=INTEGER},
+      </if>
+      <if test="viewnum != null" >
+        #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="cropcontent != null" >
+        #{cropcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="iseval != null" >
+        #{iseval,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionBlog" >
+    update million_blog
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        IMAGE = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evalnum != null" >
+        EVALNUM = #{evalnum,jdbcType=INTEGER},
+      </if>
+      <if test="viewnum != null" >
+        VIEWNUM = #{viewnum,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="cropcontent != null" >
+        CROPCONTENT = #{cropcontent,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="iseval != null" >
+        ISEVAL = #{iseval,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kcy.system.model.MillionBlog" >
+    update million_blog
+    set USERID = #{userid,jdbcType=INTEGER},
+      TITLE = #{title,jdbcType=VARCHAR},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      EVALNUM = #{evalnum,jdbcType=INTEGER},
+      VIEWNUM = #{viewnum,jdbcType=INTEGER},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CROPCONTENT = #{cropcontent,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      ISEVAL = #{iseval,jdbcType=CHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

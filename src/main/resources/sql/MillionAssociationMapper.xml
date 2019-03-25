@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcy.system.dao.MillionAssociationMapper" >
+  <resultMap id="BaseResultMap" type="com.kcy.system.model.MillionAssociation" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="BLOGID" property="blogid" jdbcType="INTEGER" />
+    <result column="LABELID" property="labelid" jdbcType="INTEGER" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, BLOGID, LABELID, STATUS, CREATETIME
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from million_association
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from million_association
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kcy.system.model.MillionAssociation" >
+    insert into million_association (ID, BLOGID, LABELID, 
+      STATUS, CREATETIME)
+    values (#{id,jdbcType=INTEGER}, #{blogid,jdbcType=INTEGER}, #{labelid,jdbcType=INTEGER}, 
+      #{status,jdbcType=CHAR}, #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kcy.system.model.MillionAssociation" >
+    insert into million_association
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="blogid != null" >
+        BLOGID,
+      </if>
+      <if test="labelid != null" >
+        LABELID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="labelid != null" >
+        #{labelid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionAssociation" >
+    update million_association
+    <set >
+      <if test="blogid != null" >
+        BLOGID = #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="labelid != null" >
+        LABELID = #{labelid,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kcy.system.model.MillionAssociation" >
+    update million_association
+    set BLOGID = #{blogid,jdbcType=INTEGER},
+      LABELID = #{labelid,jdbcType=INTEGER},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

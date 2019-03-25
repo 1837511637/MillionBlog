@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcy.system.dao.MillionEvaluationMapper" >
+  <resultMap id="BaseResultMap" type="com.kcy.system.model.MillionEvaluation" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="BLOGID" property="blogid" jdbcType="INTEGER" />
+    <result column="HEADIMG" property="headimg" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="WEBLINK" property="weblink" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="TYPE" property="type" jdbcType="CHAR" />
+    <result column="EVALUATION" property="evaluation" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from million_evaluation
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from million_evaluation
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kcy.system.model.MillionEvaluation" >
+    insert into million_evaluation (ID, BLOGID, HEADIMG, 
+      NAME, IP, EMAIL, STATUS, 
+      WEBLINK, CREATETIME, TYPE, 
+      EVALUATION)
+    values (#{id,jdbcType=INTEGER}, #{blogid,jdbcType=INTEGER}, #{headimg,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{weblink,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{type,jdbcType=CHAR}, 
+      #{evaluation,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kcy.system.model.MillionEvaluation" >
+    insert into million_evaluation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="blogid != null" >
+        BLOGID,
+      </if>
+      <if test="headimg != null" >
+        HEADIMG,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="weblink != null" >
+        WEBLINK,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="evaluation != null" >
+        EVALUATION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="blogid != null" >
+        #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="weblink != null" >
+        #{weblink,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=CHAR},
+      </if>
+      <if test="evaluation != null" >
+        #{evaluation,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionEvaluation" >
+    update million_evaluation
+    <set >
+      <if test="blogid != null" >
+        BLOGID = #{blogid,jdbcType=INTEGER},
+      </if>
+      <if test="headimg != null" >
+        HEADIMG = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="weblink != null" >
+        WEBLINK = #{weblink,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=CHAR},
+      </if>
+      <if test="evaluation != null" >
+        EVALUATION = #{evaluation,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kcy.system.model.MillionEvaluation" >
+    update million_evaluation
+    set BLOGID = #{blogid,jdbcType=INTEGER},
+      HEADIMG = #{headimg,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      IP = #{ip,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      WEBLINK = #{weblink,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      TYPE = #{type,jdbcType=CHAR},
+      EVALUATION = #{evaluation,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
