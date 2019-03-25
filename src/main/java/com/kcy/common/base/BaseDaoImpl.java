@@ -15,7 +15,7 @@ public interface BaseDaoImpl<T extends Serializable> {
      * @param t 待添加的对象
      * @return 返回受影响的行数
      */
-    int add(T t);
+    //int add(T t);
 
     /**
      * 删除某个对象，在企业开发中，我们一般不做物理删除，只是添加某个字段对其数据进行可用控制
@@ -23,7 +23,7 @@ public interface BaseDaoImpl<T extends Serializable> {
      * @param t 待删除对象
      * @return 返回受影响的条数
      */
-    int del(T t);
+    //int del(T t);
 
     /**
      * 更新某个对象
@@ -31,7 +31,7 @@ public interface BaseDaoImpl<T extends Serializable> {
      * @param t 待更新对象
      * @return 返回受影响的条数
      */
-    int update(T t);
+    //int update(T t);
 
     /**
      * 通过ID查找一个对象
@@ -39,7 +39,7 @@ public interface BaseDaoImpl<T extends Serializable> {
      * @param Id 待查询的对象的ID
      * @return 返回该ID对应的对象
      */
-    T findOneById(Serializable Id);
+    //T findOneById(Serializable Id);
 
     /**
      * 查找对象集合
