@@ -1,6 +1,7 @@
 package com.kcy.common.filter;
 
 import lombok.extern.log4j.Log4j;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
  * 该拦截器用于返回页面右侧栏数据
  * */
 @Log4j
+@Component
 public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
     /**
      * 在业务处理器处理请求之前被调用
@@ -25,6 +27,9 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        String requestURI = request.getRequestURI();
+
+        log.info("请求路径:" + requestURI);
         return true;
     }
 
@@ -34,20 +39,7 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
      */
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        String requestURI = request.getRequestURI();
-        /*if(requestURI.contains("/web/supply") || requestURI.contains("/web/openSupplyDetails")) {
-            modelAndView.addObject("type", 1);
-        } else if(requestURI.contains("/web/purchase") || requestURI.contains("/web/openPurchaseDetails")) {
-            modelAndView.addObject("type", 2);
-        } else if(requestURI.contains("/web/news") || requestURI.contains("/web/newsDetails")) {
-            modelAndView.addObject("type", 3);
-        } else if(requestURI.contains("/download")) {
-            modelAndView.addObject("type", 4);
-        } else if(requestURI.contains("/web/goToAbout")) {
-            modelAndView.addObject("type", 5);
-        }*/
-        //System.out.println(requestURI);
-        log.info("请求路径:" + requestURI);
+
     }
 
     /**
