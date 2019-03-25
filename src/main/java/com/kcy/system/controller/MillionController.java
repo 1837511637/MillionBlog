@@ -1,5 +1,6 @@
 package com.kcy.system.controller;
 
+import com.kcy.common.base.BaseController;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Api(value = "跳转页面")
-public class MillionController {
+public class MillionController extends BaseController {
 
     @ApiOperation(value = "跳转首页", notes = "首页")
     @RequestMapping("/")
