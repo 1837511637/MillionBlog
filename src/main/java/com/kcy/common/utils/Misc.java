@@ -38,60 +38,6 @@ public class Misc {
     public static String[] NORESULT_WORDS = new String[]{"深网", "deep" ,"暗网", "黑暗网络", "dark", "影网", "影子网络", "shadow", "马网", "马里亚纳网络", "mariana", "ISIS", "黑客", "网赚", "电子狗", "百家乐", "北京战争", "无政府主义", "十八大", "胡锦涛", "杨匡", "刘霞", "公安大情报", "习近平", "习大大", "温家宝", "冰毒", "迷情", "siddiqlar", "istiqlaltv", "turkistantv", "siddiqlartv", "uyghurcongress", "yahxilarning bagqisi", "din wa hayat", "xarki turkistan", "red room", "好人乐园", "宗教和生命", "东突", "伊斯兰之声", "islam awazi radiosi", "husayin tajalli"};
 
     /**
-     * 获取当前的年份
-     * @return int  年份
-     * */
-    public static int getJustYear() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.DAY_OF_MONTH);
-        return year;
-    }
-
-    /**
-     * 获取当前的月份
-     * @return int  月份
-     * */
-    public static int getJustMonth() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.MONTH) + 1;
-        return year;
-    }
-
-    /**
-     * 获取当前多少号
-     * @return int  号
-     * */
-    public static int getJustDay() {
-        Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.DAY_OF_MONTH);
-        return year;
-    }
-
-    /**
-     * 获取当前时间的String格式
-     * @param separator 分隔符 例:/ -
-     * @return String
-     * */
-    public static String getTimePaperFormat(String separator) {
-        Calendar c = Calendar .getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        int day = c.get(Calendar.DAY_OF_MONTH);
-        if(isStringEmpty(separator)) {
-            return year + "-" + (month+1) + "-" + day;
-        }
-        return year + separator + (month+1) + separator + day;
-    }
-
-    /**
-     * 获取当前的毫秒数
-     * @return Long
-     * */
-    public static Long getSystemCurrentTime() {
-        return System.currentTimeMillis();
-    }
-
-    /**
      * 提取金额,使用正则表达式提取字符串中的金额数值
      * 格式可以为0.0或者，11
      * @param cost  字符串

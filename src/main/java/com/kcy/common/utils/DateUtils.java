@@ -5,6 +5,7 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -211,6 +212,60 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     public static String getDateRandom() {
         String s = new SimpleDateFormat("yyyyMMddHHmmssSSS").format(new Date());
         return s;
+    }
+
+    /**
+     * 获取当前的年份
+     * @return int  年份
+     * */
+    public static int getJustYear() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.DAY_OF_MONTH);
+        return year;
+    }
+
+    /**
+     * 获取当前的月份
+     * @return int  月份
+     * */
+    public static int getJustMonth() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.MONTH) + 1;
+        return year;
+    }
+
+    /**
+     * 获取当前多少号
+     * @return int  号
+     * */
+    public static int getJustDay() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.DAY_OF_MONTH);
+        return year;
+    }
+
+    /**
+     * 获取当前时间的String格式
+     * @param separator 分隔符 例:/ -
+     * @return String
+     * */
+    public static String getTimePaperFormat(String separator) {
+        Calendar c = Calendar .getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        if(Misc.isStringEmpty(separator)) {
+            return year + "-" + (month+1) + "-" + day;
+        }
+        return year + separator + (month+1) + separator + day;
+    }
+
+    /**
+     * 获取当前的毫秒数
+     * @return Long
+     * */
+    public static Long getSystemCurrentTime() {
+        return System.currentTimeMillis();
     }
 
 
