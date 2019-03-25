@@ -1,9 +1,9 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionEvaluation;
 
-public interface MillionEvaluationMapper extends BaseDaoImpl<MillionEvaluation> {
+public interface MillionEvaluationMapper extends BaseDao<MillionEvaluation> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionEvaluation record);

@@ -1,9 +1,9 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionLabel;
 
-public interface MillionLabelMapper extends BaseDaoImpl<MillionLabel> {
+public interface MillionLabelMapper extends BaseDao<MillionLabel> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionLabel record);

@@ -1,9 +1,9 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionAssociation;
 
-public interface MillionAssociationMapper extends BaseDaoImpl<MillionAssociation> {
+public interface MillionAssociationMapper extends BaseDao<MillionAssociation> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionAssociation record);

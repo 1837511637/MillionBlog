@@ -1,9 +1,9 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionBlog;
 
-public interface MillionBlogMapper extends BaseDaoImpl<MillionBlog> {
+public interface MillionBlogMapper extends BaseDao<MillionBlog> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionBlog record);

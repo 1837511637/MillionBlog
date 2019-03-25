@@ -1,9 +1,9 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionType;
 
-public interface MillionTypeMapper extends BaseDaoImpl<MillionType> {
+public interface MillionTypeMapper extends BaseDao<MillionType> {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionType record);

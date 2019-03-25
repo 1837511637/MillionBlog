@@ -1,6 +1,6 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDaoImpl;
+import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.FSPerson;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 @Mapper
-public interface PersonMapper extends BaseDaoImpl<FSPerson> {
+public interface PersonMapper extends BaseDao<FSPerson> {
 	
 	@Select(value = { "select * from fish_sys_person" })
     public List<FSPerson> findAll();
