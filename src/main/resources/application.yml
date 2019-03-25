@@ -24,5 +24,8 @@ spring:
             #文本类型
             content-type: text/html
 
+    aop:
+        auto: true
+
 logging:
     config: classpath:logback-spring.xml # 日志配置文件
