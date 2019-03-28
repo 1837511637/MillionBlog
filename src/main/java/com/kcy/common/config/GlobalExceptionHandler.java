@@ -36,21 +36,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e){
-        ModelAndView modelAndView = new ModelAndView();
         //如果是404
-        if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
+        /*if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
             modelAndView.setViewName(ERROR_VIEWNAME);
             return modelAndView;
-        }
+        }*/
+        log.error(e.getMessage(),e);
         String requestType = request.getHeader("X-Requested-With");
         if("XMLHttpRequest".equals(requestType)){
             //System.out.println("AJAX请求..");
-            modelAndView = new ModelAndView(new MappingJackson2JsonView());
+            ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
             modelAndView.addObject(ResponseUtils.errorResponse(ERROR_MSG));
             return modelAndView;
         }else{
+            ModelAndView modelAndView = new ModelAndView();
             modelAndView.setViewName(ERROR_VIEWNAME);
+            return modelAndView;
         }
-        return modelAndView;
     }
 }
