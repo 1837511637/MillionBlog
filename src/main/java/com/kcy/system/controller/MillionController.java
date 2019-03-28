@@ -1,12 +1,17 @@
 package com.kcy.system.controller;
 
 import com.kcy.common.base.BaseController;
+import com.kcy.common.model.ResponseUtils;
+import com.kcy.common.model.ResponseWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
 
 @Controller
 @Api(value = "跳转页面")
@@ -46,5 +51,12 @@ public class MillionController extends BaseController {
     @RequestMapping("/links")
     public String links(Model model) {
         return "links";
+    }
+
+    @ApiOperation(value = "跳转编写博客页", notes = "写作页")
+    @RequestMapping("/read")
+    @ResponseBody
+    public ResponseWrapper read(Model model) {
+        return ResponseUtils.successResponse("success");
     }
 }
