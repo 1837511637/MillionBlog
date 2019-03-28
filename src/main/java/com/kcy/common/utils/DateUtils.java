@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 
 /**
@@ -266,6 +267,67 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
      * */
     public static Long getSystemCurrentTime() {
         return System.currentTimeMillis();
+    }
+
+    /**
+     * 时间字符串转时间类
+     * @param time 时间字符串(2018-11-22)
+     * @return Date date类
+     * */
+    public static Date stringToDate(String time) {
+        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}";
+        boolean result = Pattern.matches(pattern, time);
+        if(!result) {
+            return null;
+        }
+        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            return dataUtils.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 时间字符串转时间类 自定义分隔符
+     * @param time 时间字符串(2018-11-22)
+     * @param separator 分隔符
+     * @return Date date类
+     * */
+    public static Date stringToDate(String time, String separator) {
+        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}";
+        boolean result = Pattern.matches(pattern, time);
+        if(!result) {
+            return null;
+        }
+        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy"+separator+"MM"+separator+"dd");
+        try {
+            return dataUtils.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 时间字符串转时间类 带时分秒
+     * @param time 时间字符串(2018-11-22 10:24:55)
+     * @return Date date类
+     * */
+    public static Date stringToDateSelect(String time) {
+        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}[ ][0-9]{1,2}[:][0-9]{1,2}[:][0-9]{1,2}";
+        boolean result = Pattern.matches(pattern, time);
+        if(!result) {
+            return null;
+        }
+        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            return dataUtils.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

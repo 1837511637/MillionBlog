@@ -33,7 +33,7 @@ import static java.util.regex.Pattern.compile;
  */
 public class Misc {
 
-    private final static String ENCODE = "UTF-8", GBKCODE = "gbk", EN16CODE = "utf-16", ISOCODE = "ISO-8859-1";
+    public final static String ENCODE = "UTF-8", GBKCODE = "gbk", EN16CODE = "utf-16", ISOCODE = "ISO-8859-1";
 
     public static String[] NORESULT_WORDS = new String[]{"深网", "deep" ,"暗网", "黑暗网络", "dark", "影网", "影子网络", "shadow", "马网", "马里亚纳网络", "mariana", "ISIS", "黑客", "网赚", "电子狗", "百家乐", "北京战争", "无政府主义", "十八大", "胡锦涛", "杨匡", "刘霞", "公安大情报", "习近平", "习大大", "温家宝", "冰毒", "迷情", "siddiqlar", "istiqlaltv", "turkistantv", "siddiqlartv", "uyghurcongress", "yahxilarning bagqisi", "din wa hayat", "xarki turkistan", "red room", "好人乐园", "宗教和生命", "东突", "伊斯兰之声", "islam awazi radiosi", "husayin tajalli"};
 
@@ -48,67 +48,6 @@ public class Misc {
         Matcher matcher = compile.matcher(cost);
         matcher.find();
         return Double.valueOf(matcher.group());
-    }
-
-    /**
-     * 时间字符串转时间类
-     * @param time 时间字符串(2018-11-22)
-     * @return Date date类
-     * */
-    public static Date stringToDate(String time) {
-        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}";
-        boolean result = Pattern.matches(pattern, time);
-        if(!result) {
-            return null;
-        }
-        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            return dataUtils.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 时间字符串转时间类 自定义分隔符
-     * @param time 时间字符串(2018-11-22)
-     * @param separator 分隔符
-     * @return Date date类
-     * */
-    public static Date stringToDate(String time, String separator) {
-        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}";
-        boolean result = Pattern.matches(pattern, time);
-        if(!result) {
-            return null;
-        }
-        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy"+separator+"MM"+separator+"dd");
-        try {
-            return dataUtils.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
-     * 时间字符串转时间类 带时分秒
-     * @param time 时间字符串(2018-11-22 10:24:55)
-     * @return Date date类
-     * */
-    public static Date stringToDateSelect(String time) {
-        String pattern = "[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}[ ][0-9]{1,2}[:][0-9]{1,2}[:][0-9]{1,2}";
-        boolean result = Pattern.matches(pattern, time);
-        if(!result) {
-            return null;
-        }
-        SimpleDateFormat dataUtils= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        try {
-            return dataUtils.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     /**
@@ -254,20 +193,6 @@ public class Misc {
     }
 
     /**
-     * 淘宝商品图路径质量转换 200x200转换成800x800
-     * @param url 路径
-     * @return String 新路径
-     * */
-    public static String getBigImage(String url) {
-        if(url.contains("200x200")) {
-            url = url.replace("200x200","800x800");
-            return url;
-        } else {
-            return url;
-        }
-    }
-
-    /**
      * BigDecimal四舍五入到小数点第二位
      * @param b BigDecimal类型
      * @return String类
@@ -350,54 +275,7 @@ public class Misc {
         return isMobile;
     }
 
-    /**
-     * URL 解码
-     *
-     * @return String
-     * @author lifq
-     * @date 2015-3-17 下午04:09:51
-     */
-    public static String getUrlDecoding(String url) {
-        String result = "";
-        if (null == url) {
-            return "";
-        }
-        try {
-            result = java.net.URLDecoder.decode(url, ENCODE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
 
-    /**
-     * URL 转码
-     *
-     * @return String
-     * @author lifq
-     * @date 2015-3-17 下午04:10:28
-     */
-    public static String getURLEncoderString(String url) {
-        String result = "";
-        if (null == url) {
-            return "";
-        }
-        try {
-            result = java.net.URLEncoder.encode(url, ENCODE);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    /**
-     * 获取文件扩展名
-     *
-     * @return string
-     */
-    private static String getFileExt(String fileName) {
-        return fileName.substring(fileName.lastIndexOf("."));
-    }
 
     /**
      * 使用反射根据属性名称获取属性值
@@ -466,6 +344,7 @@ public class Misc {
         }
     }
 
+    //更改编码
     public static String compress(String st) throws  Exception {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         GZIPOutputStream gzipOutputStream = new GZIPOutputStream(out);
@@ -474,70 +353,7 @@ public class Misc {
         return out.toString("ISO-8859-1");
     }
 
-    /**
-     * 3DES 加密
-     * @param content
-     * @param key
-     * @return
-     */
-    public static String encryptTripleDesToString(String content, String key) {
-        String result = null;
-
-        try {
-            DESedeKeySpec dks = new DESedeKeySpec(key.getBytes());
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
-            SecretKey securekey = keyFactory.generateSecret(dks);
-
-            Cipher cipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, securekey);
-            byte[] bytes = cipher.doFinal(content.getBytes("UTF-8"));
-
-            BASE64Encoder encoder = new BASE64Encoder();
-            result = encoder.encode(bytes).replaceAll("\r", "").replaceAll("\n", "");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
-    /**
-     * 3DES 解密
-     *
-     * @param content
-     * @param key
-     * @return
-     */
-    public static String decryptTripleDesToString(String content, String key) {
-        String result = null;
-
-        try {
-            // --通过base64,将字符串转成byte数组
-            BASE64Decoder decoder = new BASE64Decoder();
-            byte[] bytesrc = decoder.decodeBuffer(content);
-            // --解密的key
-            DESedeKeySpec dks = new DESedeKeySpec(key.getBytes());
-            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DESede");
-            SecretKey securekey = keyFactory.generateSecret(dks);
-
-            // --Chipher对象解密
-            Cipher cipher = Cipher.getInstance("DESede/ECB/PKCS5Padding");
-            cipher.init(Cipher.DECRYPT_MODE, securekey);
-            byte[] bytes = cipher.doFinal(bytesrc);
-
-            if (bytes == null) {
-                result = "";
-            } else {
-                result = new String(bytes, "UTF-8");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return result;
-    }
-
+    //获取随机数
     public static String getRandom(int size) {
         StringBuffer sb = new StringBuffer();//定义变长字符串
         Random random = new Random();
@@ -548,50 +364,7 @@ public class Misc {
         return sb.toString();
     }
 
-    public static String EncodeByMD5(String str) throws NoSuchAlgorithmException,UnsupportedEncodingException{
-        MessageDigest md5=MessageDigest.getInstance("MD5");
-        BASE64Encoder base64Encoder=new BASE64Encoder();
-        String newStr=base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
-        return newStr;
-    }
 
-    public static String getTimePaperFormat() {
-        Calendar c = Calendar .getInstance();
-        int year = c.get(Calendar.YEAR);
-        int month = c.get(Calendar.MONTH);
-        return year + "/" + (month+1) + "/";
-    }
-
-    public static String getImgName() {
-        long time = DateUtils.getSystemCurrentTime();
-        return time+"";
-    }
-
-    //文件信息校验    精选
-    public static boolean filesCheckout(MultipartFile multipartFile) {
-        boolean bflag = true;
-        //获取文件名
-        String fileName = multipartFile.getOriginalFilename();
-
-        if(multipartFile.getSize() == 0 && multipartFile.isEmpty()) {
-            bflag = false;
-        }
-        if(!checkMediaType(getFileExt(fileName))) {
-            bflag = false;
-        }
-        return bflag;
-    }
-
-    private static boolean checkMediaType(String fileEnd) {
-        Iterator<String> type = Arrays.asList(WebConst.allowIMG).iterator();
-        while (type.hasNext()) {
-            String ext = type.next();
-            if (fileEnd.equals(ext)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public static void main(String[] args) {
 
