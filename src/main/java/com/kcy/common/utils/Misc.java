@@ -1,5 +1,7 @@
 package com.kcy.common.utils;
 
+import com.kcy.common.constant.WebConst;
+import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -32,8 +34,6 @@ import static java.util.regex.Pattern.compile;
 public class Misc {
 
     private final static String ENCODE = "UTF-8", GBKCODE = "gbk", EN16CODE = "utf-16", ISOCODE = "ISO-8859-1";
-
-
 
     public static String[] NORESULT_WORDS = new String[]{"深网", "deep" ,"暗网", "黑暗网络", "dark", "影网", "影子网络", "shadow", "马网", "马里亚纳网络", "mariana", "ISIS", "黑客", "网赚", "电子狗", "百家乐", "北京战争", "无政府主义", "十八大", "胡锦涛", "杨匡", "刘霞", "公安大情报", "习近平", "习大大", "温家宝", "冰毒", "迷情", "siddiqlar", "istiqlaltv", "turkistantv", "siddiqlartv", "uyghurcongress", "yahxilarning bagqisi", "din wa hayat", "xarki turkistan", "red room", "好人乐园", "宗教和生命", "东突", "伊斯兰之声", "islam awazi radiosi", "husayin tajalli"};
 
@@ -396,7 +396,7 @@ public class Misc {
      * @return string
      */
     private static String getFileExt(String fileName) {
-        return fileName.substring(fileName.lastIndexOf(".") + 1);
+        return fileName.substring(fileName.lastIndexOf("."));
     }
 
     /**
@@ -553,6 +553,44 @@ public class Misc {
         BASE64Encoder base64Encoder=new BASE64Encoder();
         String newStr=base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
         return newStr;
+    }
+
+    public static String getTimePaperFormat() {
+        Calendar c = Calendar .getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        return year + "/" + (month+1) + "/";
+    }
+
+    public static String getImgName() {
+        long time = DateUtils.getSystemCurrentTime();
+        return time+"";
+    }
+
+    //文件信息校验    精选
+    public static boolean filesCheckout(MultipartFile multipartFile) {
+        boolean bflag = true;
+        //获取文件名
+        String fileName = multipartFile.getOriginalFilename();
+
+        if(multipartFile.getSize() == 0 && multipartFile.isEmpty()) {
+            bflag = false;
+        }
+        if(!checkMediaType(getFileExt(fileName))) {
+            bflag = false;
+        }
+        return bflag;
+    }
+
+    private static boolean checkMediaType(String fileEnd) {
+        Iterator<String> type = Arrays.asList(WebConst.allowIMG).iterator();
+        while (type.hasNext()) {
+            String ext = type.next();
+            if (fileEnd.equals(ext)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void main(String[] args) {
