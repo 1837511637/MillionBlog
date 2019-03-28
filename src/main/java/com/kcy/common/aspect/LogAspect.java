@@ -14,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
-@Aspect
-@Component
+/*@Aspect
+@Component*/
 @Log4j
 public class LogAspect {
 
