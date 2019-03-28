@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import sun.rmi.runtime.Log;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,20 +25,30 @@ public class GlobalExceptionHandler {
 
 	private static final String ERROR_VIEWNAME  = "error";
 
+	private static final String ERROR_MSG = "网络繁忙";
+
     /**
      * 系统异常处理，比如：404,500
      * @param request
      * @param e
      * @return
-     * @throws Exception
-     */
+     * @throws Exception*/
+
     @ExceptionHandler(value = Exception.class)
     public ModelAndView defaultErrorHandler(HttpServletRequest request, Exception e){
-        log.error("", e);
         ModelAndView modelAndView = new ModelAndView();
+        //如果是404
         if (e instanceof org.springframework.web.servlet.NoHandlerFoundException) {
             modelAndView.setViewName(ERROR_VIEWNAME);
-        } else {
+            return modelAndView;
+        }
+        String requestType = request.getHeader("X-Requested-With");
+        if("XMLHttpRequest".equals(requestType)){
+            //System.out.println("AJAX请求..");
+            modelAndView = new ModelAndView(new MappingJackson2JsonView());
+            modelAndView.addObject(ResponseUtils.errorResponse(ERROR_MSG));
+            return modelAndView;
+        }else{
             modelAndView.setViewName(ERROR_VIEWNAME);
         }
         return modelAndView;
