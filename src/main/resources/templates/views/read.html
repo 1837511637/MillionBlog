@@ -16,6 +16,10 @@
     <!-- select2下拉框 -->
     <link href="/templates/static/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+    <!-- 单选框 -->
+    <link rel="stylesheet" href="/templates/common/checkbox/css/normalize.css">
+    <link rel="stylesheet" href="/templates/common/checkbox/css/style.css" media="screen" type="text/css" />
+    <script src="/templates/common/checkbox/js/index.js"></script>
     <style>
         .from {
             margin-top:30px;
@@ -29,6 +33,7 @@
             text-indent: 1em;
         }
         .w-e-text-container {
+            z-index: 1;
             height: 700px !important;
             font-size: 16.5px;
         }
@@ -38,13 +43,43 @@
             line-height: 40px;
             font-size: 18px;
         }
+        .w-e-text-type{
+            height:40px;
+            margin-top:15px;
+            line-height: 40px;
+            font-size: 18px;
+        }
         .select2-selection__choice{
             height: 30px;
             line-height: 30px;
         }
+        .select2-selection--single{
+            margin-top:5px;
+        }
         .select2{
-            width:640px;
+            width:100%;
+            float:left;
             height:40px;
+        }
+        .selectType{
+            width:100px;
+        }
+        .w-e-text-type{
+            margin-right:15px;
+            float:left;
+        }
+        .w-e-text-btn{
+            margin-top:25px;
+            margin-left:15px;
+            width:100px;
+            height:30px;
+            float:right;
+        }
+        .w-e-text-type label{
+            float:left;
+        }
+        .check-btn{
+            float:left;
         }
     </style>
 </head>
@@ -63,20 +98,56 @@
                     <label>文章标签：</label>
                     <!-- 拿值:$("select2").val(); -->
                     <select id="area" multiple="multiple" class="select2">
-                        <option value="1">珠海</option>
-                        <option value="2">深圳</option>
-                        <option value="3">澳门</option>
-                        <option value="4">香港</option>
-                        <option value="1">珠海</option>
-                        <option value="2">深圳</option>
-                        <option value="3">澳门</option>
-                        <option value="4">香港</option>
-                        <option value="1">珠海</option>
-                        <option value="2">深圳</option>
-                        <option value="3">澳门</option>
-                        <option value="4">香港</option>
+                        <option value="1">Typecho</option>
+                        <option value="2">功能增强</option>
+                        <option value="3">主题</option>
+                        <option value="4">随笔</option>
+                        <option value="1">事迹</option>
+                        <option value="2">java</option>
+                        <option value="3">学习</option>
+                        <option value="4">成长</option>
+                        <option value="1">小技巧</option>
+                        <option value="2">美化</option>
+                        <option value="3">注意</option>
+                        <option value="4">Markdown</option>
+                        <option value="1">旅游</option>
+                        <option value="2">节日</option>
+                        <option value="3">教训</option>
+                        <option value="4">服务器</option>
+                        <option value="1">猫</option>
+                        <option value="2">宠物</option>
+                        <option value="3">Console</option>
+                        <option value="4">家</option>
+                        <option value="1">说明</option>
+                        <option value="2">经验</option>
+                        <option value="3">笔记</option>
+                        <option value="4">Initial</option>
                     </select>
                 </div>
+                <div class="w-e-text-type">
+                    <label>文章类型：</label>
+                    <!-- 拿值:$("select2").val(); -->
+                    <select id="type"  class="selectType">
+                        <option value="1">分享</option>
+                        <option value="2">心得</option>
+                        <option value="3">记录</option>
+                        <option value="4">轻语</option>
+                    </select>
+                </div>
+                <div class="w-e-text-type">
+                    <label>是否评论：</label>
+                    <div class="check-btn">
+                        <input class='tgl tgl-ios' id='cb2' checked type='checkbox'>
+                        <label class='tgl-btn' for='cb2'></label>
+                    </div>
+                </div>
+                <div class="w-e-text-btn ajaxload">
+                    <a href="#">保存草稿</a>
+                </div>
+                <div class="w-e-text-btn ajaxload">
+                    <a href="#">发布博客</a>
+                </div>
+                <div style="clear:left;"></div>
             </div>
         </div>
         <!--右侧栏-->
@@ -91,13 +162,36 @@
         var E = window.wangEditor
         var editor = new E('#editor')
         // 或者 var editor = new E( document.getElementById('editor') )
+        // 定义上传图片的默认名字
+        editor.customConfig.uploadFileName = 'files';
+        // 配置服务器端地址
+        editor.customConfig.uploadImgServer = '/wangEditorUpload';
+        // 将图片大小限制为 1M
+        editor.customConfig.uploadImgMaxSize = 1 * 1024 * 1024;
+        // 限制一次最多上传 5 张图片
+        editor.customConfig.uploadImgMaxLength = 5;
+        //上传成功监听
+        editor.customConfig.uploadImgHooks = {
+            // 如果服务器端返回的不是 {errno:0, data: [...]} 这种格式，可使用该配置
+            // （但是，服务器端返回的必须是一个 JSON 格式字符串！！！否则会报错）
+            customInsert: function (insertImg, result, editor) {
+                var urls = result.dataWrapper.paths;
+                for(var i in urls) {
+                    insertImg(urls[i]);
+                }
+            }
+        };
+        //同步内容数据
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $("[name$='newcontent']").val(html);
+        };
         editor.create()
 
         //初始化下拉框
         $("#area").select2();
+        $("#type").select2();
     });
-
-
 </script>
 </body>
 </html>
