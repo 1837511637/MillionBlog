@@ -1,9 +1,10 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionType;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface MillionTypeMapper extends BaseDao<MillionType> {
+@Mapper
+public interface MillionTypeMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionType record);

@@ -1,9 +1,10 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionEvaluation;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface MillionEvaluationMapper extends BaseDao<MillionEvaluation> {
+@Mapper
+public interface MillionEvaluationMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionEvaluation record);

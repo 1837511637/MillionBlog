@@ -1,9 +1,10 @@
 package com.kcy.system.dao;
 
-import com.kcy.common.base.BaseDao;
 import com.kcy.system.model.MillionLabel;
+import org.apache.ibatis.annotations.Mapper;
 
-public interface MillionLabelMapper extends BaseDao<MillionLabel> {
+@Mapper
+public interface MillionLabelMapper {
     int deleteByPrimaryKey(Integer id);
 
     int insert(MillionLabel record);
