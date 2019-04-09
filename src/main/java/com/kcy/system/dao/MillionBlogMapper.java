@@ -6,15 +6,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface MillionBlogMapper extends BaseDao<MillionBlog> {
-    int deleteByPrimaryKey(Integer id);
 
-    int insert(MillionBlog record);
-
-    int insertSelective(MillionBlog record);
-
-    MillionBlog selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(MillionBlog record);
-
-    int updateByPrimaryKey(MillionBlog record);
 }
