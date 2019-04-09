@@ -13,12 +13,16 @@
     <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
     <result column="TYPE" property="type" jdbcType="CHAR" />
     <result column="EVALUATION" property="evaluation" jdbcType="INTEGER" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION
+    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION, CONTENT
   </sql>
   <sql id="where_sql">
-
+    <if test="type!=null and type!=''">
+      and type = #{type}
+    </if>
+    and status = 1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,7 +35,17 @@
     <include refid="Base_Column_List" />
     from million_evaluation where 1 = 1
     <include refid="where_sql"/>
-    order by createtime
+    order by createtime desc
+  </select>
+  <select id="theLatestData" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from million_evaluation where 1= 1
+    <include refid="where_sql"/>
+    order by createtime desc
+    <if test="limit != null and limit !=''">
+      limit #{limit}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from million_evaluation
@@ -83,6 +97,9 @@
       <if test="evaluation != null" >
         EVALUATION,
       </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -118,6 +135,9 @@
       <if test="evaluation != null" >
         #{evaluation,jdbcType=INTEGER},
       </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionEvaluation" >
@@ -152,6 +172,9 @@
       </if>
       <if test="evaluation != null" >
         EVALUATION = #{evaluation,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}

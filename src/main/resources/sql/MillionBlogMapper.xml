@@ -19,7 +19,7 @@
     ISEVAL
   </sql>
   <sql id="where_sql">
-
+    and status = 1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,7 +32,17 @@
     <include refid="Base_Column_List" />
     from million_blog where 1 = 1
     <include refid="where_sql"/>
-    order by createtime
+    order by createtime desc
+  </select>
+  <select id="theLatestData" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List"/>
+    from million_blog where 1= 1
+    <include refid="where_sql"/>
+    order by VIEWNUM desc, EVALNUM desc, createtime desc
+    <if test="limit != null and limit !=''">
+      limit #{limit}
+    </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from million_blog
