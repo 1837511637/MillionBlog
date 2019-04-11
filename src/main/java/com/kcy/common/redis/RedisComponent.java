@@ -4,6 +4,7 @@ import com.kcy.common.utils.SerializingUtil;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.cache.RedisCache;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ public class RedisComponent {
 
     @Autowired
     public StringRedisTemplate stringRedisTemplate;
+    @Autowired
+    public RedisTemplate redisTemplate;
 
     //向redis里存入数据
     public void opsForValue(String key, String val) {
@@ -24,8 +27,7 @@ public class RedisComponent {
 
     //向redis里存入对象数据
     public void opsForValue(String key, Object val) {
-        byte[] serialize = SerializingUtil.serialize(val);
-        stringRedisTemplate.opsForValue().set(key, String.valueOf(serialize));
+        redisTemplate.opsForValue().set(key, SerializingUtil.serialize(val));
     }
 
     //向redis里存入数据和设置缓存时间
