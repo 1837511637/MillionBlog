@@ -7,6 +7,8 @@ public class RedisConst {
     public static String LOGIN_SESSION_KEY = "login_user";
     //当前登录用户id
     public static final String USER_IN_COOKIE = "S_L_ID";
+    //登录失败次数
+    public static final String LOGIN_ERROR_COUNT = "login_error_count:IP";
     //右侧菜单栏最新博客
     public static final String MENU_BLOG = "menu_blog";
     //右侧菜单栏最新留言
