@@ -1,26 +1,40 @@
 package com.kcy.common.constant;
 
+import com.kcy.system.model.MillionUser;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class WebConst {
 
-    public static String LOGIN_SESSION_KEY = "login_user";
+    /**
+     * 需要右侧菜单栏数据的路径
+     * */
+    public static String[] pageUrl = new String[]{"/","/blog/","/archives","/guestbook","/about","/links","/read"};
 
-    public static final String USER_IN_COOKIE = "S_L_ID";
+    /**
+     * 需要登录拦截路径
+     * */
+    public static String[] loginInterceptUrl = new String[]{"/blog/releaseBlog", "/read"};
 
     /**
      * aes加密加盐
      */
-    public static String AES_SALT = "0123456789abcdef";
+    public static String AES_SALT = "zhanglan";
 
     /**
      * 文章最多可以输入的文字数
      */
     public static final int MAX_TEXT_COUNT = 200000;
+
+    /**
+     * 评论最多可以输入的文字数
+     */
+    public static final int MAX_TEXT_EVALUATE = 200;
 
     /**
      * 文章标题最多可以输入的文字个数
@@ -56,4 +70,8 @@ public class WebConst {
      * 图片上传路径前缀
      * */
     public static String uploadImgPrefix = "E:";
+
+
+
+
 }
