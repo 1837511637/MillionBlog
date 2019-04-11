@@ -11,6 +11,7 @@ public class ResponseWrapper {
     private String sourceUrl;
 
     private int totalpage;
+    private int page;
 
     public int getTotalpage() {
         return totalpage;
@@ -67,4 +68,11 @@ public class ResponseWrapper {
         this.sourceUrl = sourceUrl;
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
 }
