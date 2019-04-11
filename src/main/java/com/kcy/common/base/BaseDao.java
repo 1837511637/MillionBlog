@@ -1,7 +1,10 @@
 package com.kcy.common.base;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 通过接口编程
@@ -46,5 +49,17 @@ public interface BaseDao<T extends Serializable> {
      *
      * @return 返回对象集合
      */
-    List<T> findAll();
+    List<T> findAll(Map<String, Object> param);
+
+    int deleteByPrimaryKey(Integer id);
+
+    int insert(T t);
+
+    int insertSelective(T t);
+
+    T selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(T t);
+
+    int updateByPrimaryKey(T t);
 }
