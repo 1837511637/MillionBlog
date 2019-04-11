@@ -16,11 +16,6 @@ public class IndexController {
         model.addAttribute("beetl","kcy is very goods!");
         List<String> arrayList = new ArrayList();
         arrayList.add("1");
-        arrayList.add("a");
-        arrayList.add("s");
-        arrayList.add("d");
-        arrayList.add("e");
-        arrayList.add("f");
         model.addAttribute("list", arrayList);
         return "helloBeetl";
     }
