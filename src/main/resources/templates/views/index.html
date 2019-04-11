@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@directive dynamic result;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -15,93 +16,44 @@
 <div id="body">
     <div class="container clearfix">
         <div id="main">
+            @var whisper = result.dataWrapper.whisper!;
             <article class="post whisper">
                 <div class="post-content">
-                    <h2 class="post-title"><a href="https://www.offodd.com/whisper.html">轻语<span class="more">···</span></a>
+                    <h2 class="post-title"><a href="/whisper">轻语<span class="more">···</span></a>
                     </h2>
-                    <p>答案很长，我准备用一生的时间来回答，你准备要听了吗？</p>
+                    <p>${whisper.content}</p>
                 </div>
             </article>
-            <article class="post">
-                <h2 class="post-title"><a href="https://www.offodd.com/17.html">Typecho主题 - Initial
-                    简约而不简单（更新v2.4.3版）</a></h2>
-                <ul class="post-meta">
-                    <li>2019-02-20</li>
-                    <li>分享</li>
-                    <li>375 条评论</li>
-                    <li>6058 次阅读</li>
-                </ul>
-                <div class="post-content">
-                    <p class="thumb"><img src="/templates/static/image/screenshot.png"/></p>
-                    <p>主题命名为Initial，意为“初”，专注于文字，算是极极极简风格吧，简约而不简单，希望你能喜欢这种很小众的风格。</p>
-                    <p class="more"><a href="https://www.offodd.com/17.html"
-                                       title="Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">- 阅读全文 -</a></p>
-                </div>
-            </article>
-            <article class="post">
-                <h2 class="post-title"><a href="/blog/58.html">Initial主题简要使用指南</a></h2>
-                <ul class="post-meta">
-                    <li>2019-01-15</li>
-                    <li>分享</li>
-                    <li>39 条评论</li>
-                    <li>1797 次阅读</li>
-                </ul>
-                <div class="post-content">
-                    <p>
-                        主题发布有一段时间了，功能添加的也稍微多了些，由于本人语言表达不是很好🤨可能有些朋友在使用主题时，会有一些困惑，在这里我就把主题在使用过程中可能遇到的问题简单解释一下，如果在看完本文内容还有问题，请留言。</p>
-                    <p class="more"><a href="https://www.offodd.com/58.html" title="Initial主题简要使用指南">- 阅读全文 -</a></p>
-                </div>
-            </article>
-            <article class="post">
-                <h2 class="post-title"><a href="https://www.offodd.com/78.html">Typecho评论者主页链接新窗口打开（非修改程序）</a></h2>
-                <ul class="post-meta">
-                    <li>2019-01-15</li>
-                    <li>分享</li>
-                    <li>6 条评论</li>
-                    <li>564 次阅读</li>
-                </ul>
-                <div class="post-content">
-                    <p>
-                        Typecho评论者主页链接默认是在当前页面跳转，感觉这一点不是很友好，网上有修改为新窗口跳转的教程，但都是通过修改Typecho程序文件实现的，这样的话，如果更新了程序（虽然TE更新极慢😑），就需要再次修改。最主要的是像我这种做了主题的，想要让每个我的主题用户都实现这个功能，难道要让每个用户都去改程序文件吗？当然是No！</p>
-                    <p class="more"><a href="https://www.offodd.com/78.html" title="Typecho评论者主页链接新窗口打开（非修改程序）">- 阅读全文
-                        -</a></p>
-                </div>
-            </article>
-            <article class="post">
-                <h2 class="post-title"><a href="https://www.offodd.com/77.html">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a></h2>
-                <ul class="post-meta">
-                    <li>2019-01-14</li>
-                    <li>分享</li>
-                    <li>4 条评论</li>
-                    <li>490 次阅读</li>
-                </ul>
-                <div class="post-content">
-                    <p>Typecho默认支持Markdown语法，但是Markdown的a标签默认是在当前页跳转链接，网上有修改链接跳转改为新窗口的教程，但是不够完美，于是自己写了个正则。</p>
-                    <p class="more"><a href="https://www.offodd.com/77.html" title="Typecho文章和页面内的外链接使用新窗口打开（优化版）">-
-                        阅读全文 -</a></p>
-                </div>
-            </article>
-            <article class="post">
-                <h2 class="post-title"><a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></h2>
-                <ul class="post-meta">
-                    <li>2019-01-09</li>
-                    <li>分享</li>
-                    <li>8 条评论</li>
-                    <li>660 次阅读</li>
-                </ul>
-                <div class="post-content">
-                    <p>
-                        Typecho添加主题目录的教程好像不是很多，而且我找到的仅有的几个都是前台JS实现的，总感觉这样不如后台实现来的好。既然Typecho找不到现成的，只好“曲线救国”，由于实现文章目录的原理是通用的，所以就去WP里找了，那可是大把大把的。</p>
-                    <p class="more"><a href="https://www.offodd.com/76.html" title="为Typecho主题集成文章目录功能（免插件实现文章目录功能）">-
-                        阅读全文 -</a></p>
-                </div>
-            </article>
-            <ol class="page-navigator ajaxload">
-                <li class="current"><a href="https://www.offodd.com/page/1/">1</a></li>
-                <li><span>..</span></li>
-                <li><a href="https://www.offodd.com/page/5/">5</a></li>
-                <li class="next"><a href="https://www.offodd.com/page/2/">查看更多</a></li>
-            </ol>
+            @for(blog in result.dataWrapper.datas!) {
+                <article class="post">
+                    <h2 class="post-title">
+                        <a href="/blog/${blog.id}.html">${blog.title}</a>
+                    </h2>
+                    <ul class="post-meta">
+                        <li>${blog.createtime!}</li>
+                        <li>${blog.type!}</li>
+                        <li>${blog.evalnum!}</li>
+                        <li>${blog.viewnum!}</li>
+                    </ul>
+                    <div class="post-content">
+                        @if(blog.img != null && blog.img != "") {
+                            <p class="thumb"><img src="${blog.img!}"/></p>
+                        @}
+                        <p>${blog.content!}</p>
+                        <p class="more">
+                            <a href="/blog/${blog.id!}.html" title="${blog.title!}">- 阅读全文 -</a>
+                        </p>
+                    </div>
+                </article>
+            @}
+            @if(result.page < result.totalpage) {
+                @var page = result.page + 1;
+                <ol class="page-navigator ajaxload">
+                    <li class="next">
+                        <a href="javascritp:void(0);" data-page="${page}">查看更多</a>
+                    </li>
+                </ol>
+            @}
         </div>
         <!--右侧栏-->
         @include("/templates/views/menu.html"){}
@@ -110,38 +62,6 @@
 @include("/templates/views/footer.html"){}
 <script src="/templates/static/js/jquery.min.js"></script>
 <script src="/templates/static/js/jquery.pjax.min.js"></script>
-<script>
-/*function aln() {
-    var a = '.ajaxload .next a', b = $(a).attr("href");
-    $(a).addClass('loading').text("正在加载");
-    if (b) {
-        $.ajax({
-            url: b, error: function () {
-                alert('请求失败，请检查网络并重试或者联系管理员');
-                $(a).removeAttr("class").text("查看更多");
-                return false
-            }, success: function (d) {
-                var c = $(d).find("#main .post"), e = $(d).find(a).attr("href");
-                if (c) {
-                    $('.ajaxload').before(c)
-                }
-                ;$(a).removeAttr("class");
-                if (e) {
-                    $(a).text("查看更多").attr("href", e)
-                } else {
-                    $(a).remove();
-                    $('.ajaxload .next').text('没有更多文章了')
-                }
-                if ($('.protected', d).length) {
-                    $('.protected *').unbind();
-                    ap()
-                }
-                isbool = true;
-                return false
-            }
-        })
-    }
-}*/
-</script>
+<script src="/templates/static/js/index.min.js"></script>
 </body>
 </html>
