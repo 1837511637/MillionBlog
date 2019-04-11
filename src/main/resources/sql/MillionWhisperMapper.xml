@@ -24,7 +24,7 @@
     <include refid="where_sql"/>
     order by createtime desc
   </select>
-  <select id="getNewsMessage" resultType="BaseResultMap">
+  <select id="getNewsMessage" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
     from million_whisper order by createtime desc limit 1
   </select>
