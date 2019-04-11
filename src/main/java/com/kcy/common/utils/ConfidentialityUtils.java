@@ -1,5 +1,7 @@
 package com.kcy.common.utils;
 
+import com.kcy.common.constant.WebConst;
+import org.apache.commons.lang3.StringUtils;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -19,6 +21,38 @@ public class ConfidentialityUtils {
         BASE64Encoder base64Encoder=new BASE64Encoder();
         String newStr=base64Encoder.encode(md5.digest(str.getBytes("utf-8")));
         return newStr;
+    }
+
+    /*public static void main(String[] args) throws UnsupportedEncodingException, NoSuchAlgorithmException {
+        String mm = EncodeByMD5("zhanglanIwantn1");
+        System.out.println(mm);
+    }*/
+
+    /**
+     * md5加密
+     *
+     * @param source 数据源
+     * @return 加密字符串
+     */
+    public static String MD5encode(String source) {
+        if (StringUtils.isBlank(source)) {
+            return null;
+        }
+        MessageDigest messageDigest = null;
+        try {
+            messageDigest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException ignored) {
+        }
+        byte[] encode = messageDigest.digest(source.getBytes());
+        StringBuilder hexString = new StringBuilder();
+        for (byte anEncode : encode) {
+            String hex = Integer.toHexString(0xff & anEncode);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+        return hexString.toString();
     }
 
     /**
