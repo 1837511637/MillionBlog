@@ -1,6 +1,9 @@
 package com.kcy.common.utils;
 
+import com.kcy.common.constant.RedisConst;
 import com.kcy.common.constant.WebConst;
+import com.kcy.system.model.MillionUser;
+import lombok.extern.java.Log;
 import org.springframework.web.multipart.MultipartFile;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
@@ -9,6 +12,8 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESedeKeySpec;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
@@ -31,6 +36,7 @@ import static java.util.regex.Pattern.compile;
  * @author kcy
  * @date 2018/11/22
  */
+@Log
 public class Misc {
 
     public final static String ENCODE = "UTF-8", GBKCODE = "gbk", EN16CODE = "utf-16", ISOCODE = "ISO-8859-1";
@@ -101,6 +107,17 @@ public class Misc {
     }
 
     /**
+     * Object 转String
+     * */
+    public static String getString(Object o) {
+        if (o == null) {
+            return null;
+        } else {
+            return o instanceof String ? (String)o : o.toString();
+        }
+    }
+
+    /**
      * 字符串转Integer类型
      * @param s 字符串
      * @return Double
@@ -159,6 +176,20 @@ public class Misc {
                 }
             }
             return true;
+        }
+    }
+
+    /**
+     * 判断字符串是否是链接
+     * @param url
+     * @return boolean
+     * */
+    public static boolean isURL(String url) {
+        if (url == null) {
+            return false;
+        } else {
+            String regex = "(https?://(w{3}\\.)?)?\\w+\\.\\w+(\\.[a-zA-Z]+)*(:\\d{1,5})?(/\\w*)*(\\??(.+=.*)?(&.+=.*)?)?";
+            return Pattern.matches(regex, url);
         }
     }
 
@@ -337,7 +368,9 @@ public class Misc {
             return 0;
         } else {
             try{
-                return str.getBytes(encoding).length;
+                int length = str.getBytes(encoding).length;
+                log.info("更改字符编码后的长度:" + length);
+                return length;
             } catch (Exception e) {
                 return 0;
             }
@@ -363,7 +396,6 @@ public class Misc {
         }
         return sb.toString();
     }
-
 
 
     public static void main(String[] args) {
