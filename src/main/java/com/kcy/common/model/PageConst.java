@@ -9,12 +9,10 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 
 @ApiModel(value = "Page", description = "分页")
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class Page implements Serializable {
+public class PageConst implements Serializable {
     @ApiModelProperty(value = "第几页")
-    private int page = 1;
+    public static int page = 1;
     @ApiModelProperty(value = "条数")
-    private int rows = 20;
+    public static int rows = 10;
 }
