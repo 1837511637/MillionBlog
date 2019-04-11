@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="shortcut icon" href="/templates/static/image/favicon.ico" />
+    <title>编写 - Million</title>
+    <meta name="description" content="Million的博客，有点不同，记录我的生活，分享一些经历与心得。" />
+    <meta name="keywords" content="MillionBlog,杰生活,个人博客,Million" />
+    <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+    <link rel="stylesheet" href="/templates/static/css/login.style.css"/>
+    <script src="/templates/static/js/jquery.min.js"></script>
+    <script src="/templates/static/js/jquery.pjax.min.js"></script>
+</head>
+<body class="head-fixed">
+@include("/templates/views/header.html"){}
+<div id="body">
+    <div class="container" style="">
+        <div class="main-info" style="margin-top: 20%;margin-bottom: 25%;">
+            <div class="main-info1">
+                <h3>Sign In</h3>
+                <form id="form">
+                    <input type="text" name="name" placeholder="Username" required=" ">
+                    <input type="password" name="password" placeholder="Password" required=" ">
+                    <input type="button" id="login" value="Login" style="height: 30px;line-height: 5px;">
+                </form>
+                <p>Forgot your password? <a href="#">Click Here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+@include("/templates/views/footer.html"){}
+<script type="text/javascript">
+    $("#login").click(function () {
+        var dataValue = $("form").serialize();
+        if(verify()) {
+            $.ajax({
+                async: false,
+                url: "/admin/signin",
+                data: dataValue,
+                type: "POST",
+                success: function (result) {
+                    alert(result.msg);
+                    if (result.success) {
+                        window.location.href = "/";
+                    }
+                }
+            })
+        }
+    })
+    function verify() {
+        var fale = true;
+        if($("[name$='name']").val() == "") {
+            fale = false;
+        }
+        if($("[name$='password']").val() == "") {
+            fale = false;
+        }
+        return fale;
+    }
+</script>
+</body>
+</html>
