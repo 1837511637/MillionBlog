@@ -17,9 +17,9 @@
 			password="root" />
 		<!-- 默认false，把JDBC decimal 和 numeric 类型解析为 Integer true，把JDBC decimal 和 
 			numeric 类型解析为java.math.BigDecimal -->
-		<javaTypeResolver>
+		<!--<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
-		</javaTypeResolver>
+		</javaTypeResolver>-->
 		<!-- targetPackage：生成实体类的位置， targetProject:自动生成代码的位置 -->
 		<javaModelGenerator targetPackage="com.kcy.system.model"
 			targetProject="src/main/java">
@@ -42,13 +42,8 @@
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
-			 指定列的java数据类型
-			<columnOverride column="CREATETIME" jdbcType="TIMESTAMP" />
-			<columnOverride column="ENDTIME" jdbcType="TIMESTAMP" />
-			<columnOverride column="UPDATETIME" jdbcType="TIMESTAMP" />
-			<columnOverride column="STARTTIME" jdbcType="TIMESTAMP" />
 		</table>-->
-		<table schema="" tableName="million_association" domainObjectName="MillionAssociation"
+		<!--<table schema="" tableName="million_association" domainObjectName="MillionAssociation"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">
@@ -85,6 +80,24 @@
 			<columnOverride column="STARTTIME" jdbcType="TIMESTAMP" />
 		</table>
 		<table schema="" tableName="million_User" domainObjectName="MillionUser"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false">
+			<columnOverride column="CREATETIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="ENDTIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="UPDATETIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="STARTTIME" jdbcType="TIMESTAMP" />
+		</table>-->
+		<table schema="" tableName="million_ad" domainObjectName="MillionAd"
+			   enableCountByExample="false" enableUpdateByExample="false"
+			   enableDeleteByExample="false" enableSelectByExample="false"
+			   selectByExampleQueryId="false">
+			<columnOverride column="CREATETIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="ENDTIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="UPDATETIME" jdbcType="TIMESTAMP" />
+			<columnOverride column="STARTTIME" jdbcType="TIMESTAMP" />
+		</table>
+		<table schema="" tableName="million_whisper" domainObjectName="MillionWhisper"
 			   enableCountByExample="false" enableUpdateByExample="false"
 			   enableDeleteByExample="false" enableSelectByExample="false"
 			   selectByExampleQueryId="false">
