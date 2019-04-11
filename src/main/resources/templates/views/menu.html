@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@directive dynamic menuresult;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -15,16 +16,24 @@
         <section class="widget">
             <h3 class="widget-title">热门文章</h3>
             <ul class="widget-list">
-                <li><a href="https://www.offodd.com/17.html">Typecho主题 - Initial 简约而不简单（更新v2.4.3版）</a></li>
+                @for(blog in menuresult.dataWrapper.menuBlogs) {
+                    <li><a href="/blog/${blog.id}.html">${blog.title}</a></li>
+                @}
+                <!--<li><a href="https://www.offodd.com/17.html">Typecho主题 - Initial 简约而不简单（更新v2.4.3版）</a></li>
                 <li><a href="https://www.offodd.com/58.html">Initial主题简要使用指南</a></li>
                 <li><a href="https://www.offodd.com/19.html">Markdown 简明语法手册</a></li>
                 <li><a href="https://www.offodd.com/59.html">为Typecho主题集成链接功能（免插件实现友情链接功能）</a></li>
-                <li><a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></li>
+                <li><a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></li>-->
             </ul>
         </section>
         <section class="widget">
             <h3 class="widget-title">最近回复</h3>
             <ul class="widget-list">
+                @for(eval in menuresult.dataWrapper.menuEvals) {
+                    <li><a href="${eval.weblink}"
+                           title="来自: ${eval.weblink}">${eval.name}</a>: ${eval.content}…
+                    </li>
+                @}
                 <li><a href="https://www.offodd.com/17.html/comment-page-1#comment-1416"
                        title="来自: Typecho主题 - Initial 简约而不简单（更新v2.4.3版）">小白</a>: 我添加了，又取消了，，，信息内容不多。，直接用顶置插件了…
                 </li>
@@ -50,6 +59,9 @@
         <section class="widget">
             <h3 class="widget-title">标签</h3>
             <ul class="widget-tile">
+                @for(label in menuresult.dataWrapper.menuLabels) {
+                    <li><a href="https://www.offodd.com/tag/Typecho/">${label.name}</a></li>
+                @}
                 <li><a href="https://www.offodd.com/tag/Typecho/">Typecho</a></li>
                 <li><a href="https://www.offodd.com/tag/%E5%8A%9F%E8%83%BD%E5%A2%9E%E5%BC%BA/">功能增强</a></li>
                 <li><a href="https://www.offodd.com/tag/%E4%B8%BB%E9%A2%98/">主题</a></li>

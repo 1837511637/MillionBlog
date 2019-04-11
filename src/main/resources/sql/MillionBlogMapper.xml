@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kcy.system.model.MillionBlog" >
     <id column="ID" property="id" jdbcType="INTEGER" />
     <result column="USERID" property="userid" jdbcType="INTEGER" />
+    <result column="TYPEID" property="typeid" jdbcType="INTEGER" />
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="IMAGE" property="image" jdbcType="VARCHAR" />
     <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
@@ -13,12 +14,18 @@
     <result column="CROPCONTENT" property="cropcontent" jdbcType="VARCHAR" />
     <result column="STATUS" property="status" jdbcType="CHAR" />
     <result column="ISEVAL" property="iseval" jdbcType="CHAR" />
+    <result column="LABELIDS" property="labelids" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="TYPENAME" property="typename" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, USERID, TITLE, IMAGE, CREATETIME, EVALNUM, VIEWNUM, CONTENT, CROPCONTENT, STATUS, 
-    ISEVAL
+    ID, USERID, TYPEID, TITLE, IMAGE, CREATETIME, EVALNUM, VIEWNUM, CONTENT, CROPCONTENT, STATUS,TYPENAME,
+    ISEVAL, LABELIDS, IP
   </sql>
   <sql id="where_sql">
+    <if test="typeid!=null and typeid!=''">
+      and TYPEID = #{typeid}
+    </if>
     and status = 1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -67,6 +74,9 @@
       <if test="userid != null" >
         USERID,
       </if>
+      <if test="typeid != null" >
+        TYPEID,
+      </if>
       <if test="title != null" >
         TITLE,
       </if>
@@ -94,6 +104,15 @@
       <if test="iseval != null" >
         ISEVAL,
       </if>
+      <if test="labelids != null" >
+        LABELIDS,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+      <if test="typename!=null">
+        TYPENAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -101,6 +120,9 @@
       </if>
       <if test="userid != null" >
         #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
@@ -129,6 +151,15 @@
       <if test="iseval != null" >
         #{iseval,jdbcType=CHAR},
       </if>
+      <if test="labelids != null" >
+        #{labelids,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="typename!=null">
+        #{typename,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionBlog" >
@@ -136,6 +167,9 @@
     <set >
       <if test="userid != null" >
         USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        TYPEID = #{typeid,jdbcType=INTEGER},
       </if>
       <if test="title != null" >
         TITLE = #{title,jdbcType=VARCHAR},
@@ -163,6 +197,15 @@
       </if>
       <if test="iseval != null" >
         ISEVAL = #{iseval,jdbcType=CHAR},
+      </if>
+      <if test="labelids != null" >
+        LABELIDS = #{labelids,jdbcType=VARCHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        TYPENAME = #{typename,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
