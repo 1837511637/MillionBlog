@@ -84,6 +84,7 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         millionBlog.setTypename(millionType.getName());
         millionBlogMapper.insertSelective(millionBlog);
         redisComponent.delete(RedisConst.MENU_BLOG);
+        redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
         return ResponseUtils.successResponse("发表成功");
     }
 

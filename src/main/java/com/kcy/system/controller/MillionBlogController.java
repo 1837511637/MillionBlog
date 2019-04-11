@@ -8,12 +8,10 @@ import com.kcy.system.model.MillionBlog;
 import com.kcy.system.service.MillionBlogService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.Mapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/blog")
@@ -26,5 +24,11 @@ public class MillionBlogController extends BaseController {
     @PostMapping("/releaseBlog")
     public ResponseWrapper releaseBlog(MillionBlog millionBlog, HttpServletRequest request) throws Exception {
         return millionBlogService.releaseBlog(millionBlog, request);
+    }
+
+    @ApiOperation(value = "首页博客分页", notes = "博客分页")
+    @PostMapping("/getFindAll")
+    public ResponseWrapper getFindAll(@RequestParam Map<String, Object> param) {
+        return millionBlogService.findAll(param);
     }
 }

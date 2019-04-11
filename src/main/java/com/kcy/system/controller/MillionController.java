@@ -4,6 +4,7 @@ import com.kcy.common.base.BaseController;
 import com.kcy.system.dao.MillionBlogMapper;
 import com.kcy.system.model.MillionBlog;
 import com.kcy.system.service.MillionBlogService;
+import com.kcy.system.service.MillionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,14 @@ public class MillionController extends BaseController {
 
     @Autowired
     private MillionBlogService millionBlogService;
+    @Autowired
+    private MillionService millionService;
+
 
     @ApiOperation(value = "跳转首页", notes = "首页")
     @RequestMapping("/")
     public String beetl(Model model) {
-        //model.addAttribute("result", millionBlogService.findAll());
+        model.addAttribute("result", millionService.getIndexData());
         return "index";
     }
 
@@ -69,4 +73,9 @@ public class MillionController extends BaseController {
         return "login";
     }
 
+    @ApiOperation(value = "跳转轻语页", notes = "轻语")
+    @RequestMapping("/whisper")
+    public String whisper(Model model) {
+        return "whisper";
+    }
 }

@@ -1,9 +1,10 @@
 package com.kcy.common.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ResponseWrapper {
+public class ResponseWrapper implements Serializable {
     private int status;
     private Map<String, Object> dataWrapper = new HashMap();
     private String msg;

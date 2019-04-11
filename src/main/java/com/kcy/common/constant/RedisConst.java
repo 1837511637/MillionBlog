@@ -15,5 +15,7 @@ public class RedisConst {
     public static final String MENU_EVAL = "menu_eval";
     //右侧菜单栏标签
     public static final String MENU_LABEL = "menu_label";
+    //主页博客与轻语数据
+    public static final String INDEX_RESPONSEWRAPPER = "index_responsewrapper";
 
 }
