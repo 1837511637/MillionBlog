@@ -28,4 +28,6 @@ public class MillionUser implements Serializable {
     private String ip;
     @ApiModelProperty(value = "邮箱")
     private String email;
+    @ApiModelProperty(value = "密码")
+    private String password;
 }

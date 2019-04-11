@@ -19,6 +19,8 @@ public class MillionBlog implements Serializable {
     private Integer id;
     @ApiModelProperty(value = "用户id")
     private Integer userid;
+    @ApiModelProperty(value = "类型id")
+    private Integer typeid;
     @ApiModelProperty(value = "标题")
     private String title;
     @ApiModelProperty(value = "首图")
@@ -37,4 +39,10 @@ public class MillionBlog implements Serializable {
     private String status;
     @ApiModelProperty(value = "是否评价")
     private String iseval;
+    @ApiModelProperty(value = "标签ids")
+    private String labelids;
+    @ApiModelProperty(value = "ip")
+    private String ip;
+    @ApiModelProperty(value = "类型名称")
+    private String typename;
 }
