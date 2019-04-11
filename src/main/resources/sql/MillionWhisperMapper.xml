@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kcy.system.dao.MillionWhisperMapper" >
+  <resultMap id="BaseResultMap" type="com.kcy.system.model.MillionWhisper" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="USERID" property="userid" jdbcType="INTEGER" />
+    <result column="USERNAME" property="username" jdbcType="VARCHAR" />
+    <result column="HEADIMG" property="headimg" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, USERID, HEADIMG, CONTENT, CREATETIME, STATUS, IP
+  </sql>
+  <sql id="where_sql">
+    and status = 1
+  </sql>
+  <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from million_whisper where 1 = 1
+    <include refid="where_sql"/>
+    order by createtime desc
+  </select>
+  <select id="getNewsMessage" resultType="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from million_whisper order by createtime desc limit 1
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from million_whisper
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from million_whisper
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kcy.system.model.MillionWhisper" >
+    insert into million_whisper (ID, USERID, HEADIMG, 
+      CONTENT, CREATETIME, STATUS, 
+      IP)
+    values (#{id,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{headimg,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{status,jdbcType=CHAR}, 
+      #{ip,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kcy.system.model.MillionWhisper" >
+    insert into million_whisper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userid != null" >
+        USERID,
+      </if>
+      <if test="username != null">
+        USERNAME,
+      </if>
+      <if test="headimg != null" >
+        HEADIMG,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="createtime != null" >
+        CREATETIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="ip != null" >
+        IP,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="ip != null" >
+        #{ip,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionWhisper" >
+    update million_whisper
+    <set >
+      <if test="userid != null" >
+        USERID = #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="username != null" >
+        USERNAME = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="headimg != null" >
+        HEADIMG = #{headimg,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="ip != null" >
+        IP = #{ip,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kcy.system.model.MillionWhisper" >
+    update million_whisper
+    set USERID = #{userid,jdbcType=INTEGER},
+      HEADIMG = #{headimg,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      CREATETIME = #{createtime,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=CHAR},
+      IP = #{ip,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
