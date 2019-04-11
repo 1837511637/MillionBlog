@@ -1,9 +1,11 @@
 package com.kcy.common.config;
 
 import com.kcy.common.model.ResponseUtils;
+import com.kcy.common.utils.IPUtils;
 import lombok.extern.log4j.Log4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
@@ -42,9 +44,8 @@ public class GlobalExceptionHandler {
             return modelAndView;
         }*/
         log.error(e.getMessage(),e);
-        String requestType = request.getHeader("X-Requested-With");
-        if("XMLHttpRequest".equals(requestType)){
-            //System.out.println("AJAX请求..");
+        if(IPUtils.isAjax(request)){
+            //log.info("AJAX请求..");
             ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
             modelAndView.addObject(ResponseUtils.errorResponse(ERROR_MSG));
             return modelAndView;
