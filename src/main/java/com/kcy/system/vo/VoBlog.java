@@ -7,12 +7,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.java.Log;
 
+import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Log
 @Api(value = "页面博客数据")
-public class VoBlog {
+public class VoBlog implements Serializable {
     @ApiModelProperty(value = "博客id")
     private Integer id;
     @ApiModelProperty(value = "标题")
