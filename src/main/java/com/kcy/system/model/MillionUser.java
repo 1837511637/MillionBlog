@@ -18,6 +18,8 @@ public class MillionUser implements Serializable {
     private Integer id;
     @ApiModelProperty(value = "名称")
     private String name;
+    @ApiModelProperty(value = "头像")
+    private String headimg;
     @ApiModelProperty(value = "创建时间")
     private Date createtime;
     @ApiModelProperty(value = "网站链接")
