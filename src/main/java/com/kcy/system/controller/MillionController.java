@@ -1,30 +1,33 @@
 package com.kcy.system.controller;
 
 import com.kcy.common.base.BaseController;
-import com.kcy.common.model.ResponseUtils;
-import com.kcy.common.model.ResponseWrapper;
+import com.kcy.system.dao.MillionBlogMapper;
+import com.kcy.system.model.MillionBlog;
+import com.kcy.system.service.MillionBlogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.ArrayList;
 
 @Controller
 @Api(value = "跳转页面")
 public class MillionController extends BaseController {
 
+    @Autowired
+    private MillionBlogService millionBlogService;
+
     @ApiOperation(value = "跳转首页", notes = "首页")
     @RequestMapping("/")
     public String beetl(Model model) {
+        //model.addAttribute("result", millionBlogService.findAll());
         return "index";
     }
 
     @ApiOperation(value = "跳转博客页", notes = "内容页")
-    @RequestMapping("/{id}.html")
+    @RequestMapping("/blog/{id}.html")
     public String goBlog(@PathVariable long id) {
         return "blog";
     }
@@ -55,8 +58,15 @@ public class MillionController extends BaseController {
 
     @ApiOperation(value = "跳转编写博客页", notes = "写作页")
     @RequestMapping("/read")
-    @ResponseBody
-    public ResponseWrapper read(Model model) {
-        return ResponseUtils.successResponse("success");
+    public String read(Model model) {
+        model.addAttribute("result", millionBlogService.getBlogPageData());
+        return "read";
     }
+
+    @ApiOperation(value = "跳转登录页", notes = "登录页")
+    @RequestMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
+
 }
