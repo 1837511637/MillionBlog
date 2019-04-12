@@ -9,4 +9,5 @@ import java.util.Map;
 @Mapper
 public interface MillionEvaluationMapper extends BaseDao<MillionEvaluation> {
     List<MillionEvaluation> theLatestData(Map<String, Object> param);
+    List<MillionEvaluation> selectEvaluateForIn(List<Integer> list);
 }
