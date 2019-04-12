@@ -188,6 +188,17 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
 
     /**
+     * 格式化时间
+     *
+     * @param timestamp
+     * @return
+     */
+    public static String dateFormat2(Date timestamp) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        return format.format(timestamp);
+    }
+
+    /**
      * 获取系统时间Timestamp
      *
      * @return

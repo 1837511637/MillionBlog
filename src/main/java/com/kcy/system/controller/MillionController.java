@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
 @Api(value = "跳转页面")
 public class MillionController extends BaseController {
@@ -32,7 +34,8 @@ public class MillionController extends BaseController {
 
     @ApiOperation(value = "跳转博客页", notes = "内容页")
     @RequestMapping("/blog/{id}.html")
-    public String goBlog(@PathVariable long id) {
+    public String goBlog(@PathVariable Integer id, HttpServletRequest request, Model model) {
+        model.addAttribute("result", millionService.getBlogDetails(request, id));
         return "blog";
     }
 

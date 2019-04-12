@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface MillionService {
     ResponseWrapper getIndexData();
 
-    ResponseWrapper getBlogDetails(Long id);
+    ResponseWrapper getBlogDetails(HttpServletRequest request, Integer id);
 }

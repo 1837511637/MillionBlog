@@ -75,21 +75,23 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         } else {
             millionBlog.setIseval("1");
         }
+        log.info("content : " + millionBlog.getContent());
         millionBlog.setUserid(loginUser.getId());
         millionBlog.setViewnum(0);
         millionBlog.setEvalnum(0);
         millionBlog.setCreatetime(new Date());
-        millionBlog.setCropcontent(Misc.excludeHtmlTags(millionBlog.getContent()));
+        String cropcontent = Misc.excludeHtmlTags(millionBlog.getContent());
+        millionBlog.setCropcontent(cropcontent.substring(0, cropcontent.lastIndexOf("。")));
         millionBlog.setIp(IPUtils.getIpAddrByRequest(request));
         millionBlog.setTypename(millionType.getName());
-        millionBlogMapper.insertSelective(millionBlog);
-        redisComponent.delete(RedisConst.MENU_BLOG);
-        redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
+        //millionBlogMapper.insertSelective(millionBlog);
+        //redisComponent.delete(RedisConst.MENU_BLOG);
+        //redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
         return ResponseUtils.successResponse("发表成功");
     }
 
     /**
-     * get博客页面数据
+     * 获取博客页面数据
      * */
     public ResponseWrapper getBlogPageData() {
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("success");

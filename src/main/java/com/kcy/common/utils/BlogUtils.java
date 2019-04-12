@@ -2,8 +2,11 @@ package com.kcy.common.utils;
 
 import com.kcy.common.constant.RedisConst;
 import com.kcy.common.constant.WebConst;
+import com.kcy.common.redis.RedisComponent;
 import com.kcy.system.model.MillionUser;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -93,4 +96,19 @@ public class BlogUtils {
         }
         return null;
     }
+
+    /**
+     * 判断用户2个小时以内对同一篇博客只能增加一次阅读量
+     * */
+    public static boolean checkHitsFrequency(HttpServletRequest request, Integer id, RedisComponent redisComponent) {
+        String ip = IPUtils.getIpAddrByRequest(request);
+        String blogView = RedisConst.BLOG_VIEW.replace("IP", ip).replace("BLOGID", Misc.getString(id));
+        Integer count = (Integer)redisComponent.getOpsForObject(blogView);
+        if(count != null && count > 0) {
+            return true;
+        }
+        redisComponent.opsForValue(blogView, 1, WebConst.HITS_LIMIT_TIME.longValue());
+        return false;
+    }
+
 }

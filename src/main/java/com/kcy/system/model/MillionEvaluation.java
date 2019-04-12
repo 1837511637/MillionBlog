@@ -38,4 +38,8 @@ public class MillionEvaluation implements Serializable {
     private Integer evaluation;
     @ApiModelProperty(value = "评论内容")
     private String content;
+    @ApiModelProperty(value = "第一条评论id")
+    private Integer firstevalid;
+    @ApiModelProperty(value = "是否是父节点")
+    private String ischild;
 }
