@@ -9,14 +9,9 @@ import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisComponent;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.IPUtils;
-import com.kcy.system.dao.MillionBlogMapper;
-import com.kcy.system.dao.MillionEvaluationMapper;
-import com.kcy.system.dao.MillionLabelMapper;
-import com.kcy.system.dao.MillionUserMapper;
-import com.kcy.system.model.MillionBlog;
-import com.kcy.system.model.MillionEvaluation;
-import com.kcy.system.model.MillionLabel;
-import com.kcy.system.model.MillionUser;
+import com.kcy.system.dao.*;
+import com.kcy.system.model.*;
+import com.kcy.system.vo.VoHeadType;
 import com.kcy.system.vo.VoMenuBlog;
 import com.kcy.system.vo.VoMenuEvaluate;
 import com.kcy.system.vo.VoMenuLabel;
@@ -53,6 +48,8 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
     private MillionLabelMapper millionLabelMapper;
     @Autowired
     private MillionUserMapper millionUserMapper;
+    @Autowired
+    private MillionTypeMapper millionTypeMapper;
 
     /**
      * 在业务处理器处理请求之前被调用
@@ -142,7 +139,6 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
             redisComponent.opsForValue(RedisConst.MENU_BLOG, voMenuBlogs);
         }
         responseWrapper.addAttribute("menuBlogs", voMenuBlogs);
-
         //最新留言
         List<VoMenuEvaluate> voMenuEvaluates = (List<VoMenuEvaluate>)redisComponent.getOpsForObject(RedisConst.MENU_EVAL);
         if(voMenuEvaluates == null) {
@@ -173,6 +169,22 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
             redisComponent.opsForValue(RedisConst.MENU_LABEL, voMenuLabels);
         }
         responseWrapper.addAttribute("menuLabels", voMenuLabels);
+        //类型
+        List<VoHeadType> voHeadTypes = (List<VoHeadType>)redisComponent.getOpsForObject(RedisConst.HEAD_TYPE);
+        if(voHeadTypes == null) {
+            voHeadTypes = new ArrayList();
+            List <MillionType> millionTypes = millionTypeMapper.findAll(null);
+            for(MillionType millionType : millionTypes) {
+                VoHeadType voHeadType = new VoHeadType();
+                voHeadType.setId(millionType.getId());
+                voHeadType.setName(millionType.getName());
+                voHeadTypes.add(voHeadType);
+            }
+            redisComponent.opsForValue(RedisConst.HEAD_TYPE, voHeadTypes);
+        }
+        responseWrapper.addAttribute("headTypes", voHeadTypes);
+
         modelAndView.addObject("menuresult", responseWrapper);
+
     }
 }

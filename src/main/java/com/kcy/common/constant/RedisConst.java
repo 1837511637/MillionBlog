@@ -15,9 +15,13 @@ public class RedisConst {
     public static final String MENU_EVAL = "menu_eval";
     //右侧菜单栏标签
     public static final String MENU_LABEL = "menu_label";
+    //页头类型
+    public static final String HEAD_TYPE = "head_type";
     //主页博客与轻语数据
     public static final String INDEX_RESPONSEWRAPPER = "index_responsewrapper";
     //阅读量限制
     public static final String BLOG_VIEW = "IP:BLOGID";
+    //归档博客
+    public static final String ARCHIVES_BLOG = "archives_blog";
 
 }

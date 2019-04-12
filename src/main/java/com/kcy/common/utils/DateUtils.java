@@ -199,6 +199,28 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
     }
 
     /**
+     * 格式化时间 获取年份
+     *
+     * @param timestamp
+     * @return
+     */
+    public static String getTimeYear(Date timestamp) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return format.format(timestamp);
+    }
+
+    /**
+     * 格式化时间 获取月份和日
+     *
+     * @param timestamp
+     * @return
+     */
+    public static String getTimeMonth(Date timestamp) {
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+        return format.format(timestamp);
+    }
+
+    /**
      * 获取系统时间Timestamp
      *
      * @return
@@ -271,6 +293,7 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         }
         return year + separator + (month+1) + separator + day;
     }
+
 
     /**
      * 获取当前的毫秒数

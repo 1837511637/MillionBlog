@@ -42,6 +42,7 @@ public class MillionController extends BaseController {
     @ApiOperation(value = "跳转档案页", notes = "档案页")
     @RequestMapping("/archives")
     public String archives(Model model) {
+        model.addAttribute("result", millionService.getArchives());
         return "archives";
     }
 

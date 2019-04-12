@@ -103,11 +103,11 @@ public class BlogUtils {
     public static boolean checkHitsFrequency(HttpServletRequest request, Integer id, RedisComponent redisComponent) {
         String ip = IPUtils.getIpAddrByRequest(request);
         String blogView = RedisConst.BLOG_VIEW.replace("IP", ip).replace("BLOGID", Misc.getString(id));
-        Integer count = (Integer)redisComponent.getOpsForObject(blogView);
+        Integer count = Misc.parseInteger(redisComponent.getOpsForValue(blogView));
         if(count != null && count > 0) {
             return true;
         }
-        redisComponent.opsForValue(blogView, 1, WebConst.HITS_LIMIT_TIME.longValue());
+        redisComponent.opsForValue(blogView, Misc.getString(1), WebConst.HITS_LIMIT_TIME.longValue());
         return false;
     }
 
