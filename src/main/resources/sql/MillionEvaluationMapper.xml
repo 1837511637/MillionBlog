@@ -14,13 +14,21 @@
     <result column="TYPE" property="type" jdbcType="CHAR" />
     <result column="EVALUATION" property="evaluation" jdbcType="INTEGER" />
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="FIRSTEVALID" property="firstevalid" jdbcType="INTEGER" />
+    <result column="ISCHILD" property="ischild" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION, CONTENT
+    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION, CONTENT, FIRSTEVALID, ISCHILD
   </sql>
   <sql id="where_sql">
+    <if test="blogid!=null and blogid!=''">
+      and blogid = #{blogid}
+    </if>
     <if test="type!=null and type!=''">
       and type = #{type}
+    </if>
+    <if test="evaluation!=null and evaluation!=''">
+      and evaluation = #{evaluation}
     </if>
     and status = 1
   </sql>
@@ -36,6 +44,15 @@
     from million_evaluation where 1 = 1
     <include refid="where_sql"/>
     order by createtime desc
+  </select>
+  <select id="selectEvaluateForIn" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from million_evaluation
+    where firstevalid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+      #{item}
+    </foreach>
   </select>
   <select id="theLatestData" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
@@ -100,6 +117,12 @@
       <if test="content != null" >
         CONTENT,
       </if>
+      <if test="firstevalid != null" >
+        FIRSTEVALID,
+      </if>
+      <if test="ischild != null" >
+        ischild,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -138,6 +161,12 @@
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
+      <if test="firstevalid != null" >
+        #{firstevalid,jdbcType=INTEGER},
+      </if>
+      <if test="ischild != null" >
+        #{ischild,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.kcy.system.model.MillionEvaluation" >
@@ -175,6 +204,12 @@
       </if>
       <if test="content != null" >
         CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="firstevalid != null" >
+        FIRSTEVALID = #{firstevalid,jdbcType=INTEGER},
+      </if>
+      <if test="ischild != null">
+        ISCHILD = #{ischild,jdbcType=VARCHAR}
       </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}
