@@ -84,9 +84,10 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         millionBlog.setCropcontent(cropcontent.substring(0, cropcontent.lastIndexOf("。")));
         millionBlog.setIp(IPUtils.getIpAddrByRequest(request));
         millionBlog.setTypename(millionType.getName());
-        //millionBlogMapper.insertSelective(millionBlog);
-        //redisComponent.delete(RedisConst.MENU_BLOG);
-        //redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
+        millionBlogMapper.insertSelective(millionBlog);
+        redisComponent.delete(RedisConst.MENU_BLOG);
+        redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
+        redisComponent.delete(RedisConst.ARCHIVES_BLOG);
         return ResponseUtils.successResponse("发表成功");
     }
 

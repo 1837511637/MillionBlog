@@ -13,6 +13,7 @@ import com.kcy.system.model.MillionWhisper;
 import com.kcy.system.service.MillionBlogService;
 import com.kcy.system.service.MillionEvaluationService;
 import com.kcy.system.service.MillionService;
+import com.kcy.system.vo.VoArchivesBlog;
 import com.kcy.system.vo.VoBlog;
 import com.kcy.system.vo.VoBlogDetails;
 import com.kcy.system.vo.VoIndexMillionWhisper;
@@ -20,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kcy.common.utils.BlogUtils.checkHitsFrequency;
 
@@ -97,5 +96,32 @@ public class MillionServiceImpl implements MillionService {
         responseWrapper.addAttribute("blog", voBlogDetails);
 
         return responseWrapper;
+    }
+
+    //获取归档数据
+    public ResponseWrapper getArchives() {
+        LinkedHashMap<String, List<VoArchivesBlog>> linkedHashMap = (LinkedHashMap<String, List<VoArchivesBlog>>)redisComponent.getOpsForObject(RedisConst.INDEX_RESPONSEWRAPPER);
+        if(linkedHashMap == null) {
+            List <MillionBlog> millionBlogs = millionBlogMapper.findAll(null);
+            linkedHashMap = new LinkedHashMap();
+            for(MillionBlog millionBlog : millionBlogs) {
+                VoArchivesBlog voArchivesBlog = new VoArchivesBlog();
+                voArchivesBlog.setId(millionBlog.getId());
+                voArchivesBlog.setCreatetime(DateUtils.getTimeMonth(millionBlog.getCreatetime()));
+                voArchivesBlog.setTitle(millionBlog.getTitle());
+                //获取该数据年份
+                String timeYear = DateUtils.getTimeYear(millionBlog.getCreatetime());
+                List <VoArchivesBlog> list = linkedHashMap.get(timeYear);
+                if(list == null) {
+                    list = new ArrayList();
+                    linkedHashMap.put(timeYear, list);
+                    list.add(voArchivesBlog);
+                } else {
+                    list.add(voArchivesBlog);
+                }
+            }
+            redisComponent.opsForValue(RedisConst.INDEX_RESPONSEWRAPPER, linkedHashMap);
+        }
+        return ResponseUtils.successResponse("datas", linkedHashMap, "");
     }
 }

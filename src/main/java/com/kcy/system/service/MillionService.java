@@ -12,4 +12,6 @@ public interface MillionService {
     ResponseWrapper getIndexData();
 
     ResponseWrapper getBlogDetails(HttpServletRequest request, Integer id);
+
+    ResponseWrapper getArchives();
 }

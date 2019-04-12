@@ -58,13 +58,16 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
             ids.add(millionEvaluation.getId());
         }
 
-        List <MillionEvaluation> millionEvaluations1 = millionEvaluationMapper.selectEvaluateForIn(ids);
-        for(VoEvaluate voEvaluate : evaluates) {
-            //如果该评论有回复数据
-            if("1".equals(voEvaluate)) {
-                voEvaluate.setVoEvaluateList(recursiveQuery(millionEvaluations1, voEvaluate.getEvalid()));
+        if(ids.size() > 0) {
+            List <MillionEvaluation> millionEvaluations1 = millionEvaluationMapper.selectEvaluateForIn(ids);
+            for(VoEvaluate voEvaluate : evaluates) {
+                //如果该评论有回复数据
+                if("1".equals(voEvaluate)) {
+                    voEvaluate.setVoEvaluateList(recursiveQuery(millionEvaluations1, voEvaluate.getEvalid()));
+                }
             }
         }
+
         responseWrapper.addAttribute("datas", evaluates);
 
         return responseWrapper;
