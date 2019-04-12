@@ -17,5 +17,7 @@ public class RedisConst {
     public static final String MENU_LABEL = "menu_label";
     //主页博客与轻语数据
     public static final String INDEX_RESPONSEWRAPPER = "index_responsewrapper";
+    //阅读量限制
+    public static final String BLOG_VIEW = "IP:BLOGID";
 
 }
