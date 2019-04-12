@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:border="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,16 +16,18 @@
 <body class="head-fixed">
 @include("/templates/views/header.html"){}
 <div id="body">
-    <div class="container" style="">
-        <div class="main-info" style="margin-top: 20%;margin-bottom: 25%;">
-            <div class="main-info1">
-                <h3>Sign In</h3>
-                <form id="form">
-                    <input type="text" name="name" placeholder="Username" required=" ">
-                    <input type="password" name="password" placeholder="Password" required=" ">
-                    <input type="button" id="login" value="Login" style="height: 30px;line-height: 5px;">
-                </form>
-                <p>Forgot your password? <a href="#">Click Here</a></p>
+    <div class="container clearfix">
+        <div id="main" style="width:100%;">
+            <div class="main-info" style="margin-top: 20%;margin-bottom: 25%;">
+                <div class="main-info1">
+                    <h3>Sign In</h3>
+                    <form id="form">
+                        <input type="text" name="name" placeholder="Username" required=" ">
+                        <input type="password" name="password" placeholder="Password" required=" ">
+                        <input type="button" id="login" value="Login" style="height: 30px;line-height: 5px;">
+                    </form>
+                    <p>Forgot your password? <a href="/">Click Here</a></p>
+                </div>
             </div>
         </div>
     </div>
@@ -41,9 +43,10 @@
                 data: dataValue,
                 type: "POST",
                 success: function (result) {
-                    alert(result.msg);
                     if (result.success) {
                         window.location.href = "/";
+                    } else {
+                        alert(result.msg);
                     }
                 }
             })

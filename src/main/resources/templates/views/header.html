@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@directive dynamic menuresult;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -20,7 +21,7 @@
     <div class="container clearfix">
         <div class="site-name">
             <h1>
-                <a id="logo" href="https://www.offodd.com/">Million's Blog</a>
+                <a id="logo" href="/">Million's Blog</a>
             </h1>
         </div>
         <script>
@@ -31,8 +32,8 @@
         <button id="nav-swith" onclick="Navswith()"><span></span></button>
         <div id="nav">
             <div id="site-search">
-                <form id="search" method="post" action="https://www.offodd.com/">
-                    <input type="text" id="s" name="s" class="text" placeholder="输入关键字搜索" required/>
+                <form id="search" method="post" action="/">
+                    <input type="text" class="text" placeholder="输入关键字搜索" required/>
                     <button type="submit"></button>
                 </form>
             </div>
@@ -40,9 +41,10 @@
                 <li><a href="/">首页</a></li>
                 <li class="menu-parent"><a>分类</a>
                     <ul>
-                        <li><a href="https://www.offodd.com/share/" title="分享">分享</a></li>
-                        <li><a href="https://www.offodd.com/life/" title="生活">生活</a></li>
-                        <li><a href="https://www.offodd.com/record/" title="记录">记录</a></li>
+                        @var list = menuresult.dataWrapper.headTypes;
+                        @for(var type in list) {
+                            <li><a href="/${type.id}" title="${type.name}">${type.name}</a></li>
+                        @}
                     </ul>
                 </li>
                 <li><a href="/archives" title="归档">归档</a></li>

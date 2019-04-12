@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@directive dynamic result;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -20,40 +21,17 @@
                 <a href="/">首页</a> &raquo; 归档
             </div>
             <article class="post">
-                <h1 class="post-title"><a href="https://www.offodd.com/archives.html">归档</a></h1>
-                <div id="archives"><h3>2019 年</h3>
-                    <ul>
-                        <li>02/20：<a href="https://www.offodd.com/17.html">Typecho主题 - Initial 简约而不简单（更新v2.4.3版）</a>
-                        </li>
-                        <li>01/15：<a href="https://www.offodd.com/58.html">Initial主题简要使用指南</a></li>
-                        <li>01/15：<a href="https://www.offodd.com/78.html">Typecho评论者主页链接新窗口打开（非修改程序）</a></li>
-                        <li>01/14：<a href="https://www.offodd.com/77.html">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a></li>
-                        <li>01/09：<a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></li>
-                        <li>01/09：<a href="https://www.offodd.com/75.html">为Typecho主题集成且小优化文章阅读功能</a></li>
-                    </ul>
-                    <h3>2018 年</h3>
-                    <ul>
-                        <li>11/27：<a href="https://www.offodd.com/64.html">记录一个删除字符串指定结尾的函数</a></li>
-                        <li>11/07：<a href="https://www.offodd.com/59.html">为Typecho主题集成链接功能（免插件实现友情链接功能）</a></li>
-                        <li>11/02：<a href="https://www.offodd.com/63.html">Typecho判断是否加密文章，解决加密文章与Pjax冲突</a></li>
-                        <li>09/06：<a href="https://www.offodd.com/19.html">Markdown 简明语法手册</a></li>
-                        <li>09/03：<a href="https://www.offodd.com/14.html">儿子上学啦！</a></li>
-                        <li>08/30：<a href="https://www.offodd.com/9.html">欢迎光临新“家”！</a></li>
-                        <li>08/17：<a href="https://www.offodd.com/55.html">Typecho主题Pinghsu - 添加文章分类下拉菜单</a></li>
-                        <li>07/20：<a href="https://www.offodd.com/52.html">Typecho主题Pinghsu - 添加移动端导航菜单关闭</a></li>
-                        <li>07/18：<a href="https://www.offodd.com/51.html">关于邮件模板的一些注意事项</a></li>
-                        <li>06/08：<a href="https://www.offodd.com/47.html">forever - 朝朝暮暮</a></li>
-                    </ul>
-                    <h3>2017 年</h3>
-                    <ul>
-                        <li>11/28：<a href="https://www.offodd.com/45.html">小技巧 - 添加个性化的Console</a></li>
-                        <li>11/24：<a href="https://www.offodd.com/42.html">我为什么爱猫</a></li>
-                        <li>11/07：<a href="https://www.offodd.com/40.html">海外和hongkong服务器？注意了</a></li>
-                        <li>11/03：<a href="https://www.offodd.com/35.html">熊孩子 - 你怕不怕？</a></li>
-                        <li>10/25：<a href="https://www.offodd.com/32.html">可怕的2岁 - 孩子的叛逆期</a></li>
-                        <li>10/02：<a href="https://www.offodd.com/29.html">武汉游记 - 十一长假你怎么过？</a></li>
-                        <li>09/30：<a href="https://www.offodd.com/start.html">Hello Typecho, Hello World!</a></li>
-                    </ul>
+                <h1 class="post-title"><a href="/archives">归档</a></h1>
+                <div id="archives">
+                    @var map = result.dataWrapper.datas;
+                    @for(entry in map) {
+                        <h3>${entry.key} 年</h3>
+                        <ul>
+                            @for(var blog in entry.value) {
+                                <li>${blog.createtime}：<a href="/blog/${blog.id}.html">${blog.title}</a></li>
+                            @}
+                        </ul>
+                    @}
                 </div>
             </article>
         </div>
