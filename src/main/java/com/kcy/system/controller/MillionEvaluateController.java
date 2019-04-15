@@ -1,5 +1,6 @@
 package com.kcy.system.controller;
 
+import com.kcy.common.base.BaseController;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
 import com.kcy.system.model.MillionEvaluation;
@@ -14,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/eval")
-public class MillionEvaluateController {
+public class MillionEvaluateController extends BaseController {
 
     @Autowired
     private MillionEvaluationService millionEvaluationService;
