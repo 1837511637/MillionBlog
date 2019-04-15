@@ -6,17 +6,12 @@ import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisComponent;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
-import com.kcy.system.dao.MillionBlogMapper;
-import com.kcy.system.dao.MillionWhisperMapper;
-import com.kcy.system.model.MillionBlog;
-import com.kcy.system.model.MillionWhisper;
+import com.kcy.system.dao.*;
+import com.kcy.system.model.*;
 import com.kcy.system.service.MillionBlogService;
 import com.kcy.system.service.MillionEvaluationService;
 import com.kcy.system.service.MillionService;
-import com.kcy.system.vo.VoArchivesBlog;
-import com.kcy.system.vo.VoBlog;
-import com.kcy.system.vo.VoBlogDetails;
-import com.kcy.system.vo.VoIndexMillionWhisper;
+import com.kcy.system.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +33,12 @@ public class MillionServiceImpl implements MillionService {
     private MillionBlogMapper millionBlogMapper;
     @Autowired
     private MillionEvaluationService millionEvaluationService;
+    @Autowired
+    private MillionEvaluationMapper millionEvaluationMapper;
+    @Autowired
+    private MillionTypeMapper millionTypeMapper;
+    @Autowired
+    private MillionLabelMapper millionLabelMapper;
 
     //获取首页信息数据
     public ResponseWrapper getIndexData() {
@@ -123,5 +124,72 @@ public class MillionServiceImpl implements MillionService {
             redisComponent.opsForValue(RedisConst.INDEX_RESPONSEWRAPPER, linkedHashMap);
         }
         return ResponseUtils.successResponse("datas", linkedHashMap, "");
+    }
+
+    public ResponseWrapper getMenuDatas(HttpServletRequest request) {
+        ResponseWrapper responseWrapper = ResponseUtils.successResponse("");
+        Map<String, Object> param = new HashMap();
+        param.put("limit", 5);
+        //获取热门博客
+        List<VoMenuBlog> voMenuBlogs = (List<VoMenuBlog>)redisComponent.getOpsForObject(RedisConst.MENU_BLOG);
+        if(voMenuBlogs == null) {
+            voMenuBlogs = new ArrayList();
+            List <MillionBlog> millionBlogs = millionBlogMapper.theLatestData(param);
+            for(MillionBlog millionBlog : millionBlogs) {
+                VoMenuBlog voMenuBlog = new VoMenuBlog();
+                voMenuBlog.setId(millionBlog.getId());
+                voMenuBlog.setTitle(millionBlog.getTitle());
+                voMenuBlogs.add(voMenuBlog);
+            }
+            redisComponent.opsForValue(RedisConst.MENU_BLOG, voMenuBlogs);
+        }
+        responseWrapper.addAttribute("menuBlogs", voMenuBlogs);
+        //最新留言
+        List<VoMenuEvaluate> voMenuEvaluates = (List<VoMenuEvaluate>)redisComponent.getOpsForObject(RedisConst.MENU_EVAL);
+        if(voMenuEvaluates == null) {
+            voMenuEvaluates = new ArrayList();
+            param.put("type", "3");
+            List <MillionEvaluation> millionEvaluations = millionEvaluationMapper.theLatestData(param);
+            for(MillionEvaluation millionEvaluation : millionEvaluations) {
+                VoMenuEvaluate voMenuEvaluate = new VoMenuEvaluate();
+                voMenuEvaluate.setName(millionEvaluation.getName());
+                voMenuEvaluate.setContent(millionEvaluation.getContent());
+                voMenuEvaluate.setWeblink(millionEvaluation.getWeblink());
+                voMenuEvaluates.add(voMenuEvaluate);
+            }
+            redisComponent.opsForValue(RedisConst.MENU_EVAL, voMenuEvaluates);
+        }
+        responseWrapper.addAttribute("menuEvals", voMenuEvaluates);
+        //标签
+        List<VoMenuLabel> voMenuLabels = (List<VoMenuLabel>)redisComponent.getOpsForObject(RedisConst.MENU_LABEL);
+        if(voMenuLabels == null) {
+            voMenuLabels = new ArrayList();
+            List<MillionLabel> millionLabels = millionLabelMapper.findAll(null);
+            for(MillionLabel millionLabel : millionLabels) {
+                VoMenuLabel voMenuLabel = new VoMenuLabel();
+                voMenuLabel.setId(millionLabel.getId());
+                voMenuLabel.setName(millionLabel.getName());
+                voMenuLabels.add(voMenuLabel);
+            }
+            redisComponent.opsForValue(RedisConst.MENU_LABEL, voMenuLabels);
+        }
+        responseWrapper.addAttribute("menuLabels", voMenuLabels);
+        //类型
+        List<VoHeadType> voHeadTypes = (List<VoHeadType>)redisComponent.getOpsForObject(RedisConst.HEAD_TYPE);
+        if(voHeadTypes == null) {
+            voHeadTypes = new ArrayList();
+            List <MillionType> millionTypes = millionTypeMapper.findAll(null);
+            for(MillionType millionType : millionTypes) {
+                VoHeadType voHeadType = new VoHeadType();
+                voHeadType.setId(millionType.getId());
+                voHeadType.setName(millionType.getName());
+                voHeadTypes.add(voHeadType);
+            }
+            redisComponent.opsForValue(RedisConst.HEAD_TYPE, voHeadTypes);
+        }
+        responseWrapper.addAttribute("headTypes", voHeadTypes);
+
+        responseWrapper.addAttribute("isLogin", BlogUtils.isLogin(request));
+        return responseWrapper;
     }
 }

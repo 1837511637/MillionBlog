@@ -11,4 +11,6 @@ public interface MillionService {
     ResponseWrapper getBlogDetails(HttpServletRequest request, Integer id);
 
     ResponseWrapper getArchives();
+
+    ResponseWrapper getMenuDatas(HttpServletRequest request);
 }
