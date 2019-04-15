@@ -152,4 +152,18 @@ public class BlogUtils {
         return content;
     }
 
+    /**
+     * 判断是否登录
+     * */
+    public static boolean isLogin(HttpServletRequest request) {
+        MillionUser loginUser = BlogUtils.getLoginUser(request);
+        boolean isLogin;
+        if(loginUser != null) {
+            isLogin = true;
+        } else {
+            isLogin = false;
+        }
+        return isLogin;
+    }
+
 }
