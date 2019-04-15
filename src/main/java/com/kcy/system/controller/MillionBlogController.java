@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/blog")
-public class MillionBlogController extends BaseController {
+public class MillionBlogController {
 
     @Autowired
     private MillionBlogService millionBlogService;

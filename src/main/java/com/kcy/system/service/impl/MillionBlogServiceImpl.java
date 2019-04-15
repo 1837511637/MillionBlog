@@ -22,6 +22,10 @@ import com.kcy.system.model.MillionUser;
 import com.kcy.system.service.MillionBlogService;
 import com.kcy.system.vo.VoBlog;
 import lombok.extern.java.Log;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,36 +56,35 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         if(loginUser == null) {
             return ResponseUtils.errorResponse("未登录");
         }
-
         MillionType millionType = millionTypeMapper.selectByPrimaryKey(millionBlog.getTypeid());
         if(millionType == null || !"1".equals(millionType.getStatus())) {
             return ResponseUtils.errorResponse("选择类型已下线");
         }
-
         if(Misc.isStringEmpty(millionBlog.getTitle())) {
             return ResponseUtils.errorResponse("标题不能为空");
         }
-
-        if(Misc.getStringLength(millionBlog.getTitle(),"GBK-885921") > WebConst.MAX_TITLE_COUNT) {
+        if(Misc.getStringLength(millionBlog.getTitle(),Misc.ISOCODE) > WebConst.MAX_TITLE_COUNT) {
             return ResponseUtils.errorResponse("标题字数过长");
         }
-
-        if(Misc.getStringLength(millionBlog.getContent(),"GBK-885921") > WebConst.MAX_TEXT_COUNT) {
+        if(Misc.getStringLength(millionBlog.getContent(),Misc.ISOCODE) > WebConst.MAX_TEXT_COUNT) {
             return ResponseUtils.errorResponse("内容字数过长");
         }
-
         if(millionBlog.getIseval() == null) {
             millionBlog.setIseval("0");
         } else {
             millionBlog.setIseval("1");
         }
-        log.info("content : " + millionBlog.getContent());
+        Document parse = Jsoup.parse(millionBlog.getContent());
+        Elements img = parse.body().getElementsByTag("img");
+        if(img.size() > 0) {
+            millionBlog.setImage(img.get(0).attr("src"));
+        }
         millionBlog.setUserid(loginUser.getId());
         millionBlog.setViewnum(0);
         millionBlog.setEvalnum(0);
         millionBlog.setCreatetime(new Date());
         String cropcontent = Misc.excludeHtmlTags(millionBlog.getContent());
-        millionBlog.setCropcontent(cropcontent.substring(0, cropcontent.lastIndexOf("。")));
+        millionBlog.setCropcontent(BlogUtils.getFirstWord(cropcontent));
         millionBlog.setIp(IPUtils.getIpAddrByRequest(request));
         millionBlog.setTypename(millionType.getName());
         millionBlogMapper.insertSelective(millionBlog);

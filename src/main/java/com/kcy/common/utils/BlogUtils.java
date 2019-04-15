@@ -5,6 +5,10 @@ import com.kcy.common.constant.WebConst;
 import com.kcy.common.redis.RedisComponent;
 import com.kcy.system.model.MillionUser;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 public class BlogUtils {
+    private static String[] symbols = {"。", ".", "!", "！", "，", ",", " "};
 
     /**
      * 判断是否是跳转路径
@@ -109,6 +114,42 @@ public class BlogUtils {
         }
         redisComponent.opsForValue(blogView, Misc.getString(1), WebConst.HITS_LIMIT_TIME.longValue());
         return false;
+    }
+
+    /**
+     * 获取网站icon
+     * */
+    public static String getIcon(String url) {
+        String href = "";
+        try{
+            String connect = ConnectionUtil.Connect(url);
+            Document parse = Jsoup.parse(connect);
+            Element head = parse.head();
+            Element icon = head.getElementsByClass("icon").get(0);
+            href = icon.attr("href");
+            if(!Misc.isStringEmpty(href)) {
+                if(!href.contains("http://")) {
+                    href = url + href;
+                }
+            }
+        } catch (Exception e) {
+            href = "";
+        }
+        return href;
+    }
+
+    /**
+     * 获取博客的第一句话
+     * */
+    public static String getFirstWord(String cropcontent) {
+        String content = "";
+        for(String symbol : symbols) {
+            if(cropcontent.contains(symbol)) {
+                content = cropcontent.substring(0, cropcontent.lastIndexOf(symbol));
+                return content;
+            }
+        }
+        return content;
     }
 
 }

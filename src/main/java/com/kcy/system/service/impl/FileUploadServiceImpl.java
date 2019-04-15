@@ -32,7 +32,7 @@ public class FileUploadServiceImpl implements FileUploadService {
             //文件校验
             if(UploadUtils.filesCheckout(file)) {
                 //获取服务器路径
-                String realPath = "/millionFiles/image/";
+                String realPath = WebConst.uploadImgPrefix + "/millionFiles/image/";
                 //获取文件日期格式
                 String timePaperFormat = UploadUtils.getTimePaperFormat();
                 //获取文件名

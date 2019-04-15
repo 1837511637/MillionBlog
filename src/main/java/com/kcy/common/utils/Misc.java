@@ -15,10 +15,12 @@ import javax.crypto.spec.DESedeKeySpec;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -257,7 +259,26 @@ public class Misc {
         return false;
     }
 
-
+    /**
+     * 判断链接是否可用
+     * */
+    public static boolean isWebLink(String link) {
+        boolean fale = true;
+        if(isStringEmpty(link)) {
+            fale = false;
+        }
+        if(fale) {
+            URL url = null;
+            try {
+                url = new URL(link);
+                InputStream in = url.openStream();
+                fale = true;
+            } catch (Exception e ) {
+                fale = false;
+            }
+        }
+        return fale;
+    }
 
     /**
      * 过滤表情符号
