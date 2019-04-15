@@ -24,32 +24,21 @@
                 正文
             </div>
             <article class="post">
-                <h1 class="post-title"><a href="https://www.offodd.com/78.html">Typecho评论者主页链接新窗口打开（非修改程序）</a></h1>
+                @var blog = result.dataWrapper.blog;
+                <h1 class="post-title"><a href="/blog/${blog.id}.html">${blog.title}</a></h1>
                 <ul class="post-meta">
-                    <li>2019-01-15</li>
-                    <li><a href="https://www.offodd.com/share/">分享</a></li>
-                    <li><a href="https://www.offodd.com/78.html#comments">6 条评论</a></li>
-                    <li>565 次阅读</li>
+                    <li>${blog.createtime}</li>
+                    <li><a href="https://www.offodd.com/share/">${blog.type}</a></li>
+                    <li><a href="https://www.offodd.com/78.html#comments">${blog.evalnum}</a></li>
+                    <li>${blog.viewnum}</li>
                 </ul>
                 <div class="post-content">
-                    <p>
-                        Typecho评论者主页链接默认是在当前页面跳转，感觉这一点不是很友好，网上有修改为新窗口跳转的教程，但都是通过修改Typecho程序文件实现的，这样的话，如果更新了程序（虽然TE更新极慢😑），就需要再次修改。最主要的是像我这种做了主题的，想要让每个我的主题用户都实现这个功能，难道要让每个用户都去改程序文件吗？当然是No！</p>
-                    <!--more--><p>
-                    网上找不到方法，就自己做喽，其实很简单，重写一下评论作者函数就OK了，重写后，自己想怎么改就怎么改😎（说是这样说，其实我只是添加了一个评论者主页如果是外链接，就在新窗口跳转而已，其余的都保持原生状态）。</p>
-                    <p>下面就直接说一下怎么操作吧</p>
-                    <h2>修改方法</h2>
-                    <p>修改主题文件：<code>functions.php</code>，在最后一行之前添加下面的代码</p>
-                    <p>然后修改主题评论框架，一般是<code>comments.php</code>这个文件</p>
-                    <p>将原来输出评论作者的函数，替换为新函数</p>
-                    <p>原函数一般是<code>&lt;?php $comments-&gt;author(); ?&gt;</code></p>
-                    <p>改成<code>&lt;?php CommentAuthor($comments); ?&gt;</code>即可</p>
-                    <p>打完收功，在前台查看效果就行。</p>
-                    <p>如果发现问题，欢迎反馈😁</p>
+                    ${blog.content}
                 </div>
             </article>
             <div id="comments">
-                <h3>已有 <span class="comment-num">6</span> 条评论</h3>
-                <ol class="comment-list">
+                <h3>已有 ${blog.evalnum}</h3>
+                <!--<ol class="comment-list">
                     <li id="li-comment-1066" class="comment-body comment-parent comment-odd">
                         <div id="comment-1066">
                             <div class="comment-author">
@@ -188,28 +177,29 @@
                             </ol>
                         </div>
                     </li>
-                </ol>
-                <div id="respond-post-78" class="respond">
-                    <div class="cancel-comment-reply">
-                        <a id="cancel-comment-reply-link" href="https://www.offodd.com/78.html#respond-post-78"
-                           rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a>
+                </ol>-->
+                @if(blog.iseval == "1") {
+                    <div id="respond-post-78" class="respond">
+                        <div class="cancel-comment-reply">
+                            <a id="cancel-comment-reply-link" href="https://www.offodd.com/78.html#respond-post-78"
+                               rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a>
+                        </div>
+                        <h3 id="response">添加新评论</h3>
+                        <form method="post" action="/eval/commentMessage" id="comment-form" class="comment-form clearfix">
+                            <p class="textarea">
+                                <textarea name="text" id="textarea" placeholder="加入讨论..." required></textarea>
+                            </p>
+                            <p class="textbutton">
+                                <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value=""
+                                       required/>
+                                <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value=""
+                                       required/>
+                                <input type="url" name="url" id="url" class="text" placeholder="http://" value=""/>
+                                <button type="submit" class="submit">提交评论</button>
+                            </p>
+                        </form>
                     </div>
-                    <h3 id="response">添加新评论</h3>
-                    <form method="post" action="https://www.offodd.com/78.html/comment" id="comment-form"
-                          class="comment-form clearfix">
-                        <p class="textarea">
-                            <textarea name="text" id="textarea" placeholder="加入讨论..." required></textarea>
-                        </p>
-                        <p class="textbutton">
-                            <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value=""
-                                   required/>
-                            <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value=""
-                                   required/>
-                            <input type="url" name="url" id="url" class="text" placeholder="http://" value=""/>
-                            <button type="submit" class="submit">提交评论</button>
-                        </p>
-                    </form>
-                </div>
+                @}
             </div>
             <ul class="post-near">
                 <li>上一篇: <a href="https://www.offodd.com/77.html" title="Typecho文章和页面内的外链接使用新窗口打开（优化版）">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a>
