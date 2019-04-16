@@ -19,11 +19,6 @@
                 @for(blog in menuresult.dataWrapper.menuBlogs) {
                     <li><a href="/blog/${blog.id}.html">${blog.title}</a></li>
                 @}
-                <!--<li><a href="https://www.offodd.com/17.html">Typecho主题 - Initial 简约而不简单（更新v2.4.3版）</a></li>
-                <li><a href="https://www.offodd.com/58.html">Initial主题简要使用指南</a></li>
-                <li><a href="https://www.offodd.com/19.html">Markdown 简明语法手册</a></li>
-                <li><a href="https://www.offodd.com/59.html">为Typecho主题集成链接功能（免插件实现友情链接功能）</a></li>
-                <li><a href="https://www.offodd.com/76.html">为Typecho主题集成文章目录功能（免插件实现文章目录功能）</a></li>-->
             </ul>
         </section>
         <section class="widget">
@@ -60,33 +55,8 @@
             <h3 class="widget-title">标签</h3>
             <ul class="widget-tile">
                 @for(label in menuresult.dataWrapper.menuLabels) {
-                    <li><a href="https://www.offodd.com/tag/Typecho/">${label.name}</a></li>
+                    <li><a href="/query?labelid=${label.id}">${label.name}</a></li>
                 @}
-                <li><a href="https://www.offodd.com/tag/Typecho/">Typecho</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%8A%9F%E8%83%BD%E5%A2%9E%E5%BC%BA/">功能增强</a></li>
-                <li><a href="https://www.offodd.com/tag/%E4%B8%BB%E9%A2%98/">主题</a></li>
-                <li><a href="https://www.offodd.com/tag/%E9%9A%8F%E7%AC%94/">随笔</a></li>
-                <li><a href="https://www.offodd.com/tag/%E4%BA%8B%E8%BF%B9/">事迹</a></li>
-                <li><a href="https://www.offodd.com/tag/Initial/">Initial</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%AD%A6%E4%B9%A0/">学习</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%AD%A9%E5%AD%90/">孩子</a></li>
-                <li><a href="https://www.offodd.com/tag/%E6%88%90%E9%95%BF/">成长</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%B0%8F%E6%8A%80%E5%B7%A7/">小技巧</a></li>
-                <li><a href="https://www.offodd.com/tag/%E7%BE%8E%E5%8C%96/">美化</a></li>
-                <li><a href="https://www.offodd.com/tag/%E6%B3%A8%E6%84%8F/">注意</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%84%BF%E5%AD%90/">儿子</a></li>
-                <li><a href="https://www.offodd.com/tag/Markdown/">Markdown</a></li>
-                <li><a href="https://www.offodd.com/tag/%E6%97%85%E6%B8%B8/">旅游</a></li>
-                <li><a href="https://www.offodd.com/tag/%E8%8A%82%E6%97%A5/">节日</a></li>
-                <li><a href="https://www.offodd.com/tag/%E6%95%99%E8%AE%AD/">教训</a></li>
-                <li><a href="https://www.offodd.com/tag/%E6%9C%8D%E5%8A%A1%E5%99%A8/">服务器</a></li>
-                <li><a href="https://www.offodd.com/tag/%E7%8C%AB/">猫</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%AE%A0%E7%89%A9/">宠物</a></li>
-                <li><a href="https://www.offodd.com/tag/Console/">Console</a></li>
-                <li><a href="https://www.offodd.com/tag/%E5%AE%B6/">家</a></li>
-                <li><a href="https://www.offodd.com/tag/%E8%AF%B4%E6%98%8E/">说明</a></li>
-                <li><a href="https://www.offodd.com/tag/%E7%BB%8F%E9%AA%8C/">经验</a></li>
-                <li><a href="https://www.offodd.com/tag/%E7%AC%94%E8%AE%B0/">笔记</a></li>
             </ul>
         </section>
         <section class="widget">

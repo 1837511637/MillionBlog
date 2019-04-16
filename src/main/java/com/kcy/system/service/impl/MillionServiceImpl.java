@@ -6,6 +6,7 @@ import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisComponent;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
+import com.kcy.common.utils.Misc;
 import com.kcy.system.dao.*;
 import com.kcy.system.model.*;
 import com.kcy.system.service.MillionBlogService;
@@ -190,6 +191,27 @@ public class MillionServiceImpl implements MillionService {
         responseWrapper.addAttribute("headTypes", voHeadTypes);
 
         responseWrapper.addAttribute("isLogin", BlogUtils.isLogin(request));
+        return responseWrapper;
+    }
+
+    public ResponseWrapper query(Map <String, Object> map) {
+        String keyword = Misc.getString(map.get("keyword"));
+        Integer typeid = Misc.parseInteger(Misc.getString(map.get("typeid")));
+        String labelid = Misc.getString(map.get("labelid"));
+        Integer pageNo = Misc.getIntegerPage(Misc.getString(map.get("page")));
+        Map<String, Object> param = new HashMap();
+        if(!Misc.isStringEmpty(keyword)) {
+            param.put("keyword", keyword);
+        }
+        if(typeid != null && typeid != 0) {
+            param.put("typeid", typeid);
+        }
+        if(!Misc.isStringEmpty(labelid)) {
+            param.put("labelid", ","+labelid+",");
+        }
+        param.put("page", pageNo);
+        ResponseWrapper responseWrapper = millionBlogService.findAll(param);
+        responseWrapper.addAttribute("query", param);
         return responseWrapper;
     }
 }

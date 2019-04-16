@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+@directive dynamic result;
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <link rel="shortcut icon" href="/templates/static/image/favicon.ico"/>
+    <title>Million - 放弃不难，但坚持一定很酷。</title>
+    <meta name="description" content="Million的博客，有点不同，记录我的生活，分享一些经历与心得。"/>
+    <meta name="keywords" content="Million's Blog"/>
+    <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+</head>
+<body class="head-fixed">
+@include("/templates/views/header.html"){}
+<div id="body">
+    <div class="container clearfix">
+        <div id="main">
+            @for(blog in result.dataWrapper.datas!) {
+            <article class="post">
+                <h2 class="post-title">
+                    <a href="/blog/${blog.id}.html">${blog.title}</a>
+                </h2>
+                <ul class="post-meta">
+                    <li>${blog.createtime!}</li>
+                    <li>${blog.type!}</li>
+                    <li>${blog.evalnum!}</li>
+                    <li>${blog.viewnum!}</li>
+                </ul>
+                <div class="post-content">
+                    @if(blog.img != null && blog.img != "") {
+                    <p class="thumb"><img src="${blog.img!}"/></p>
+                    @}
+                    <p>${blog.content!}</p>
+                    <p class="more">
+                        <a href="/blog/${blog.id!}.html" title="${blog.title!}">- 阅读全文 -</a>
+                    </p>
+                </div>
+            </article>
+            @}elsefor{
+                <div class="error-page">
+                    <h2 class="post-title">暂无数据</h2>
+                    <p>你想查看的页面已被吃掉了</p>
+                </div>
+            @}
+            @if(result.page < result.totalpage) {
+            @var page = result.page + 1;
+            <ol class="page-navigator ajaxload">
+                <li class="next">
+                    @var query = result.dataWrapper.query;
+                    <a href="javascritp:void(0);" data-key="${query.keyword!}" data-type="${query.typeid}" data-label="${query.labelid}" data-page="${page}">查看更多</a>
+                </li>
+            </ol>
+            @}
+        </div>
+        <!--右侧栏-->
+        @include("/templates/views/menu.html"){}
+    </div>
+</div>
+@include("/templates/views/footer.html"){}
+<script src="/templates/static/js/jquery.min.js"></script>
+<script src="/templates/static/js/jquery.pjax.min.js"></script>
+<script src="/templates/static/js/index.min.js"></script>
+</body>
+</html>

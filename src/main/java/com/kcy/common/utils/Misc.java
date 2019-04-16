@@ -142,6 +142,18 @@ public class Misc {
     }
 
     /**
+     * 字符串转Integer类型page属性
+     * */
+    public static Integer getIntegerPage(String page) {
+        Integer integer = parseInteger(page);
+        if(integer == null || integer < 1) {
+            return 1;
+        }
+        return integer;
+    }
+
+
+    /**
      * 字符串转Long类型
      * @param s 字符串
      * @return Double

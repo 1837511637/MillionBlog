@@ -25,4 +25,5 @@ public class MillionEvaluateController extends BaseController {
     public ResponseWrapper commentMessage(HttpServletRequest request, MillionEvaluation millionEvaluation) {
         return millionEvaluationService.commentMessage(request, millionEvaluation);
     }
+
 }

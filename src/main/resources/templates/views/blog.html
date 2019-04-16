@@ -37,164 +37,186 @@
                 </div>
             </article>
             <div id="comments">
-                <h3>已有 ${blog.evalnum}</h3>
-                <!--<ol class="comment-list">
-                    <li id="li-comment-1066" class="comment-body comment-parent comment-odd">
-                        <div id="comment-1066">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
-                                     alt="熊猫小A" width="32" height="32"/><cite><a href="https://blog.imalan.cn"
-                                                                                 rel="external nofollow"
-                                                                                 target="_blank">熊猫小A</a></cite>
-                            </div>
-                            <div class="comment-meta">
-                                <time>2019-01-25 at 08:05</time>
-                            </div>
-                            <div class="comment-content">
-                                <p>我是在前端解析的，所以不管评论还是什么，只要是外链都是新标签打开。</p></div>
-                            <div class="comment-reply">
-                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1066#respond-post-78"
-                                   rel="nofollow" onclick="return TypechoComment.reply('comment-1066', 1066);">回复</a>
-                            </div>
-                        </div>
-                        <div class="comment-children">
-                            <ol class="comment-list">
-                                <li id="li-comment-1072"
-                                    class="comment-body comment-child comment-level-odd comment-even comment-by-author">
-                                    <div id="comment-1072">
-                                        <div class="comment-author">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                                 alt="JIElive" width="32" height="32"/><cite><a
-                                                href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
-                                            <span class="author-icon">Author</span>
-                                        </div>
-                                        <div class="comment-meta">
-                                            <time>2019-01-25 at 09:18</time>
-                                        </div>
-                                        <div class="comment-content">
-                                            <p>前端也行，更省事了，但是这种问题我个人还是喜欢从后端解决他😂</p></div>
-                                        <div class="comment-reply">
-                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1072#respond-post-78"
-                                               rel="nofollow"
-                                               onclick="return TypechoComment.reply('comment-1072', 1072);">回复</a></div>
+                @var evals = result.dataWrapper.datas;
+                @if(evals.~size > 0) {
+                    <h3>已有 ${blog.evalnum}</h3>
+                    <ol class="comment-list">
+                        @for(var eval in evals) {
+                            <li id="li-comment-${eval.evalid}" class="comment-body comment-parent comment-odd">
+                                <div id="comment-${eval.evalid}">
+                                    <div class="comment-author">
+                                        <img class="avatar" src="${eval.heaimg}" alt="${eval.username}" width="32" height="32"/>
+                                        <cite>
+                                            <a href="${eval.webLink!}" rel="external nofollow" target="_blank">${eval.username}</a>
+                                        </cite>
                                     </div>
-                                </li>
-                                <li id="li-comment-1067"
-                                    class="comment-body comment-child comment-level-odd comment-odd">
-                                    <div id="comment-1067">
-                                        <div class="comment-author">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
-                                                 alt="小宇" width="32" height="32"/><cite><a href="https://kisxy.com"
-                                                                                           rel="external nofollow"
-                                                                                           target="_blank">小宇</a></cite>
-                                        </div>
-                                        <div class="comment-meta">
-                                            <time>2019-01-25 at 09:08</time>
-                                        </div>
-                                        <div class="comment-content">
-                                            <p>你的主题很棒，我很喜欢，哈哈。</p></div>
-                                        <div class="comment-reply">
-                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1067#respond-post-78"
-                                               rel="nofollow"
-                                               onclick="return TypechoComment.reply('comment-1067', 1067);">回复</a></div>
+                                    <div class="comment-meta">
+                                        <time>${eval.createtime}</time>
                                     </div>
-                                    <div class="comment-children">
-                                        <ol class="comment-list">
-                                            <li id="li-comment-1068"
-                                                class="comment-body comment-child comment-level-even comment-odd">
-                                                <div id="comment-1068">
-                                                    <div class="comment-author">
-                                                        <img class="avatar"
-                                                             src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
-                                                             alt="熊猫小A" width="32" height="32"/><cite><a
-                                                            href="https://blog.imalan.cn" rel="external nofollow"
-                                                            target="_blank">熊猫小A</a></cite>
+                                    <div class="comment-content">
+                                        <p>${eval.content}</p></div>
+                                    <div class="comment-reply">
+                                        <a rel="nofollow" onclick="">回复</a>
+                                    </div>
+                                </div>
+                            </li>
+                        @}
+                        <!--<li id="li-comment-1066" class="comment-body comment-parent comment-odd">
+                            <div id="comment-1066">
+                                <div class="comment-author">
+                                    <img class="avatar"
+                                         src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
+                                         alt="熊猫小A" width="32" height="32"/><cite><a href="https://blog.imalan.cn"
+                                                                                     rel="external nofollow"
+                                                                                     target="_blank">熊猫小A</a></cite>
+                                </div>
+                                <div class="comment-meta">
+                                    <time>2019-01-25 at 08:05</time>
+                                </div>
+                                <div class="comment-content">
+                                    <p>我是在前端解析的，所以不管评论还是什么，只要是外链都是新标签打开。</p></div>
+                                <div class="comment-reply">
+                                    <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1066#respond-post-78"
+                                       rel="nofollow" onclick="return TypechoComment.reply('comment-1066', 1066);">回复</a>
+                                </div>
+                            </div>
+                            <div class="comment-children">
+                                <ol class="comment-list">
+                                    <li id="li-comment-1072"
+                                        class="comment-body comment-child comment-level-odd comment-even comment-by-author">
+                                        <div id="comment-1072">
+                                            <div class="comment-author">
+                                                <img class="avatar"
+                                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
+                                                     alt="JIElive" width="32" height="32"/><cite><a
+                                                    href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
+                                                <span class="author-icon">Author</span>
+                                            </div>
+                                            <div class="comment-meta">
+                                                <time>2019-01-25 at 09:18</time>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>前端也行，更省事了，但是这种问题我个人还是喜欢从后端解决他😂</p></div>
+                                            <div class="comment-reply">
+                                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1072#respond-post-78"
+                                                   rel="nofollow"
+                                                   onclick="return TypechoComment.reply('comment-1072', 1072);">回复</a></div>
+                                        </div>
+                                    </li>
+                                    <li id="li-comment-1067"
+                                        class="comment-body comment-child comment-level-odd comment-odd">
+                                        <div id="comment-1067">
+                                            <div class="comment-author">
+                                                <img class="avatar"
+                                                     src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
+                                                     alt="小宇" width="32" height="32"/><cite><a href="https://kisxy.com"
+                                                                                               rel="external nofollow"
+                                                                                               target="_blank">小宇</a></cite>
+                                            </div>
+                                            <div class="comment-meta">
+                                                <time>2019-01-25 at 09:08</time>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>你的主题很棒，我很喜欢，哈哈。</p></div>
+                                            <div class="comment-reply">
+                                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1067#respond-post-78"
+                                                   rel="nofollow"
+                                                   onclick="return TypechoComment.reply('comment-1067', 1067);">回复</a></div>
+                                        </div>
+                                        <div class="comment-children">
+                                            <ol class="comment-list">
+                                                <li id="li-comment-1068"
+                                                    class="comment-body comment-child comment-level-even comment-odd">
+                                                    <div id="comment-1068">
+                                                        <div class="comment-author">
+                                                            <img class="avatar"
+                                                                 src="https://cdn.v2ex.com/gravatar/1741a6eef5c824899e347e4afcbaa75d?s=32&amp;r=G&amp;d="
+                                                                 alt="熊猫小A" width="32" height="32"/><cite><a
+                                                                href="https://blog.imalan.cn" rel="external nofollow"
+                                                                target="_blank">熊猫小A</a></cite>
+                                                        </div>
+                                                        <div class="comment-meta">
+                                                            <time>2019-01-25 at 09:13</time>
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            <p>谢谢你~</p></div>
+                                                        <div class="comment-reply">
+                                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1068#respond-post-78"
+                                                               rel="nofollow"
+                                                               onclick="return TypechoComment.reply('comment-1068', 1068);">回复</a>
+                                                        </div>
                                                     </div>
-                                                    <div class="comment-meta">
-                                                        <time>2019-01-25 at 09:13</time>
-                                                    </div>
-                                                    <div class="comment-content">
-                                                        <p>谢谢你~</p></div>
-                                                    <div class="comment-reply">
-                                                        <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=1068#respond-post-78"
-                                                           rel="nofollow"
-                                                           onclick="return TypechoComment.reply('comment-1068', 1068);">回复</a>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </ol>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                    <li id="li-comment-920" class="comment-body comment-parent comment-even">
-                        <div id="comment-920">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
-                                     alt="小宇" width="32" height="32"/><cite><a href="https://sunxyu.cn"
-                                                                               rel="external nofollow" target="_blank">小宇</a></cite>
-                            </div>
-                            <div class="comment-meta">
-                                <time>2019-01-15 at 17:30</time>
-                            </div>
-                            <div class="comment-content">
-                                <p>
-                                    确实，似乎typecho不管是评论还是文章内的超链接，都是在本页打开的。不过评论这里的链接我是直接在主题的comments.php里重写了的，没有通过function.php也可以实现。算是另一种方法吧。</p>
-                            </div>
-                            <div class="comment-reply">
-                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=920#respond-post-78"
-                                   rel="nofollow" onclick="return TypechoComment.reply('comment-920', 920);">回复</a>
-                            </div>
-                        </div>
-                        <div class="comment-children">
-                            <ol class="comment-list">
-                                <li id="li-comment-940"
-                                    class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
-                                    <div id="comment-940">
-                                        <div class="comment-author">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                                 alt="JIElive" width="32" height="32"/><cite><a
-                                                href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
-                                            <span class="author-icon">Author</span>
+                                                </li>
+                                            </ol>
                                         </div>
-                                        <div class="comment-meta">
-                                            <time>2019-01-16 at 16:41</time>
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li id="li-comment-920" class="comment-body comment-parent comment-even">
+                            <div id="comment-920">
+                                <div class="comment-author">
+                                    <img class="avatar"
+                                         src="https://cdn.v2ex.com/gravatar/e451d46a56c4ba77a2c630706fd96c12?s=32&amp;r=G&amp;d="
+                                         alt="小宇" width="32" height="32"/><cite><a href="https://sunxyu.cn"
+                                                                                   rel="external nofollow" target="_blank">小宇</a></cite>
+                                </div>
+                                <div class="comment-meta">
+                                    <time>2019-01-15 at 17:30</time>
+                                </div>
+                                <div class="comment-content">
+                                    <p>
+                                        确实，似乎typecho不管是评论还是文章内的超链接，都是在本页打开的。不过评论这里的链接我是直接在主题的comments.php里重写了的，没有通过function.php也可以实现。算是另一种方法吧。</p>
+                                </div>
+                                <div class="comment-reply">
+                                    <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=920#respond-post-78"
+                                       rel="nofollow" onclick="return TypechoComment.reply('comment-920', 920);">回复</a>
+                                </div>
+                            </div>
+                            <div class="comment-children">
+                                <ol class="comment-list">
+                                    <li id="li-comment-940"
+                                        class="comment-body comment-child comment-level-odd comment-odd comment-by-author">
+                                        <div id="comment-940">
+                                            <div class="comment-author">
+                                                <img class="avatar"
+                                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
+                                                     alt="JIElive" width="32" height="32"/><cite><a
+                                                    href="https://www.offodd.com" rel="external nofollow">JIElive</a></cite>
+                                                <span class="author-icon">Author</span>
+                                            </div>
+                                            <div class="comment-meta">
+                                                <time>2019-01-16 at 16:41</time>
+                                            </div>
+                                            <div class="comment-content">
+                                                <p>异曲同工😉</p></div>
+                                            <div class="comment-reply">
+                                                <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=940#respond-post-78"
+                                                   rel="nofollow"
+                                                   onclick="return TypechoComment.reply('comment-940', 940);">回复</a></div>
                                         </div>
-                                        <div class="comment-content">
-                                            <p>异曲同工😉</p></div>
-                                        <div class="comment-reply">
-                                            <a href="https://www.offodd.com/78.html/comment-page-1?replyTo=940#respond-post-78"
-                                               rel="nofollow"
-                                               onclick="return TypechoComment.reply('comment-940', 940);">回复</a></div>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                </ol>-->
+                                    </li>
+                                </ol>
+                            </div>
+                        </li>-->
+                    </ol>
+                @}
                 @if(blog.iseval == "1") {
-                    <div id="respond-post-78" class="respond">
-                        <div class="cancel-comment-reply">
-                            <a id="cancel-comment-reply-link" href="https://www.offodd.com/78.html#respond-post-78"
-                               rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消回复</a>
-                        </div>
+                    <div class="respond">
+                        <!--<div class="cancel-comment-reply">
+                            <a id="cancel-comment-reply-link" rel="nofollow" style="display:none;" onclick="return TypechoComment.cancelReply();">取消回复</a>
+                        </div>-->
                         <h3 id="response">添加新评论</h3>
                         <form method="post" action="/eval/commentMessage" id="comment-form" class="comment-form clearfix">
                             <p class="textarea">
-                                <textarea name="text" id="textarea" placeholder="加入讨论..." required></textarea>
+                                <textarea name="content" id="textarea" placeholder="加入讨论..." required></textarea>
                             </p>
                             <p class="textbutton">
-                                <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value=""
+                                <input type="text" name="name" id="author" class="text" placeholder="称呼 *" value=""
                                        required/>
-                                <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value=""
+                                <input type="email" name="email" id="mail" class="text" placeholder="邮箱 *" value=""
                                        required/>
-                                <input type="url" name="url" id="url" class="text" placeholder="http://" value=""/>
+                                <input type="url" name="weblink" id="url" class="text" placeholder="http://" value=""/>
                                 <button type="submit" class="submit">提交评论</button>
                             </p>
                         </form>
@@ -211,6 +233,61 @@
         @include("/templates/views/menu.html"){}
     </div>
 </div>
-@include("/templates/views/footer.html"){}
+@include("/templates/views/footer.html"){};
+<script>(function () {
+    window.TypechoComment = {
+        //获取dom
+        dom: function (id) {
+            return document.getElementById(id)
+        //创建回复窗口
+        }, create: function (tag, attr) {
+            var el = document.createElement(tag);
+            for (var key in attr) {
+                el.setAttribute(key, attr[key])
+            }
+            return el
+        //显示回复窗口
+        }, reply: function (cid, coid) {
+            var comment = this.dom(cid);
+            var parent = comment.parentNode;
+            var response = this.dom('respond-post-78');
+            var input = this.dom('comment-parent'),
+            form = 'form' == response.tagName ? response : response.getElementsByTagName('form')[0],
+            textarea = response.getElementsByTagName('textarea')[0];
+            if (null == input) {
+                input = this.create('input', {
+                    'type': 'hidden',
+                    'name': 'parent',
+                    'id': 'comment-parent'
+                });
+                form.appendChild(input)
+            }
+            input.setAttribute('value', coid);
+            if (null == this.dom('comment-form-place-holder')) {
+                var holder = this.create('div', {'id': 'comment-form-place-holder'});
+                response.parentNode.insertBefore(holder, response)
+            }
+            comment.appendChild(response);
+            this.dom('cancel-comment-reply-link').style.display = '';
+            if (null != textarea && 'text' == textarea.name) {
+                textarea.focus()
+            }
+            return false
+        //影藏窗口
+        }, cancelReply: function () {
+            var response = this.dom('respond-page-78'), holder = this.dom('comment-form-place-holder'),
+                input = this.dom('comment-parent');
+            if (null != input) {
+                input.parentNode.removeChild(input)
+            }
+            if (null == holder) {
+                return true
+            }
+            this.dom('cancel-comment-reply-link').style.display = 'none';
+            holder.parentNode.insertBefore(response, holder);
+            return false
+        }
+    }
+})();</script>
 </body>
 </html>

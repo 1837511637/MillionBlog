@@ -87,6 +87,8 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         millionBlog.setCropcontent(BlogUtils.getFirstWord(cropcontent) + "...");
         millionBlog.setIp(IPUtils.getIpAddrByRequest(request));
         millionBlog.setTypename(millionType.getName());
+        //为了查询方便.......好low啊
+        millionBlog.setLabelids(millionBlog.getLabelids()+",");
         millionBlogMapper.insertSelective(millionBlog);
         redisComponent.delete(RedisConst.MENU_BLOG);
         redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
@@ -111,11 +113,8 @@ public class MillionBlogServiceImpl implements MillionBlogService {
      * 获取博客数据
      * */
     public ResponseWrapper findAll(Map<String, Object> param) {
-        Integer pageNo = Misc.parseInteger(Misc.getString(param.get("page")));
+        Integer pageNo = Misc.getIntegerPage(Misc.getString(param.get("page")));
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("success");
-        if(pageNo < 1) {
-            pageNo = 1;
-        }
         Page <Object> page = PageHelper.startPage(pageNo, PageConst.rows);
         List <MillionBlog> millionBlogs = millionBlogMapper.findAll(param);
         List<VoBlog> voBlogs = new ArrayList();
@@ -132,6 +131,7 @@ public class MillionBlogServiceImpl implements MillionBlogService {
             voBlogs.add(voBlog);
         }
         responseWrapper.addAttribute("datas", voBlogs);
+        responseWrapper.addAttribute("query", param);
         responseWrapper.setTotalpage(page.getPages());
         responseWrapper.setPage(pageNo);
         return responseWrapper;

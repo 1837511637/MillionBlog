@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@directive dynamic menuresult;
+@directive dynamic menuresult,result;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -32,8 +32,9 @@
         <button id="nav-swith" onclick="Navswith()"><span></span></button>
         <div id="nav">
             <div id="site-search">
-                <form id="search" method="post" action="/">
-                    <input type="text" class="text" placeholder="输入关键字搜索" required/>
+                <form id="search" method="get" action="/query">
+                    @var query = result.dataWrapper.query!;
+                    <input type="text" name="keyword" value="${query.keyword!}" class="text" placeholder="输入关键字搜索" required/>
                     <button type="submit"></button>
                 </form>
             </div>
@@ -43,7 +44,7 @@
                     <ul>
                         @var list = menuresult.dataWrapper.headTypes;
                         @for(var type in list) {
-                            <li><a href="/${type.id}" title="${type.name}">${type.name}</a></li>
+                            <li><a href="/query?typeid=${type.id}" title="${type.name}">${type.name}</a></li>
                         @}
                     </ul>
                 </li>
