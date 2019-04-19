@@ -11,7 +11,7 @@ import java.util.Map;
 public interface MillionEvaluationService {
     ResponseWrapper getAllByAimsId(Map<String, Object> param);
 
-    List<VoEvaluate> recursiveQuery(List <MillionEvaluation> millionEvaluations, Integer id);
+    //List<VoEvaluate> recursiveQuery(List <MillionEvaluation> millionEvaluations, Integer id);
 
     ResponseWrapper commentMessage(HttpServletRequest request, MillionEvaluation millionEvaluation);
 }

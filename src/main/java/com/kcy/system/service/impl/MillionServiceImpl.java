@@ -89,8 +89,8 @@ public class MillionServiceImpl implements MillionService {
         Map<String, Object> param = new HashMap(3);
         param.put("page", 1);
         param.put("blogid", id);
-        param.put("evaluation", 0);
         param.put("type", 1);
+        param.put("firstevalid", 0);
         ResponseWrapper responseWrapper = millionEvaluationService.getAllByAimsId(param);
         if(responseWrapper == null || !responseWrapper.isSuccess()) {
             responseWrapper = ResponseUtils.successResponse("");
@@ -125,6 +125,18 @@ public class MillionServiceImpl implements MillionService {
             redisComponent.opsForValue(RedisConst.INDEX_RESPONSEWRAPPER, linkedHashMap);
         }
         return ResponseUtils.successResponse("datas", linkedHashMap, "");
+    }
+
+    public ResponseWrapper getGuestbooks(Integer page) {
+        Map<String, Object> param = new HashMap(6);
+        param.put("page", page);
+        param.put("type", "3");
+        param.put("firstevalid", 0);
+        ResponseWrapper responseWrapper = millionEvaluationService.getAllByAimsId(param);
+        if(!responseWrapper.isSuccess()) {
+            responseWrapper = ResponseUtils.successResponse("data", new ArrayList<VoEvaluate>(), "");
+        }
+        return responseWrapper;
     }
 
     public ResponseWrapper getMenuDatas(HttpServletRequest request) {
