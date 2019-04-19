@@ -12,13 +12,17 @@
     <result column="WEBLINK" property="weblink" jdbcType="VARCHAR" />
     <result column="CREATETIME" property="createtime" jdbcType="TIMESTAMP" />
     <result column="TYPE" property="type" jdbcType="CHAR" />
-    <result column="EVALUATION" property="evaluation" jdbcType="INTEGER" />
     <result column="CONTENT" property="content" jdbcType="VARCHAR" />
     <result column="FIRSTEVALID" property="firstevalid" jdbcType="INTEGER" />
-    <result column="ISCHILD" property="ischild" jdbcType="VARCHAR" />
+    <result column="ISUSER" property="isuser" jdbcType="VARCHAR" />
+    <result column="REPLYID" property="replyid" jdbcType="INTEGER" />
+    <result column="REPLYNAME" property="replyname" jdbcType="VARCHAR" />
+    <result column="REPLYWEBLINK" property="replyweblink" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK, CREATETIME, TYPE, EVALUATION, CONTENT, FIRSTEVALID, ISCHILD
+    ID, BLOGID, HEADIMG, NAME, IP, EMAIL, STATUS, WEBLINK,
+    CREATETIME, TYPE, CONTENT, FIRSTEVALID, ISUSER, REPLYID,
+    REPLYNAME, REPLYWEBLINK
   </sql>
   <sql id="where_sql">
     <if test="blogid!=null and blogid!=''">
@@ -27,8 +31,8 @@
     <if test="type!=null and type!=''">
       and type = #{type}
     </if>
-    <if test="evaluation!=null and evaluation!=''">
-      and evaluation = #{evaluation}
+    <if test="firstevalid!=null and firstevalid!=''">
+      and FIRSTEVALID = #{firstevalid}
     </if>
     and status = 1
   </sql>
@@ -53,6 +57,7 @@
     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
       #{item}
     </foreach>
+    order by createtime desc
   </select>
   <select id="theLatestData" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
@@ -111,17 +116,23 @@
       <if test="type != null" >
         TYPE,
       </if>
-      <if test="evaluation != null" >
-        EVALUATION,
-      </if>
       <if test="content != null" >
         CONTENT,
       </if>
       <if test="firstevalid != null" >
         FIRSTEVALID,
       </if>
-      <if test="ischild != null" >
-        ischild,
+      <if test="isuser != null" >
+        isuser,
+      </if>
+      <if test="replyid != null" >
+        REPLYID,
+      </if>
+      <if test="replyname != null" >
+        REPLYNAME,
+      </if>
+      <if test="replyweblink != null" >
+        REPLYWEBLINK,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -155,17 +166,23 @@
       <if test="type != null" >
         #{type,jdbcType=CHAR},
       </if>
-      <if test="evaluation != null" >
-        #{evaluation,jdbcType=INTEGER},
-      </if>
       <if test="content != null" >
         #{content,jdbcType=VARCHAR},
       </if>
       <if test="firstevalid != null" >
         #{firstevalid,jdbcType=INTEGER},
       </if>
-      <if test="ischild != null" >
-        #{ischild,jdbcType=VARCHAR},
+      <if test="isuser != null" >
+        #{isuser,jdbcType=VARCHAR},
+      </if>
+      <if test="replyid != null" >
+        #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="replyname != null" >
+        #{replyname,jdbcType=VARCHAR},
+      </if>
+      <if test="replyweblink != null" >
+        #{replyweblink,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,17 +216,23 @@
       <if test="type != null" >
         TYPE = #{type,jdbcType=CHAR},
       </if>
-      <if test="evaluation != null" >
-        EVALUATION = #{evaluation,jdbcType=INTEGER},
-      </if>
       <if test="content != null" >
         CONTENT = #{content,jdbcType=VARCHAR},
       </if>
       <if test="firstevalid != null" >
         FIRSTEVALID = #{firstevalid,jdbcType=INTEGER},
       </if>
-      <if test="ischild != null">
-        ISCHILD = #{ischild,jdbcType=VARCHAR}
+      <if test="isuser != null">
+        ISUSER = #{isuser,jdbcType=VARCHAR}
+      </if>
+      <if test="replyid != null" >
+        REPLYID = #{replyid,jdbcType=INTEGER},
+      </if>
+      <if test="replyname != null" >
+        REPLYNAME = #{replyname,jdbcType=VARCHAR},
+      </if>
+      <if test="replyweblink != null" >
+        REPLYWEBLINK = #{replyweblink,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=INTEGER}

@@ -23,8 +23,14 @@
     ISEVAL, LABELIDS, IP
   </sql>
   <sql id="where_sql">
+    <if test="keyword!=null and keyword!=''">
+      and title like concat('%',#{keyword},'%')
+    </if>
     <if test="typeid!=null and typeid!=''">
-      and TYPEID = #{typeid}
+      and typeid = #{typeid}
+    </if>
+    <if test="labelid!=null and labelid!=''">
+      and labelids like concat('%',#{labelid},'%')
     </if>
     and status = 1
   </sql>
