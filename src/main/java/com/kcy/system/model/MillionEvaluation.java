@@ -34,14 +34,16 @@ public class MillionEvaluation implements Serializable {
     private Date createtime;
     @ApiModelProperty(value = "评论类型")
     private String type;
-    @ApiModelProperty(value = "回复id")
-    private Integer evaluation;
     @ApiModelProperty(value = "评论内容")
     private String content;
     @ApiModelProperty(value = "第一条评论id")
     private Integer firstevalid;
-    @ApiModelProperty(value = "是否是父节点")
-    private String ischild;
     @ApiModelProperty(value = "是否是作者")
     private String isuser;
+    @ApiModelProperty(value = "回复人id")
+    private Integer replyid;
+    @ApiModelProperty(value = "回复人名称")
+    private String replyname;
+    @ApiModelProperty(value = "回复人网站")
+    private String replyweblink;
 }

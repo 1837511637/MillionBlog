@@ -51,7 +51,8 @@ public class MillionController extends BaseController {
 
     @ApiOperation(value = "跳转留言页", notes = "留言页")
     @RequestMapping("/guestbook")
-    public String guestbook(Model model) {
+    public String guestbook(@RequestParam(defaultValue = "1") Integer page, Model model) {
+        model.addAttribute("result", millionService.getGuestbooks(page));
         return "guestbook";
     }
 

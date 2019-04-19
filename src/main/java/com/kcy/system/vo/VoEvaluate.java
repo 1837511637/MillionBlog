@@ -27,8 +27,14 @@ public class VoEvaluate implements Serializable {
     private String content;
     @ApiModelProperty("评价时间")
     private String createtime;
-    @ApiModelProperty("是否有回复")
-    private String ischild;
+    @ApiModelProperty("回复人id")
+    private Integer replyid;
+    @ApiModelProperty("回复人名称")
+    private String replyname;
+    @ApiModelProperty("回复人网站")
+    private String replyweblink;
+    @ApiModelProperty
+    private String isuser;
     @ApiModelProperty("该评论下所有子回复")
     private List<VoEvaluate> voEvaluateList;
 }
