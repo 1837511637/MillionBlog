@@ -41,7 +41,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                 String trueFileNameType = trueFileName + "." + type;
                 //获取全路径
                 String path = realPath + timePaperFormat + trueFileNameType;
-                System.out.println("图片存放的路径:" + path);
+                //System.out.println("图片存放的路径:" + path);
                 File dirFile=new File(realPath + timePaperFormat);
                 if(!dirFile.exists()){
                     dirFile.mkdirs();
