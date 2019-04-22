@@ -11,12 +11,12 @@ import java.util.List;
 @RequestMapping("/hi")
 public class IndexController {
 
-    @RequestMapping("/beetl")
+    /*@RequestMapping("/beetl")
     public String beetl(Model model) {
         model.addAttribute("beetl","kcy is very goods!");
         List<String> arrayList = new ArrayList();
         arrayList.add("1");
         model.addAttribute("list", arrayList);
         return "helloBeetl";
-    }
+    }*/
 }
