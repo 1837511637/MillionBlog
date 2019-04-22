@@ -15,6 +15,11 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class BlogUtils {
     private static String[] symbols = {"。", ".", "!", "！", "，", ",", " "};
@@ -120,22 +125,47 @@ public class BlogUtils {
      * 获取网站icon
      * */
     public static String getIcon(String url) {
-        String href = "";
-        try{
-            String connect = ConnectionUtil.Connect(url);
-            Document parse = Jsoup.parse(connect);
-            Element head = parse.head();
-            Element icon = head.getElementsByClass("icon").get(0);
-            href = icon.attr("href");
-            if(!Misc.isStringEmpty(href)) {
-                if(!href.contains("http://")) {
-                    href = url + href;
-                }
+        if(!Misc.isStringEmpty(url)) {
+            url += WebConst.ico;
+            if(getRource(url)) {
+                return url;
+            } else {
+                return WebConst.DEFAULT_HEADIMG;
             }
-        } catch (Exception e) {
-            href = "";
         }
-        return href;
+        return url;
+    }
+
+    /**
+     * 判断网络给定地址图片是否存在
+     * */
+    public static boolean getRource(String source) {
+        try {
+            URL url = new URL(source);
+            URLConnection uc = url.openConnection();
+            InputStream in = uc.getInputStream();
+            if (source.equalsIgnoreCase(uc.getURL().toString())) {
+                in.close();
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * 判断网站地址是否失效
+     * */
+    public static boolean getLinkInvalid(String link) {
+        boolean fale = true;
+        try {
+            URL url = new URL(link);
+            InputStream inputStream = url.openStream();
+        } catch (Exception e) {
+            System.out.println("连接打不开!");
+            fale = false;
+        }
+        return fale;
     }
 
     /**
@@ -164,6 +194,17 @@ public class BlogUtils {
             isLogin = false;
         }
         return isLogin;
+    }
+
+
+    /**
+     * 获取默认头像
+     * */
+    public static String getDefaultHeadimg(String url) {
+        if(Misc.isStringEmpty(url)) {
+            return WebConst.DEFAULT_HEADIMG;
+        }
+        return url;
     }
 
 }

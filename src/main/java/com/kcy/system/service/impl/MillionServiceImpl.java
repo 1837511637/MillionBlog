@@ -1,6 +1,10 @@
 package com.kcy.system.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.kcy.common.constant.RedisConst;
+import com.kcy.common.constant.WebConst;
+import com.kcy.common.model.PageConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisComponent;
@@ -224,6 +228,63 @@ public class MillionServiceImpl implements MillionService {
         param.put("page", pageNo);
         ResponseWrapper responseWrapper = millionBlogService.findAll(param);
         responseWrapper.addAttribute("query", param);
+        return responseWrapper;
+    }
+
+    public ResponseWrapper getWhisperDatas(Integer pageNo) {
+        if(pageNo <=1) {
+            pageNo = 1;
+        }
+        ResponseWrapper responseWrapper = ResponseUtils.successResponse("");
+        Page <Object> page = PageHelper.startPage(pageNo, PageConst.rows);
+        List <MillionWhisper> millionWhispers = millionWhisperMapper.findAll(null);
+        responseWrapper.setPage(pageNo);
+        responseWrapper.setTotalpage(page.getPages());
+        List<Integer> ids = new ArrayList();
+        LinkedHashMap<Integer, VoWhispers> voWhispersLinkedHashMap = new LinkedHashMap();
+        for(MillionWhisper millionWhisper : millionWhispers) {
+            ids.add(millionWhisper.getId());
+            VoWhispers voWhispers = new VoWhispers();
+            voWhispers.setId(millionWhisper.getId());
+            voWhispers.setHeadimg(millionWhisper.getHeadimg());
+            voWhispers.setUsername(millionWhisper.getUsername());
+            voWhispers.setCreatetime(DateUtils.formatDate(millionWhisper.getCreatetime()));
+            voWhispers.setContent(millionWhisper.getContent());
+            voWhispers.setWebLink(WebConst.Link);
+            voWhispersLinkedHashMap.put(millionWhisper.getId(), voWhispers);
+        }
+        Map<String, Object> param = new HashMap();
+        param.put("ids", ids);
+        param.put("type", "5");
+        List <MillionEvaluation> millionEvaluations = millionEvaluationMapper.findAll(param);
+        LinkedHashMap<Integer, List<VoWhisperEvaluate>> voWhisperEvaluateLinkedHashMap = new LinkedHashMap();
+        for(MillionEvaluation millionEvaluation : millionEvaluations) {
+            VoWhisperEvaluate voWhisperEvaluate = new VoWhisperEvaluate();
+            voWhisperEvaluate.setId(millionEvaluation.getId());
+            voWhisperEvaluate.setHeadimg(millionEvaluation.getHeadimg());
+            voWhisperEvaluate.setUsername(millionEvaluation.getName());
+            voWhisperEvaluate.setContent(millionEvaluation.getContent());
+            voWhisperEvaluate.setWebLink(millionEvaluation.getWeblink());
+            voWhisperEvaluate.setIsuser(millionEvaluation.getIsuser());
+            List <VoWhisperEvaluate> voWhisperEvaluates = voWhisperEvaluateLinkedHashMap.get(millionEvaluation.getBlogid());
+            if(voWhisperEvaluates == null) {
+                voWhisperEvaluates = new ArrayList();
+                voWhisperEvaluates.add(voWhisperEvaluate);
+                voWhisperEvaluateLinkedHashMap.put(millionEvaluation.getBlogid(), voWhisperEvaluates);
+            } else {
+                voWhisperEvaluates.add(voWhisperEvaluate);
+            }
+        }
+
+        List<VoWhispers> voWhisperses = new ArrayList();
+        for(Integer blogid : voWhispersLinkedHashMap.keySet()) {
+            VoWhispers voWhispers = voWhispersLinkedHashMap.get(blogid);
+            List <VoWhisperEvaluate> voWhisperEvaluates = voWhisperEvaluateLinkedHashMap.get(blogid);
+            voWhispers.setVoWhisperEvaluateList(voWhisperEvaluates);
+            voWhisperses.add(voWhispers);
+        }
+        responseWrapper.addAttribute("datas", voWhisperses);
+
         return responseWrapper;
     }
 }

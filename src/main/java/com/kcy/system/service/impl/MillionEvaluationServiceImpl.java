@@ -101,7 +101,7 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
         voEvaluate.setEvalid(millionEvaluation.getId());
         voEvaluate.setContent(millionEvaluation.getContent());
         voEvaluate.setCreatetime(DateUtils.dateFormat2(millionEvaluation.getCreatetime()));
-        voEvaluate.setHeaimg(millionEvaluation.getHeadimg());
+        voEvaluate.setHeaimg(BlogUtils.getDefaultHeadimg(millionEvaluation.getHeadimg()));
         voEvaluate.setUsername(millionEvaluation.getName());
         voEvaluate.setWebLink(millionEvaluation.getWeblink());
         voEvaluate.setReplyid(millionEvaluation.getReplyid());
@@ -153,16 +153,20 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
             return ResponseUtils.errorResponse("内容非法");
         }
 
+        //判断网站是否失效
+        if(!BlogUtils.getLinkInvalid(millionEvaluation.getWeblink())) {
+            millionEvaluation.setWeblink("");
+        }
+
         MillionBlog millionBlog = null;
         //判断是评论还是留言
-        if(!"1".equals(millionEvaluation.getType()) && !"2".equals(millionEvaluation.getType())) {
+        if("1".equals(millionEvaluation.getType()) || "2".equals(millionEvaluation.getType())) {
             millionBlog = millionBlogMapper.selectByPrimaryKey(millionEvaluation.getBlogid());
-            if(millionBlog == null || !"1".equals(millionBlog.getStatus())) {
-                return ResponseUtils.errorResponse("博客已下线");
-            }
-
             if(!"1".equals(millionBlog.getIseval())) {
                 return ResponseUtils.errorResponse("该条博客禁止评论");
+            }
+            if(millionBlog == null || !"1".equals(millionBlog.getStatus())) {
+                return ResponseUtils.errorResponse("博客已下线");
             }
         }
 
@@ -177,16 +181,13 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
                 return ResponseUtils.errorResponse("名称不能为空");
             }
             millionEvaluation.setIsuser("0");
-        } else {
-            millionEvaluation = authorReview(loginUser, millionEvaluation);
-        }
-
-        //设置ico为头像
-        if(Misc.isWebLink(millionEvaluation.getWeblink())) {
+            //设置ico为头像
             String icon = BlogUtils.getIcon(millionEvaluation.getWeblink());
             if(!Misc.isStringEmpty(icon)) {
                 millionEvaluation.setHeadimg(icon);
             }
+        } else {
+            millionEvaluation = authorReview(loginUser, millionEvaluation);
         }
 
         String ipAddrByRequest = IPUtils.getIpAddrByRequest(request);
@@ -207,7 +208,7 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
         }
 
         millionEvaluationMapper.insertSelective(millionEvaluation);
-        log.info(millionEvaluation.toString());
+        //log.info(millionEvaluation.toString());
 
         //增加评论量
         if(millionBlog != null) {

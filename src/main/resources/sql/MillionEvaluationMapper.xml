@@ -34,6 +34,12 @@
     <if test="firstevalid!=null and firstevalid!=''">
       and FIRSTEVALID = #{firstevalid}
     </if>
+    <if test="ids!=null">
+      and blogid in
+      <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
     and status = 1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >

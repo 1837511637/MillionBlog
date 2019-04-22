@@ -1,5 +1,6 @@
 package com.kcy.system.controller;
 
+import com.kcy.common.base.BaseController;
 import com.kcy.common.constant.RedisConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
@@ -23,7 +24,7 @@ import java.security.NoSuchAlgorithmException;
 @RestController
 @RequestMapping("/admin")
 @Log
-public class LoginController {
+public class LoginController extends BaseController {
 
     @Autowired
     private RedisComponent redisComponent;

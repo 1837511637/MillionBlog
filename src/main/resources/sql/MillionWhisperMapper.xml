@@ -12,7 +12,7 @@
     <result column="IP" property="ip" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, USERID, HEADIMG, CONTENT, CREATETIME, STATUS, IP
+    ID, USERID, HEADIMG, USERNAME, CONTENT, CREATETIME, STATUS, IP
   </sql>
   <sql id="where_sql">
     and status = 1
@@ -26,7 +26,9 @@
   </select>
   <select id="getNewsMessage" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/>
-    from million_whisper order by createtime desc limit 1
+    from million_whisper where 1 = 1
+    <include refid="where_sql"/>
+    order by createtime desc limit 1
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

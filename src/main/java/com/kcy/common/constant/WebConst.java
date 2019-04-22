@@ -27,6 +27,21 @@ public class WebConst {
     public static String AES_SALT = "zhanglan";
 
     /**
+     * /favicon.ico
+     * */
+    public static String ico = "/favicon.ico";
+
+    /**
+     * 本站网站
+     * */
+    public static String Link = "www.kcyBlog.com";
+
+    /**
+     *  默认头像
+    * */
+    public static String DEFAULT_HEADIMG = "/templates/static/image/headimg/11.png";
+
+    /**
      * 文章最多可以输入的文字数
      */
     public static final int MAX_TEXT_COUNT = 200000;

@@ -19,4 +19,6 @@ public interface MillionService {
     ResponseWrapper getMenuDatas(HttpServletRequest request);
     //条件查询
     ResponseWrapper query(Map<String, Object> map);
+    //轻语
+    ResponseWrapper getWhisperDatas(Integer page);
 }

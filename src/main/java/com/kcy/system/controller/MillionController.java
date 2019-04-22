@@ -62,11 +62,11 @@ public class MillionController extends BaseController {
         return "about";
     }
 
-    @ApiOperation(value = "跳转链接页", notes = "链接页")
+    /*@ApiOperation(value = "跳转链接页", notes = "链接页")
     @RequestMapping("/links")
     public String links(Model model) {
         return "links";
-    }
+    }*/
 
     @ApiOperation(value = "跳转编写博客页", notes = "写作页")
     @RequestMapping("/read")
@@ -83,7 +83,8 @@ public class MillionController extends BaseController {
 
     @ApiOperation(value = "跳转轻语页", notes = "轻语")
     @RequestMapping("/whisper")
-    public String whisper(Model model) {
+    public String whisper(@RequestParam(defaultValue = "1") Integer page, Model model) {
+        model.addAttribute("result", millionService.getWhisperDatas(page));
         return "whisper";
     }
 
