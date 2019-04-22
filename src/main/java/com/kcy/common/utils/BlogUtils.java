@@ -162,7 +162,7 @@ public class BlogUtils {
             URL url = new URL(link);
             InputStream inputStream = url.openStream();
         } catch (Exception e) {
-            System.out.println("连接打不开!");
+            //System.out.println("连接打不开!");
             fale = false;
         }
         return fale;
