@@ -56,15 +56,15 @@
                             <div class="comment-content">
                                 <p>${eval.content}</p></div>
                             <div class="comment-reply">
-                                <a rel="nofollow" onclick="TypechoComment.reply(this)">回复</a>
+                                <a style="cursor:pointer;" onclick="TypechoComment.reply(this)">回复</a>
                             </div>
                             <!-- 回复 -->
                             <div class="respond" style="display:none;">
                                 <div class="cancel-comment-reply">
-                                    <a rel="nofollow" onclick="TypechoComment.cancelReply(this);">取消回复</a>
+                                    <a style="cursor:pointer;" onclick="TypechoComment.cancelReply(this);">取消回复</a>
                                 </div>
                                 <h3>添加新评论</h3>
-                                <form method="post" action="/eval/commentMessage" class="comment-form clearfix">
+                                <form class="comment-form clearfix">
                                     <p class="textarea">
                                         <textarea name="content" placeholder="加入讨论..." required></textarea>
                                     </p>
@@ -81,7 +81,7 @@
                                         <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
                                         <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
                                         <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
-                                        <button type="submit" class="submit">提交评论</button>
+                                        <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                                     </p>
                                 </form>
                             </div>
@@ -102,10 +102,10 @@
                                                 @if(e.webLink == null || e.webLink == '') {
                                                 ${e.username}
                                                 @} else {
-                                                <a href="${e.webLink!}" rel="external nofollow" target="_blank">${eval.username}</a>
+                                                <a href="${e.webLink!}" rel="external nofollow" target="_blank">${e.username}</a>
                                                 @}
                                             </cite>
-                                            @if(eval.isuser == "1") {
+                                            @if(e.isuser == "1") {
                                             <span class="author-icon">Author</span>
                                             @}
                                             &nbsp;回复&nbsp;
@@ -113,7 +113,7 @@
                                                 @if(e.replyweblink == null || e.replyweblink == '') {
                                                 ${e.replyname}
                                                 @} else {
-                                                <a href="${e.replyname!}" rel="external nofollow" target="_blank">${eval.replyname}</a>
+                                                <a href="${e.replyname!}" rel="external nofollow" target="_blank">${e.replyname}</a>
                                                 @}
                                             </cite>
                                         </div>
@@ -123,15 +123,15 @@
                                         <div class="comment-content">
                                             <p>${e.content}</p></div>
                                         <div class="comment-reply">
-                                            <a rel="nofollow" onclick="TypechoComment.reply(this)">回复</a>
+                                            <a style="cursor:pointer;" onclick="TypechoComment.reply(this)">回复</a>
                                         </div>
                                         <!-- 回复 -->
                                         <div class="respond" style="display:none;">
                                             <div class="cancel-comment-reply">
-                                                <a rel="nofollow" onclick="TypechoComment.cancelReply(this);">取消回复</a>
+                                                <a style="cursor:pointer;" onclick="TypechoComment.cancelReply(this);">取消回复</a>
                                             </div>
                                             <h3>添加新评论</h3>
-                                            <form method="post" action="/eval/commentMessage" class="comment-form clearfix">
+                                            <form class="comment-form clearfix">
                                                 <p class="textarea">
                                                     <textarea name="content" placeholder="加入讨论..." required></textarea>
                                                 </p>
@@ -148,7 +148,7 @@
                                                     <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
                                                     <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
                                                     <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
-                                                    <button type="submit" class="submit">提交评论</button>
+                                                    <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                                                 </p>
                                             </form>
                                         </div>
@@ -180,7 +180,7 @@
                 @}
                 <div class="respond">
                     <h3 id="response">留言</h3>
-                    <form method="post" action="/eval/commentMessage" id="comment-form" class="comment-form clearfix">
+                    <form class="comment-form clearfix">
                         <p class="textarea">
                             <textarea name="content" id="textarea" placeholder="加入讨论..." required></textarea>
                         </p>
@@ -196,7 +196,7 @@
                             <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
                             <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
                             <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
-                            <button type="submit" class="submit">提交评论</button>
+                            <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                         </p>
                     </form>
                 </div>
@@ -207,5 +207,39 @@
     </div>
 </div>
 @include("/templates/views/footer.html"){}
+<script>(function () {
+    window.TypechoComment = {
+        //获取dom
+        dom: function (id) {
+            return document.getElementById(id)
+            //创建回复窗口
+        }, create: function (tag, attr) {
+            var el = document.createElement(tag);
+            for (var key in attr) {
+                el.setAttribute(key, attr[key])
+            }
+            return el
+            //显示回复窗口
+        }, reply: function (obj) {
+            $(obj).parent().next().css("display", "block");
+            //影藏窗口
+        }, cancelReply: function (obj) {
+            $(obj).parent().parent().css("display", "none");
+        }, evaluate: function (obj) {
+            var data = $(obj).parent().parent().serialize();
+            $.ajax({
+                url: "/eval/commentMessage",
+                data: data,
+                type: "post",
+                success : function (result) {
+                    alert(result.msg);
+                    if(result.success) {
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    }
+})();</script>
 </body>
 </html>

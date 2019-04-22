@@ -20,7 +20,7 @@
     <div class="container clearfix">
         <div id="main">
             <div class="breadcrumbs">
-                <a href="/">首页</a> &raquo; <a href="https://www.offodd.com/share/">分享</a> &raquo;
+                <a href="/">首页</a> &raquo; <a>分享</a> &raquo;
                 正文
             </div>
             <article class="post">
@@ -28,8 +28,8 @@
                 <h1 class="post-title"><a href="/blog/${blog.id}.html">${blog.title}</a></h1>
                 <ul class="post-meta">
                     <li>${blog.createtime}</li>
-                    <li><a href="https://www.offodd.com/share/">${blog.type}</a></li>
-                    <li><a href="https://www.offodd.com/78.html#comments">${blog.evalnum}</a></li>
+                    <li><a>${blog.type}</a></li>
+                    <li><a>${blog.evalnum}</a></li>
                     <li>${blog.viewnum}</li>
                 </ul>
                 <div class="post-content">
@@ -67,15 +67,15 @@
                                     <div class="comment-content">
                                         <p>${eval.content}</p></div>
                                     <div class="comment-reply">
-                                        <a rel="nofollow" onclick="TypechoComment.reply(this)">回复</a>
+                                        <a style="cursor:pointer;" onclick="TypechoComment.reply(this)">回复</a>
                                     </div>
                                     <!-- 回复 -->
                                     <div class="respond" style="display:none;">
                                         <div class="cancel-comment-reply">
-                                            <a rel="nofollow" onclick="TypechoComment.cancelReply(this);">取消回复</a>
+                                            <a style="cursor:pointer;" onclick="TypechoComment.cancelReply(this);">取消回复</a>
                                         </div>
                                         <h3>添加新评论</h3>
-                                        <form method="post" action="/eval/commentMessage" class="comment-form clearfix">
+                                        <form class="comment-form clearfix">
                                             <p class="textarea">
                                                 <textarea name="content" placeholder="加入讨论..." required></textarea>
                                             </p>
@@ -92,7 +92,7 @@
                                                 <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
                                                 <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
                                                 <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
-                                                <button type="submit" onclick="TypechoComment.evaluate(this)" class="submit">提交评论</button>
+                                                <button type="button" onclick="TypechoComment.evaluate(this)" class="submit">提交评论</button>
                                             </p>
                                         </form>
                                     </div>
@@ -113,10 +113,10 @@
                                                             @if(e.webLink == null || e.webLink == '') {
                                                                 ${e.username}
                                                             @} else {
-                                                                <a href="${e.webLink!}" rel="external nofollow" target="_blank">${eval.username}</a>
+                                                                <a href="${e.webLink!}" rel="external nofollow" target="_blank">${e.username}</a>
                                                             @}
                                                         </cite>
-                                                        @if(eval.isuser == "1") {
+                                                        @if(e.isuser == "1") {
                                                         <span class="author-icon">Author</span>
                                                         @}
                                                         &nbsp;回复&nbsp;
@@ -124,7 +124,7 @@
                                                             @if(e.replyweblink == null || e.replyweblink == '') {
                                                                 ${e.replyname}
                                                             @} else {
-                                                                <a href="${e.replyname!}" rel="external nofollow" target="_blank">${eval.replyname}</a>
+                                                                <a href="${e.replyname!}" rel="external nofollow" target="_blank">${e.replyname}</a>
                                                             @}
                                                         </cite>
                                                     </div>
@@ -134,15 +134,15 @@
                                                     <div class="comment-content">
                                                         <p>${e.content}</p></div>
                                                     <div class="comment-reply">
-                                                        <a rel="nofollow" onclick="TypechoComment.reply(this)">回复</a>
+                                                        <a style="cursor:pointer;" onclick="TypechoComment.reply(this)">回复</a>
                                                     </div>
                                                     <!-- 回复 -->
                                                     <div class="respond" style="display:none;">
                                                         <div class="cancel-comment-reply">
-                                                            <a rel="nofollow" onclick="TypechoComment.cancelReply(this);">取消回复</a>
+                                                            <a style="cursor:pointer;" onclick="TypechoComment.cancelReply(this);">取消回复</a>
                                                         </div>
                                                         <h3>添加新评论</h3>
-                                                        <form method="post" action="/eval/commentMessage" class="comment-form clearfix">
+                                                        <form class="comment-form clearfix">
                                                             <p class="textarea">
                                                                 <textarea name="content" placeholder="加入讨论..." required></textarea>
                                                             </p>
@@ -159,7 +159,7 @@
                                                                 <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
                                                                 <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
                                                                 <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
-                                                                <button type="submit" onclick="TypechoComment.evaluate(this)" class="submit">提交评论</button>
+                                                                <button type="button" onclick="TypechoComment.evaluate(this)" class="submit">提交评论</button>
                                                             </p>
                                                         </form>
                                                     </div>
@@ -198,9 +198,9 @@
                 @}
             </div>
             <ul class="post-near">
-                <li>上一篇: <a href="https://www.offodd.com/77.html" title="Typecho文章和页面内的外链接使用新窗口打开（优化版）">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a>
+                <!--<li>上一篇: <a href="https://www.offodd.com/77.html" title="Typecho文章和页面内的外链接使用新窗口打开（优化版）">Typecho文章和页面内的外链接使用新窗口打开（优化版）</a>
                 </li>
-                <li>下一篇: <a href="https://www.offodd.com/58.html" title="Initial主题简要使用指南">Initial主题简要使用指南</a></li>
+                <li>下一篇: <a href="https://www.offodd.com/58.html" title="Initial主题简要使用指南">Initial主题简要使用指南</a></li>-->
             </ul>
         </div>
         <!--右侧栏-->
@@ -213,17 +213,17 @@
         //获取dom
         dom: function (id) {
             return document.getElementById(id)
-        //创建回复窗口
+            //创建回复窗口
         }, create: function (tag, attr) {
             var el = document.createElement(tag);
             for (var key in attr) {
                 el.setAttribute(key, attr[key])
             }
             return el
-        //显示回复窗口
+            //显示回复窗口
         }, reply: function (obj) {
             $(obj).parent().next().css("display", "block");
-        //影藏窗口
+            //影藏窗口
         }, cancelReply: function (obj) {
             $(obj).parent().parent().css("display", "none");
         }, evaluate: function (obj) {
@@ -234,6 +234,9 @@
                 type: "post",
                 success : function (result) {
                     alert(result.msg);
+                    if(result.success) {
+                        window.location.reload();
+                    }
                 }
             })
         }

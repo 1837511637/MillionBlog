@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+@directive dynamic result,menuresult;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -8,6 +9,8 @@
     <title>轻语 - MILLION</title>
     <meta name="description" content="轻语"/>
     <link rel="stylesheet" href="/templates/static/css/style.min.css"/>
+    <script src="/templates/static/js/jquery.min.js"></script>
+    <script src="/templates/static/js/jquery.pjax.min.js"></script>
 </head>
 <body class="head-fixed">
 @include("/templates/views/header.html"){}
@@ -22,333 +25,121 @@
                 <div class="post-content">
                     <p><img src="//static.offodd.com/uploads/2018/12/229367985.jpg" alt="" title=""></p></div>
             </article>
-            <div id="comments" class="whisper">
+            <div class="whisper">
+                @var whispers = result.dataWrapper.datas;
+                @if(whispers.~size > 0) {
                 <ol class="comment-list">
-                    <li id="li-comment-855" class=" whisper-body comment-by-author">
-                        <div id="comment-855">
+                    @for(var whisper in whispers) {
+                    <li class="whisper-body comment-by-author" style="border:1px solid #eee;">
+                        <div>
                             <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
+                                <img class="avatar" src="${whisper.headimg}" alt="${whisper.username}" width="32" height="32"/>
+                                <cite>${whisper.username}</cite>
                             </div>
                             <div class="comment-content">
-                                <p>又到了年底跳槽高峰期，今年有没有必要join一波🤣</p></div>
-                            <div class="comment-meta">
-                                <time>1月7日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-855', 855);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-823" class=" whisper-body comment-by-author">
-                        <div id="comment-823">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>建了一个交流群，点击加入<a href="https://jq.qq.com/?_wv=1027&k=5lpZ7FE" target="_blank">【Typecho
-                                    & Initial 交流群】</a>，或者搜索QQ群号：5415085，目前群员数：1人。😂<br>我平时事情比较多，可能不经常在，大家可以自由交流</p>
+                                <p>${whisper.content}</p>
                             </div>
                             <div class="comment-meta">
-                                <time>1月3日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-823', 823);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-811" class=" whisper-body comment-by-author">
-                        <div id="comment-811">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
+                                <time>${whisper.createtime}</time>
+                                <a class="whisper-reply" rel="nofollow" onclick="TypechoComment.reply(this)">评论</a>
                             </div>
-                            <div class="comment-content">
-                                <p>加上了呼声很高的文章目录，但是还不完美，希望有“正则大佬”能<a href="https://www.offodd.com/about.html">联系我</a>，求教😖<br>另外，目录的位置实在不知道放哪里，目前把按钮放在阅读量旁边，也不是很满意，有好的提议可以评论此条轻语😉
-                                </p></div>
-                            <div class="comment-meta">
-                                <time>1月2日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-811', 811);">评论</a></div>
+                            <!-- 回复 -->
+                            <div class="respond" style="display:none;">
+                                <div class="cancel-comment-reply">
+                                    <a class="whisper-reply" rel="nofollow" onclick="TypechoComment.cancelReply(this);">取消回复</a>
+                                </div>
+                                <h3>添加新评论</h3>
+                                <form class="comment-form clearfix">
+                                    <p class="textarea">
+                                        <textarea name="content" placeholder="加入讨论..." required></textarea>
+                                    </p>
+                                    <p class="textbutton">
+                                        @if(menuresult.dataWrapper.isLogin) {
+                                            <input type="hidden" name="isuser" value="1"/>
+                                        @} else {
+                                            <input type="hidden" name="isuser" value="0"/>
+                                        @}
+                                        <input type="hidden" name="blogid" value="${whisper.id}"/>
+                                        <input type="hidden" name="type" value="5"/>
+                                        <input type="hidden" name="firstevalid" value="0"/>
+                                        <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
+                                        <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
+                                        <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
+                                        <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
+                                    </p>
+                                </form>
+                            </div>
                         </div>
+                        <!-- 子节点 -->
+                        @for(var e in whisper.voWhisperEvaluateList!) {
                         <div class="comment-children">
                             <ol class="comment-list">
-                                <li id="li-comment-880" class="comment-body comment-parent">
-                                    <div id="comment-880" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/b8f223e9985de23b963d9267c54d9e78?s=16&amp;r=G&amp;d="
-                                                 alt="zryabc" width="16" height="16"/><cite><a href="https://zryabc.xyz"
-                                                                                               rel="external nofollow"
-                                                                                               target="_blank">zryabc</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-880', 880);">大佬加油！！</span>
+                                    @if(e.isuser == "1") {
+                                        <li class="comment-body comment-child comment-level-even comment-odd comment-by-author">
+                                    @} else {
+                                        <li class="comment-body comment-child comment-level-even comment-odd">
+                                    @}
+                                    <div>
+                                        <div class="comment-author">
+                                            <img class="avatar" src="${e.headimg}" alt="${e.username}" width="32" height="32"/>
+                                            <cite>
+                                                @if(e.webLink == null || e.webLink == '') {
+                                                ${e.username}
+                                                @} else {
+                                                <a href="${e.webLink!}" rel="external nofollow" target="_blank">${e.username}</a>
+                                                @}
+                                            </cite>
+                                            @if(e.isuser == "1") {
+                                                <span class="author-icon">Author</span>
+                                            @}
                                         </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-822" class="comment-body comment-parent">
-                                    <div id="comment-822" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/84988a8cb4ea306f6e2b1bcf880081dc?s=16&amp;r=G&amp;d="
-                                                 alt="十三姨爱我" width="16" height="16"/><cite><a
-                                                href="https://fanghongxing.cn" rel="external nofollow" target="_blank">十三姨爱我</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-822', 822);">我只能说大佬加油！！！😂</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-817" class="comment-body comment-parent">
-                                    <div id="comment-817" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/02db6429e0cb071408a9ae79e98548e5?s=16&amp;r=G&amp;d="
-                                                 alt="cwz" width="16" height="16"/><cite><a href="https://www.zjzj.xyz"
-                                                                                            rel="external nofollow"
-                                                                                            target="_blank">cwz</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-817', 817);">大佬给力,大佬威武,大佬加油</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-813" class="comment-body comment-parent">
-                                    <div id="comment-813" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/9924cdad2140a9f8570393bfebe411a8?s=16&amp;r=G&amp;d="
-                                                 alt="枂下" width="16" height="16"/><cite><a href="https://black1ce.com"
-                                                                                           rel="external nofollow"
-                                                                                           target="_blank">枂下</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-813', 813);">然后，手机端目录放在返回顶部跟音乐按钮上方，即三个按钮<br>电脑边栏比较舒服</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-812" class="comment-body comment-parent">
-                                    <div id="comment-812" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/9924cdad2140a9f8570393bfebe411a8?s=16&amp;r=G&amp;d="
-                                                 alt="枂下" width="16" height="16"/><cite><a href="https://black1ce.com"
-                                                                                           rel="external nofollow"
-                                                                                           target="_blank">枂下</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-812', 812);">推荐目录放到边栏第三个位置</span>
+                                        <div class="comment-content">
+                                            <p>${e.content}</p>
                                         </div>
                                     </div>
                                 </li>
                             </ol>
                         </div>
+                        @}
                     </li>
-                    <li id="li-comment-731" class=" whisper-body comment-by-author">
-                        <div id="comment-731">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>最近事多，明年见🐷</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月27日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-731', 731);">评论</a></div>
-                        </div>
-                        <div class="comment-children">
-                            <ol class="comment-list">
-                                <li id="li-comment-739" class="comment-body comment-parent">
-                                    <div id="comment-739" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/afcb21221b3785f83e89cb3c63ed4020?s=16&amp;r=G&amp;d="
-                                                 alt="黑桃三" width="16" height="16"/><cite><a
-                                                href="https://heitaosan.com/" rel="external nofollow" target="_blank">黑桃三</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-739', 739);">可以评论了呀。这次更新232还没加入吧。</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-733" class="comment-body comment-parent comment-by-author">
-                                    <div id="comment-733" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=16&amp;r=G&amp;d="
-                                                 alt="JIElive" width="16" height="16"/><cite><a
-                                                href="https://www.offodd.com/" rel="external nofollow">JIElive</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-733', 733);">明年会更😉</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li id="li-comment-732" class="comment-body comment-parent">
-                                    <div id="comment-732" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/9924cdad2140a9f8570393bfebe411a8?s=16&amp;r=G&amp;d="
-                                                 alt="枂下" width="16" height="16"/><cite><a href="https://black1ce.com"
-                                                                                           rel="external nofollow"
-                                                                                           target="_blank">枂下</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-732', 732);">最近主题不会更新了吧</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                    <li id="li-comment-675" class=" whisper-body comment-by-author">
-                        <div id="comment-675">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>主题12月25日小更新了一下，优化子分类的显示，感谢网友<code>luvnaxx</code>的提醒😋</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月25日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-675', 675);">评论</a></div>
-                        </div>
-                        <div class="comment-children">
-                            <ol class="comment-list">
-                                <li id="li-comment-717" class="comment-body comment-parent comment-by-author">
-                                    <div id="comment-717" class="comment-whisper">
-                                        <div class="comment-author comment-content">
-                                            <img class="avatar"
-                                                 src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=16&amp;r=G&amp;d="
-                                                 alt="JIElive" width="16" height="16"/><cite><a
-                                                href="https://www.offodd.com/" rel="external nofollow">JIElive</a>:
-                                        </cite>
-                                            <span class="whisper-reply"
-                                                  onclick="return TypechoComment.reply('comment-717', 717);">测试轻语评论，还在优化中，今天下班了，明天出差，后天开始放假，大家明年见😂</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ol>
-                        </div>
-                    </li>
-                    <li id="li-comment-625" class=" whisper-body comment-by-author">
-                        <div id="comment-625">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>欲速则不达，缓一缓。</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月18日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-625', 625);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-600" class=" whisper-body comment-by-author">
-                        <div id="comment-600">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>主题12月15日小更新了一下，修正一处拼写错误，建议大家更新一下，感谢QQ群友<code>绝</code>的提醒😅</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月15日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-600', 600);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-598" class=" whisper-body comment-by-author">
-                        <div id="comment-598">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>关闭所有附加功能，找找最初的感觉</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月15日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-598', 598);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-578" class=" whisper-body comment-by-author">
-                        <div id="comment-578">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>主题已更新2.3版，添加Ajax翻页，轻语等新功能，欢迎品尝😉</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月14日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-578', 578);">评论</a></div>
-                        </div>
-                    </li>
-                    <li id="li-comment-544" class=" whisper-body comment-by-author">
-                        <div id="comment-544">
-                            <div class="comment-author">
-                                <img class="avatar"
-                                     src="https://cdn.v2ex.com/gravatar/6b09717c8ecadf889e270cd87bcd55b0?s=32&amp;r=G&amp;d="
-                                     alt="JIElive" width="32" height="32"/><cite><a href="https://www.offodd.com/"
-                                                                                    rel="external nofollow">JIElive</a></cite>
-                            </div>
-                            <div class="comment-content">
-                                <p>Ajax翻页、轻语等新功能差不多算完成了，明天没有时间，后天再优化并检查一下，没问题就更新主题，还有几个计划中的功能下次再更吧，怕大家等不急了😁</p></div>
-                            <div class="comment-meta">
-                                <time>2018年12月12日</time>
-                                <a class="whisper-reply"
-                                   onclick="return TypechoComment.reply('comment-544', 544);">评论</a></div>
-                        </div>
-                    </li>
+                    @}
                 </ol>
                 <ol class="page-navigator">
-                    <li class="prev"><a href="https://www.offodd.com/whisper.html/comment-page-1#comments">上一页</a></li>
-                    <li><a href="https://www.offodd.com/whisper.html/comment-page-1#comments">1</a></li>
-                    <li class="current"><a href="https://www.offodd.com/whisper.html/comment-page-2#comments">2</a></li>
-                    <li><a href="https://www.offodd.com/whisper.html/comment-page-3#comments">3</a></li>
-                    <li class="next"><a href="https://www.offodd.com/whisper.html/comment-page-3#comments">下一页</a></li>
+                    @if(result.page > 1) {
+                        <li class="next"><a href="/guestbook?page=${result.page-1}">上一页</a>
+                    @}
+                    @for(var i = result.page - 2; i <= result.page + 2; i++) {
+                        @if(i>=1 && i<=result.totalpage) {
+                            @if(i == result.page) {
+                                <li class="current"><a>${i}</a></li>
+                            @} else {
+                                <li><a href="/guestbook?page=${i}">${i}</a></li>
+                            @}
+                        @}
+                    @}
+                    @if(result.page < result.totalpage) {
+                        <li class="next"><a href="/guestbook?page=${result.page+1}">下一页</a>
+                    @}
                 </ol>
-                <div id="respond-page-65" class="respond">
-                    <div class="cancel-comment-reply">
-                        <a id="cancel-comment-reply-link" href="https://www.offodd.com/whisper.html#respond-page-65"
-                           rel="nofollow" style="display:none" onclick="return TypechoComment.cancelReply();">取消评论</a>
+                @}
+                @if(menuresult.dataWrapper.isLogin) {
+                    <div class="respond">
+                        <h3 id="response">编写轻语</h3>
+                        <form class="comment-form clearfix">
+                            <p class="textarea">
+                                <textarea name="text" placeholder="说点什么..." required></textarea>
+                            </p>
+                            <p class="textbutton">
+                                <input type="text" name="author" class="text" placeholder="称呼 *" value=""
+                                       required/>
+                                <input type="email" name="mail" class="text" placeholder="邮箱 *" value=""
+                                       required/>
+                                <input type="url" name="url" class="text" placeholder="http://" value=""/>
+                                <button type="button" class="submit">提交</button>
+                            </p>
+                        </form>
                     </div>
-                    <h3 id="response">发表评论</h3>
-                    <form method="post" id="comment-form" class="comment-form clearfix">
-                        <p class="textarea">
-                            <textarea name="text" id="textarea" placeholder="说点什么..." required></textarea>
-                        </p>
-                        <p class="textbutton">
-                            <input type="text" name="author" id="author" class="text" placeholder="称呼 *" value=""
-                                   required/>
-                            <input type="email" name="mail" id="mail" class="text" placeholder="邮箱 *" value=""
-                                   required/>
-                            <input type="url" name="url" id="url" class="text" placeholder="http://" value=""/>
-                            <button type="submit" class="submit">提交</button>
-                        </p>
-                    </form>
-                </div>
+                @}
             </div>
         </div>
         <!--右侧栏-->
@@ -356,5 +147,39 @@
     </div>
 </div>
 @include("/templates/views/footer.html"){}
+<script>(function () {
+    window.TypechoComment = {
+        //获取dom
+        dom: function (id) {
+            return document.getElementById(id)
+            //创建回复窗口
+        }, create: function (tag, attr) {
+            var el = document.createElement(tag);
+            for (var key in attr) {
+                el.setAttribute(key, attr[key])
+            }
+            return el
+            //显示回复窗口
+        }, reply: function (obj) {
+            $(obj).parent().next().css("display", "block");
+            //影藏窗口
+        }, cancelReply: function (obj) {
+            $(obj).parent().parent().css("display", "none");
+        }, evaluate: function (obj) {
+            var data = $(obj).parent().parent().serialize();
+            $.ajax({
+                url: "/eval/commentMessage",
+                data: data,
+                type: "post",
+                success : function (result) {
+                    alert(result.msg);
+                    if(result.success) {
+                        window.location.reload();
+                    }
+                }
+            })
+        }
+    }
+})();</script>
 </body>
 </html>
