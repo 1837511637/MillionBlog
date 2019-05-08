@@ -12,10 +12,7 @@ import com.kcy.common.utils.IPUtils;
 import com.kcy.system.dao.*;
 import com.kcy.system.model.*;
 import com.kcy.system.service.MillionService;
-import com.kcy.system.vo.VoHeadType;
-import com.kcy.system.vo.VoMenuBlog;
-import com.kcy.system.vo.VoMenuEvaluate;
-import com.kcy.system.vo.VoMenuLabel;
+import com.kcy.system.vo.*;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,8 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
     private MillionUserMapper millionUserMapper;
     @Autowired
     private MillionService millionService;
+    @Autowired
+    private RedisComponent redisComponent;
 
     /**
      * 在业务处理器处理请求之前被调用
@@ -102,6 +101,11 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
         String requestURI = request.getRequestURI();
         if(BlogUtils.isUrlPage(requestURI) && modelAndView != null) {
             modelAndView.addObject("menuresult", millionService.getMenuDatas(request));
+        }
+        if(BlogUtils.isEvalMsgPage(requestURI) && modelAndView != null) {
+            ResponseWrapper evalMsg = millionService.getEvalMsg(request);
+            VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)evalMsg.getDataWrapper().get("data");
+            modelAndView.addObject("evaluatemsg", voEvaluateMsg);
         }
     }
 

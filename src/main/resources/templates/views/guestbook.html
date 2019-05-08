@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-@directive dynamic result,menuresult;
+@directive dynamic result,menuresult,evaluatemsg;
 <html>
 <head>
     <meta charset="UTF-8"/>
@@ -78,9 +78,9 @@
                                         <input type="hidden" name="type" value="4"/>
                                         <input type="hidden" name="firstevalid" value="${eval.evalid}"/>
                                         <input type="hidden" name="replyid" value="${eval.evalid}"/>
-                                        <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
-                                        <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
-                                        <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
+                                        <input type="text" name="name" class="text" placeholder="称呼 *" value="${evaluatemsg.name}" required/>
+                                        <input type="email" name="email" class="text" placeholder="邮箱 *" value="${evaluatemsg.email}" required/>
+                                        <input type="url" name="weblink" class="text" placeholder="http://" value="${evaluatemsg.weblink}"/>
                                         <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                                     </p>
                                 </form>
@@ -145,9 +145,9 @@
                                                     <input type="hidden" name="type" value="4"/>
                                                     <input type="hidden" name="firstevalid" value="${eval.evalid}"/>
                                                     <input type="hidden" name="replyid" value="${e.evalid}"/>
-                                                    <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
-                                                    <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
-                                                    <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
+                                                    <input type="text" name="name" class="text" placeholder="称呼 *" value="${evaluatemsg.name}" required/>
+                                                    <input type="email" name="email" class="text" placeholder="邮箱 *" value="${evaluatemsg.email}" required/>
+                                                    <input type="url" name="weblink" class="text" placeholder="http://" value="${evaluatemsg.weblink}"/>
                                                     <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                                                 </p>
                                             </form>
@@ -193,9 +193,9 @@
                             <input type="hidden" name="blogid" value="0"/>
                             <input type="hidden" name="type" value="3"/>
                             <input type="hidden" name="firstevalid" value="0"/>
-                            <input type="text" name="name" class="text" placeholder="称呼 *" value="" required/>
-                            <input type="email" name="email" class="text" placeholder="邮箱 *" value="" required/>
-                            <input type="url" name="weblink" class="text" placeholder="http://" value=""/>
+                            <input type="text" name="name" class="text" placeholder="称呼 *" value="${evaluatemsg.name}" required/>
+                            <input type="email" name="email" class="text" placeholder="邮箱 *" value="${evaluatemsg.email}" required/>
+                            <input type="url" name="weblink" class="text" placeholder="http://" value="${evaluatemsg.weblink}"/>
                             <button type="button" class="submit" onclick="TypechoComment.evaluate(this)">提交评论</button>
                         </p>
                     </form>

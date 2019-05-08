@@ -17,6 +17,11 @@ public class WebConst {
     public static String[] pageUrl = new String[]{"/","/blog/","/archives","/guestbook","/about","/links","/read"};
 
     /**
+     * 需要评论者信息的路径
+     * */
+    public static String[] evaluateInterceptUrl = new String[]{"/blog/","/whisper","/guestbook"};
+
+    /**
      * 需要登录拦截路径
      * */
     public static String[] loginInterceptUrl = new String[]{"/blog/releaseBlog", "/read"};
@@ -85,6 +90,11 @@ public class WebConst {
      * 图片上传路径前缀
      * */
     public static String uploadImgPrefix = "E:";
+
+    /**
+     * 评论者信息缓存时间(30分钟)
+     * */
+    public static Integer evaluateMessageTime = 1800;
 
 
 

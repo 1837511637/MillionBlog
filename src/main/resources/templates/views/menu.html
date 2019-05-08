@@ -17,7 +17,7 @@
             <h3 class="widget-title">热门文章</h3>
             <ul class="widget-list">
                 @for(blog in menuresult.dataWrapper.menuBlogs) {
-                    <li><a href="/blog/${blog.id}.html">${blog.title}</a></li>
+                    <li><a href="/blog/${blog.id}.html" target="_blank">${blog.title}</a></li>
                 @}
             </ul>
         </section>

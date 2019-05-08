@@ -23,5 +23,6 @@ public class RedisConst {
     public static final String BLOG_VIEW = "IP:BLOGID";
     //归档博客
     public static final String ARCHIVES_BLOG = "archives_blog";
-
+    //评论成功后保存用户评论信息30分钟
+    public static final String EVALUATE_MSG = "evaluate_msg:IP";
 }

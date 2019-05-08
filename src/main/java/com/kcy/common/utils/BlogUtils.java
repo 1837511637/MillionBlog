@@ -40,6 +40,21 @@ public class BlogUtils {
     }
 
     /**
+     * 判断是否是需要评论者信息的路径
+     * */
+    public static boolean isEvalMsgPage(String url) {
+        String[] var4 = WebConst.evaluateInterceptUrl;
+        int var3 = WebConst.evaluateInterceptUrl.length;
+        for(int var2 = 0; var2 < var3; ++var2) {
+            String s = var4[var2];
+            if (url.indexOf(s) > -1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * 判断是否是跳转需要登录路径
      * */
     public static boolean isLoginInterceptPage(String url) {

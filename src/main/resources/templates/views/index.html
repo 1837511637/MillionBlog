@@ -27,7 +27,7 @@
             @for(blog in result.dataWrapper.datas!) {
                 <article class="post">
                     <h2 class="post-title">
-                        <a href="/blog/${blog.id}.html">${blog.title}</a>
+                        <a href="/blog/${blog.id}.html" target="_blank">${blog.title}</a>
                     </h2>
                     <ul class="post-meta">
                         <li>${blog.createtime!}</li>

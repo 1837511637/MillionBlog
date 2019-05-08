@@ -37,8 +37,9 @@ public class RedisComponent {
 
     //向redis里存入数据和设置缓存时间
     public void opsForValue(String key, Object val, Long time) {
-        byte[] serialize = SerializingUtil.serialize(val);
-        stringRedisTemplate.opsForValue().set(key, String.valueOf(serialize), time, TimeUnit.SECONDS);
+        /*byte[] serialize = SerializingUtil.serialize(val);*/
+        redisTemplate.opsForValue().set(key, SerializingUtil.serialize(val), time, TimeUnit.SECONDS);
+
     }
 
     //根据key获取缓存中的val
@@ -50,11 +51,8 @@ public class RedisComponent {
     //根据key获取缓存中的val
     public Object getOpsForObject(String key) {
         try {
-            String result = stringRedisTemplate.opsForValue().get(key);
-            if(result == null) {
-                return null;
-            }
-            Object deserialize = SerializingUtil.deserialize(result.getBytes());
+            Object deserialize = SerializingUtil.deserialize((byte[]) redisTemplate.opsForValue().get(key));
+            /*Object deserialize = SerializingUtil.deserialize(result.getBytes());*/
             return deserialize;
         } catch (Exception e) {
             log.info(e.getMessage());
