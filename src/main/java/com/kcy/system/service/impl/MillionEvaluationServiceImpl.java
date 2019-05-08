@@ -19,6 +19,7 @@ import com.kcy.system.model.MillionEvaluation;
 import com.kcy.system.model.MillionUser;
 import com.kcy.system.service.MillionEvaluationService;
 import com.kcy.system.vo.VoEvaluate;
+import com.kcy.system.vo.VoEvaluateMsg;
 import lombok.extern.java.Log;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -214,6 +215,16 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
         if(millionBlog != null) {
             millionBlog.setEvalnum(millionBlog.getEvalnum() + 1);
             millionBlogMapper.updateByPrimaryKeySelective(millionBlog);
+        }
+
+        //使用redis存储评论者信息
+        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisComponent.getOpsForObject(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()));
+        if(voEvaluateMsg == null) {
+            voEvaluateMsg = new VoEvaluateMsg();
+            voEvaluateMsg.setName(millionEvaluation.getName());
+            voEvaluateMsg.setEmail(millionEvaluation.getEmail());
+            voEvaluateMsg.setWeblink(millionEvaluation.getWeblink());
+            redisComponent.opsForValue(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()), voEvaluateMsg, WebConst.evaluateMessageTime.longValue());
         }
 
         return ResponseUtils.successResponse("评论成功");

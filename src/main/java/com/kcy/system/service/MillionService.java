@@ -17,6 +17,8 @@ public interface MillionService {
     ResponseWrapper getGuestbooks(Integer page);
     //右侧菜单
     ResponseWrapper getMenuDatas(HttpServletRequest request);
+    //评论者数据
+    ResponseWrapper getEvalMsg(HttpServletRequest request);
     //条件查询
     ResponseWrapper query(Map<String, Object> map);
     //轻语

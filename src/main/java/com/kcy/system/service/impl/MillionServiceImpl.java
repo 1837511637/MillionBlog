@@ -10,6 +10,7 @@ import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisComponent;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
+import com.kcy.common.utils.IPUtils;
 import com.kcy.common.utils.Misc;
 import com.kcy.system.dao.*;
 import com.kcy.system.model.*;
@@ -143,6 +144,7 @@ public class MillionServiceImpl implements MillionService {
         return responseWrapper;
     }
 
+    /**获取全局数据**/
     public ResponseWrapper getMenuDatas(HttpServletRequest request) {
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("");
         Map<String, Object> param = new HashMap();
@@ -210,6 +212,20 @@ public class MillionServiceImpl implements MillionService {
         return responseWrapper;
     }
 
+    /**获取评论者信息数据**/
+    public ResponseWrapper getEvalMsg(HttpServletRequest request) {
+        String ip = IPUtils.getIpAddrByRequest(request);
+        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisComponent.getOpsForObject(RedisConst.EVALUATE_MSG.replace("IP", ip));
+        if(voEvaluateMsg == null) {
+            voEvaluateMsg = new VoEvaluateMsg();
+            voEvaluateMsg.setWeblink("");
+            voEvaluateMsg.setEmail("");
+            voEvaluateMsg.setName("");
+        }
+        System.out.println(voEvaluateMsg.toString());
+        return ResponseUtils.successResponse("data", voEvaluateMsg, "");
+    }
+
     public ResponseWrapper query(Map <String, Object> map) {
         String keyword = Misc.getString(map.get("keyword"));
         Integer typeid = Misc.parseInteger(Misc.getString(map.get("typeid")));
@@ -261,7 +277,7 @@ public class MillionServiceImpl implements MillionService {
         for(MillionEvaluation millionEvaluation : millionEvaluations) {
             VoWhisperEvaluate voWhisperEvaluate = new VoWhisperEvaluate();
             voWhisperEvaluate.setId(millionEvaluation.getId());
-            voWhisperEvaluate.setHeadimg(millionEvaluation.getHeadimg());
+            voWhisperEvaluate.setHeadimg(BlogUtils.getDefaultHeadimg(millionEvaluation.getHeadimg()));
             voWhisperEvaluate.setUsername(millionEvaluation.getName());
             voWhisperEvaluate.setContent(millionEvaluation.getContent());
             voWhisperEvaluate.setWebLink(millionEvaluation.getWeblink());
