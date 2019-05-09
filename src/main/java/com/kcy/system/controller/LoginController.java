@@ -2,6 +2,7 @@ package com.kcy.system.controller;
 
 import com.kcy.common.base.BaseController;
 import com.kcy.common.constant.RedisConst;
+import com.kcy.common.constant.WebConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
 import com.kcy.common.redis.RedisService;
@@ -36,11 +37,11 @@ public class LoginController extends BaseController {
         String ipAddrByRequest = IPUtils.getIpAddrByRequest(request);
         String code = RedisConst.LOGIN_ERROR_COUNT.replaceAll("IP", ipAddrByRequest);
         Integer count = Misc.parseInteger(Misc.getString(redisService.get(code)));
-        if(count==null || count < 3) {
+        if(count < 3) {
             ResponseWrapper responseWrapper = millionUserService.login(millionUser.getName(), millionUser.getPassword(), request);
             if(responseWrapper.getStatus() == -5) {
-                count = null == count ? 1 : count + 1;
-                redisService.set(code, count+"", 10 * 60L);
+                count = 0 == count ? 1 : count + 1;
+                redisService.set(code, count, WebConst.loginErrorTime.longValue());
             }
             return responseWrapper;
         }

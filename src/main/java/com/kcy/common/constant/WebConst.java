@@ -101,6 +101,11 @@ public class WebConst {
      * */
     public static Integer evaluateMessageTime = 1800;
 
+    /**
+     * 登录失败缓存时间
+     * */
+    public static Integer loginErrorTime = 600;
+
 
 
 

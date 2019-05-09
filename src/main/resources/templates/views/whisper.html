@@ -129,7 +129,7 @@
                     <h3>编写轻语</h3>
                     <form class="comment-form clearfix">
                         <p class="textarea">
-                            <textarea name="text" placeholder="说点什么..." required></textarea>
+                            <textarea name="content" placeholder="说点什么..." required></textarea>
                         </p>
                         <p class="textbutton">
                             <input type="text" name="author" class="text" placeholder="称呼 *" value=""
@@ -137,7 +137,7 @@
                             <input type="email" name="mail" class="text" placeholder="邮箱 *" value=""
                                    required/>
                             <input type="url" name="url" class="text" placeholder="http://" value=""/>
-                            <button type="button" class="submit">提交</button>
+                            <button type="button" class="submit" onclick="TypechoComment.whisper(this)">提交</button>
                         </p>
                     </form>
                 </div>
@@ -170,6 +170,19 @@
             var data = $(obj).parent().parent().serialize();
             $.ajax({
                 url: "/eval/commentMessage",
+                data: data,
+                type: "post",
+                success : function (result) {
+                    alert(result.msg);
+                    if(result.success) {
+                        window.location.reload();
+                    }
+                }
+            })
+        }, whisper : function (obj) {
+            var data = $(obj).parent().parent().serialize();
+            $.ajax({
+                url: "/whisper/publishWhisper",
                 data: data,
                 type: "post",
                 success : function (result) {

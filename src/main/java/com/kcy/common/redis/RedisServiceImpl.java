@@ -25,7 +25,7 @@ public class RedisServiceImpl implements RedisService{
         boolean result = false;
         try {
             ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.setIfAbsent(key, value);
+            operations.set(key, value);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class RedisServiceImpl implements RedisService{
         boolean result = false;
         try {
             ValueOperations<Serializable, Object> operations = redisTemplate.opsForValue();
-            operations.setIfAbsent(key, value);
+            operations.set(key, value);
             redisTemplate.expire(key, expireTime, TimeUnit.SECONDS);
             result = true;
         } catch (Exception e) {
@@ -117,7 +117,7 @@ public class RedisServiceImpl implements RedisService{
     @Override
     public void hmSet(String key, Object hashKey, Object value){
         HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        hash.putIfAbsent(key,hashKey,value);
+        hash.put(key,hashKey,value);
     }
 
     /**
