@@ -7,7 +7,7 @@ import com.kcy.common.constant.WebConst;
 import com.kcy.common.model.PageConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
-import com.kcy.common.redis.RedisComponent;
+import com.kcy.common.redis.RedisService;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
 import com.kcy.common.utils.IPUtils;
@@ -21,13 +21,10 @@ import com.kcy.system.service.MillionEvaluationService;
 import com.kcy.system.vo.VoEvaluate;
 import com.kcy.system.vo.VoEvaluateMsg;
 import lombok.extern.java.Log;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.InputStream;
-import java.net.URL;
 import java.util.*;
 
 @Log
@@ -39,9 +36,10 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
     @Autowired
     private MillionBlogMapper millionBlogMapper;
     @Autowired
-    private RedisComponent redisComponent;
+    private RedisService redisService;
 
     //获取评论
+    @Override
     public ResponseWrapper getAllByAimsId(Map<String, Object> map) {
         //Integer aimsid = Misc.parseInteger(Misc.getString(map.get("id")));
         Integer pageNo = Misc.getIntegerPage(Misc.getString(map.get("page")));
@@ -139,6 +137,7 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
     }*/
 
     //评论留言
+    @Override
     public ResponseWrapper commentMessage(HttpServletRequest request, MillionEvaluation millionEvaluation) {
         if(millionEvaluation == null) {
             return ResponseUtils.errorResponse("网络繁忙，请刷新");
@@ -152,6 +151,10 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
 
         if(Misc.isIllegal(millionEvaluation.getContent())) {
             return ResponseUtils.errorResponse("内容非法");
+        }
+
+        if(!BlogUtils.isHttpOrHttps(millionEvaluation.getWeblink())) {
+            return ResponseUtils.errorResponse("http://忘记输入了哦");
         }
 
         //判断网站是否失效
@@ -205,7 +208,7 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
         //判断是否是留言
         if("3".equals(millionEvaluation.getType())) {
             //清除缓存
-            redisComponent.delete(RedisConst.MENU_EVAL);
+            redisService.remove(RedisConst.MENU_EVAL);
         }
 
         millionEvaluationMapper.insertSelective(millionEvaluation);
@@ -218,13 +221,13 @@ public class MillionEvaluationServiceImpl implements MillionEvaluationService {
         }
 
         //使用redis存储评论者信息
-        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisComponent.getOpsForObject(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()));
+        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisService.get(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()));
         if(voEvaluateMsg == null) {
             voEvaluateMsg = new VoEvaluateMsg();
             voEvaluateMsg.setName(millionEvaluation.getName());
             voEvaluateMsg.setEmail(millionEvaluation.getEmail());
             voEvaluateMsg.setWeblink(millionEvaluation.getWeblink());
-            redisComponent.opsForValue(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()), voEvaluateMsg, WebConst.evaluateMessageTime.longValue());
+            redisService.set(RedisConst.EVALUATE_MSG.replace("IP", millionEvaluation.getIp()), voEvaluateMsg, WebConst.evaluateMessageTime.longValue());
         }
 
         return ResponseUtils.successResponse("评论成功");

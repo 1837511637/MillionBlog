@@ -22,6 +22,7 @@ import java.util.List;
 public class FileUploadServiceImpl implements FileUploadService {
 
     //上传图片
+    @Override
     public ResponseWrapper uploadImage(MultipartFile[] files) throws IOException {
         List<String> urls = new ArrayList();
         for(MultipartFile file : files) {

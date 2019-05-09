@@ -7,7 +7,7 @@ import com.kcy.common.constant.WebConst;
 import com.kcy.common.model.PageConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
-import com.kcy.common.redis.RedisComponent;
+import com.kcy.common.redis.RedisService;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
 import com.kcy.common.utils.IPUtils;
@@ -24,13 +24,11 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
-import static com.kcy.common.utils.BlogUtils.checkHitsFrequency;
-
 @Service
 public class MillionServiceImpl implements MillionService {
 
     @Autowired
-    private RedisComponent redisComponent;
+    private RedisService redisService;
     @Autowired
     private MillionBlogService millionBlogService;
     @Autowired
@@ -47,8 +45,9 @@ public class MillionServiceImpl implements MillionService {
     private MillionLabelMapper millionLabelMapper;
 
     //获取首页信息数据
+    @Override
     public ResponseWrapper getIndexData() {
-        ResponseWrapper responseWrapper = (ResponseWrapper)redisComponent.getOpsForObject(RedisConst.INDEX_RESPONSEWRAPPER);
+        ResponseWrapper responseWrapper = (ResponseWrapper)redisService.get(RedisConst.INDEX_RESPONSEWRAPPER);
         if(responseWrapper == null) {
             Map<String, Object> param = new HashMap();
             param.put("page", 1);
@@ -63,19 +62,20 @@ public class MillionServiceImpl implements MillionService {
                 voIndexMillionWhisper.setContent(newsMessage.getContent());
                 responseWrapper.addAttribute("whisper", voIndexMillionWhisper);
             }
-            redisComponent.opsForValue(RedisConst.INDEX_RESPONSEWRAPPER, responseWrapper);
+            redisService.set(RedisConst.INDEX_RESPONSEWRAPPER, responseWrapper);
         }
         return responseWrapper;
     }
 
     //文章详情
+    @Override
     public ResponseWrapper getBlogDetails(HttpServletRequest request, Integer id) {
         MillionBlog millionBlog = millionBlogMapper.selectByPrimaryKey(id);
         if(millionBlog == null || !"1".equals(millionBlog.getStatus())) {
             return ResponseUtils.errorResponse("此博客已下线");
         }
         //控制文章阅读量
-        boolean fale = BlogUtils.checkHitsFrequency(request, id, redisComponent);
+        boolean fale = BlogUtils.checkHitsFrequency(request, id, redisService);
         if(!fale) {
             millionBlog.setViewnum(millionBlog.getViewnum() + 1);
             millionBlogMapper.updateByPrimaryKeySelective(millionBlog);
@@ -106,8 +106,9 @@ public class MillionServiceImpl implements MillionService {
     }
 
     //获取归档数据
+    @Override
     public ResponseWrapper getArchives() {
-        LinkedHashMap<String, List<VoArchivesBlog>> linkedHashMap = (LinkedHashMap<String, List<VoArchivesBlog>>)redisComponent.getOpsForObject(RedisConst.INDEX_RESPONSEWRAPPER);
+        LinkedHashMap<String, List<VoArchivesBlog>> linkedHashMap = (LinkedHashMap<String, List<VoArchivesBlog>>)redisService.get(RedisConst.ARCHIVES_BLOG);
         if(linkedHashMap == null) {
             List <MillionBlog> millionBlogs = millionBlogMapper.findAll(null);
             linkedHashMap = new LinkedHashMap();
@@ -127,11 +128,12 @@ public class MillionServiceImpl implements MillionService {
                     list.add(voArchivesBlog);
                 }
             }
-            redisComponent.opsForValue(RedisConst.INDEX_RESPONSEWRAPPER, linkedHashMap);
+            redisService.set(RedisConst.ARCHIVES_BLOG, linkedHashMap);
         }
         return ResponseUtils.successResponse("datas", linkedHashMap, "");
     }
 
+    @Override
     public ResponseWrapper getGuestbooks(Integer page) {
         Map<String, Object> param = new HashMap(6);
         param.put("page", page);
@@ -145,12 +147,13 @@ public class MillionServiceImpl implements MillionService {
     }
 
     /**获取全局数据**/
+    @Override
     public ResponseWrapper getMenuDatas(HttpServletRequest request) {
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("");
         Map<String, Object> param = new HashMap();
         param.put("limit", 5);
         //获取热门博客
-        List<VoMenuBlog> voMenuBlogs = (List<VoMenuBlog>)redisComponent.getOpsForObject(RedisConst.MENU_BLOG);
+        List<VoMenuBlog> voMenuBlogs = (List<VoMenuBlog>)redisService.get(RedisConst.MENU_BLOG);
         if(voMenuBlogs == null) {
             voMenuBlogs = new ArrayList();
             List <MillionBlog> millionBlogs = millionBlogMapper.theLatestData(param);
@@ -160,11 +163,11 @@ public class MillionServiceImpl implements MillionService {
                 voMenuBlog.setTitle(millionBlog.getTitle());
                 voMenuBlogs.add(voMenuBlog);
             }
-            redisComponent.opsForValue(RedisConst.MENU_BLOG, voMenuBlogs);
+            redisService.set(RedisConst.MENU_BLOG, voMenuBlogs);
         }
         responseWrapper.addAttribute("menuBlogs", voMenuBlogs);
         //最新留言
-        List<VoMenuEvaluate> voMenuEvaluates = (List<VoMenuEvaluate>)redisComponent.getOpsForObject(RedisConst.MENU_EVAL);
+        List<VoMenuEvaluate> voMenuEvaluates = (List<VoMenuEvaluate>)redisService.get(RedisConst.MENU_EVAL);
         if(voMenuEvaluates == null) {
             voMenuEvaluates = new ArrayList();
             param.put("type", "3");
@@ -176,11 +179,11 @@ public class MillionServiceImpl implements MillionService {
                 voMenuEvaluate.setWeblink(millionEvaluation.getWeblink());
                 voMenuEvaluates.add(voMenuEvaluate);
             }
-            redisComponent.opsForValue(RedisConst.MENU_EVAL, voMenuEvaluates);
+            redisService.set(RedisConst.MENU_EVAL, voMenuEvaluates);
         }
         responseWrapper.addAttribute("menuEvals", voMenuEvaluates);
         //标签
-        List<VoMenuLabel> voMenuLabels = (List<VoMenuLabel>)redisComponent.getOpsForObject(RedisConst.MENU_LABEL);
+        List<VoMenuLabel> voMenuLabels = (List<VoMenuLabel>)redisService.get(RedisConst.MENU_LABEL);
         if(voMenuLabels == null) {
             voMenuLabels = new ArrayList();
             List<MillionLabel> millionLabels = millionLabelMapper.findAll(null);
@@ -190,11 +193,11 @@ public class MillionServiceImpl implements MillionService {
                 voMenuLabel.setName(millionLabel.getName());
                 voMenuLabels.add(voMenuLabel);
             }
-            redisComponent.opsForValue(RedisConst.MENU_LABEL, voMenuLabels);
+            redisService.set(RedisConst.MENU_LABEL, voMenuLabels);
         }
         responseWrapper.addAttribute("menuLabels", voMenuLabels);
         //类型
-        List<VoHeadType> voHeadTypes = (List<VoHeadType>)redisComponent.getOpsForObject(RedisConst.HEAD_TYPE);
+        List<VoHeadType> voHeadTypes = (List<VoHeadType>)redisService.get(RedisConst.HEAD_TYPE);
         if(voHeadTypes == null) {
             voHeadTypes = new ArrayList();
             List <MillionType> millionTypes = millionTypeMapper.findAll(null);
@@ -204,7 +207,7 @@ public class MillionServiceImpl implements MillionService {
                 voHeadType.setName(millionType.getName());
                 voHeadTypes.add(voHeadType);
             }
-            redisComponent.opsForValue(RedisConst.HEAD_TYPE, voHeadTypes);
+            redisService.set(RedisConst.HEAD_TYPE, voHeadTypes);
         }
         responseWrapper.addAttribute("headTypes", voHeadTypes);
 
@@ -213,19 +216,20 @@ public class MillionServiceImpl implements MillionService {
     }
 
     /**获取评论者信息数据**/
+    @Override
     public ResponseWrapper getEvalMsg(HttpServletRequest request) {
         String ip = IPUtils.getIpAddrByRequest(request);
-        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisComponent.getOpsForObject(RedisConst.EVALUATE_MSG.replace("IP", ip));
+        VoEvaluateMsg voEvaluateMsg = (VoEvaluateMsg)redisService.get(RedisConst.EVALUATE_MSG.replace("IP", ip));
         if(voEvaluateMsg == null) {
             voEvaluateMsg = new VoEvaluateMsg();
             voEvaluateMsg.setWeblink("");
             voEvaluateMsg.setEmail("");
             voEvaluateMsg.setName("");
         }
-        System.out.println(voEvaluateMsg.toString());
         return ResponseUtils.successResponse("data", voEvaluateMsg, "");
     }
 
+    @Override
     public ResponseWrapper query(Map <String, Object> map) {
         String keyword = Misc.getString(map.get("keyword"));
         Integer typeid = Misc.parseInteger(Misc.getString(map.get("typeid")));
@@ -247,6 +251,7 @@ public class MillionServiceImpl implements MillionService {
         return responseWrapper;
     }
 
+    @Override
     public ResponseWrapper getWhisperDatas(Integer pageNo) {
         if(pageNo <=1) {
             pageNo = 1;

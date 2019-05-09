@@ -27,6 +27,11 @@ public class WebConst {
     public static String[] loginInterceptUrl = new String[]{"/blog/releaseBlog", "/read"};
 
     /**
+     * http:// 或者 https:// 开头
+     * */
+    public static String[] httpOrHttps = new String[]{"http://","https://"};
+
+    /**
      * aes加密加盐
      */
     public static String AES_SALT = "zhanglan";

@@ -1,12 +1,7 @@
 package com.kcy.common.filter;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.kcy.common.config.GlobalExceptionHandler;
 import com.kcy.common.constant.RedisConst;
-import com.kcy.common.constant.WebConst;
-import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
-import com.kcy.common.redis.RedisComponent;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.IPUtils;
 import com.kcy.system.dao.*;
@@ -14,7 +9,6 @@ import com.kcy.system.model.*;
 import com.kcy.system.service.MillionService;
 import com.kcy.system.vo.*;
 import lombok.extern.log4j.Log4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,10 +16,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 该拦截器用于返回页面右侧栏数据
@@ -41,8 +31,6 @@ public class MenuDatasInterceptor extends HandlerInterceptorAdapter {
     private MillionUserMapper millionUserMapper;
     @Autowired
     private MillionService millionService;
-    @Autowired
-    private RedisComponent redisComponent;
 
     /**
      * 在业务处理器处理请求之前被调用

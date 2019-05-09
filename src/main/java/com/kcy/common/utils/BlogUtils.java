@@ -2,15 +2,8 @@ package com.kcy.common.utils;
 
 import com.kcy.common.constant.RedisConst;
 import com.kcy.common.constant.WebConst;
-import com.kcy.common.redis.RedisComponent;
+import com.kcy.common.redis.RedisService;
 import com.kcy.system.model.MillionUser;
-import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +11,6 @@ import javax.servlet.http.HttpSession;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class BlogUtils {
     private static String[] symbols = {"。", ".", "!", "！", "，", ",", " "};
@@ -125,14 +116,14 @@ public class BlogUtils {
     /**
      * 判断用户2个小时以内对同一篇博客只能增加一次阅读量
      * */
-    public static boolean checkHitsFrequency(HttpServletRequest request, Integer id, RedisComponent redisComponent) {
+    public static boolean checkHitsFrequency(HttpServletRequest request, Integer id, RedisService redisService) {
         String ip = IPUtils.getIpAddrByRequest(request);
         String blogView = RedisConst.BLOG_VIEW.replace("IP", ip).replace("BLOGID", Misc.getString(id));
-        Integer count = Misc.parseInteger(redisComponent.getOpsForValue(blogView));
+        Integer count = Misc.parseInteger(Misc.getString(redisService.get(blogView)));
         if(count != null && count > 0) {
             return true;
         }
-        redisComponent.opsForValue(blogView, Misc.getString(1), WebConst.HITS_LIMIT_TIME.longValue());
+        redisService.set(blogView, Misc.getString(1), WebConst.HITS_LIMIT_TIME.longValue());
         return false;
     }
 
@@ -220,6 +211,21 @@ public class BlogUtils {
             return WebConst.DEFAULT_HEADIMG;
         }
         return url;
+    }
+
+    public static Boolean isHttpOrHttps(String url) {
+        if(Misc.isStringEmpty(url)) {
+            return false;
+        }
+        Boolean fale = false;
+        for(String protocol : WebConst.httpOrHttps) {
+            int length = protocol.length();
+            if(url.length() > length && url.substring(0, length).equals(protocol)) {
+                fale = true;
+                break;
+            }
+        }
+        return fale;
     }
 
 }

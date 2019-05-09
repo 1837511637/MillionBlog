@@ -4,7 +4,7 @@ import com.kcy.common.constant.RedisConst;
 import com.kcy.common.constant.WebConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
-import com.kcy.common.redis.RedisComponent;
+import com.kcy.common.redis.RedisService;
 import com.kcy.common.utils.ConfidentialityUtils;
 import com.kcy.common.utils.IPUtils;
 import com.kcy.common.utils.Misc;
@@ -27,8 +27,9 @@ public class MillionUserServiceImpl implements MillionUserService {
     @Autowired
     private MillionUserMapper millionUserMapper;
     @Autowired
-    private RedisComponent redisComponent;
+    private RedisService redisService;
 
+    @Override
     public ResponseWrapper login(String username, String password, HttpServletRequest request) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         if(Misc.isStringEmpty(username) || Misc.isStringEmpty(password)){
             return ResponseUtils.errorResponse("用户名与密码不能为空");
@@ -52,7 +53,7 @@ public class MillionUserServiceImpl implements MillionUserService {
         request.getSession().setAttribute(RedisConst.LOGIN_SESSION_KEY, millionUser);
 
         String code = RedisConst.LOGIN_ERROR_COUNT.replaceAll("IP", IPUtils.getIpAddrByRequest(request));
-        redisComponent.delete(code);
+        redisService.remove(code);
         return ResponseUtils.successResponse("登录成功");
     }
 

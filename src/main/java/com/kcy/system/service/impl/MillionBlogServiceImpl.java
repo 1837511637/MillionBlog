@@ -7,7 +7,7 @@ import com.kcy.common.constant.WebConst;
 import com.kcy.common.model.PageConst;
 import com.kcy.common.model.ResponseUtils;
 import com.kcy.common.model.ResponseWrapper;
-import com.kcy.common.redis.RedisComponent;
+import com.kcy.common.redis.RedisService;
 import com.kcy.common.utils.BlogUtils;
 import com.kcy.common.utils.DateUtils;
 import com.kcy.common.utils.IPUtils;
@@ -24,7 +24,6 @@ import com.kcy.system.vo.VoBlog;
 import lombok.extern.java.Log;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,11 +45,12 @@ public class MillionBlogServiceImpl implements MillionBlogService {
     private MillionTypeMapper millionTypeMapper;
 
     @Autowired
-    private RedisComponent redisComponent;
+    private RedisService redisService;
 
     /**
      * 发表博客
      * */
+    @Override
     public ResponseWrapper releaseBlog(MillionBlog millionBlog, HttpServletRequest request) {
         MillionUser loginUser = BlogUtils.getLoginUser(request);
         if(loginUser == null) {
@@ -90,9 +90,7 @@ public class MillionBlogServiceImpl implements MillionBlogService {
         //为了查询方便.......好low啊
         millionBlog.setLabelids(millionBlog.getLabelids()+",");
         millionBlogMapper.insertSelective(millionBlog);
-        redisComponent.delete(RedisConst.MENU_BLOG);
-        redisComponent.delete(RedisConst.INDEX_RESPONSEWRAPPER);
-        redisComponent.delete(RedisConst.ARCHIVES_BLOG);
+        redisService.remove(RedisConst.MENU_BLOG, RedisConst.INDEX_RESPONSEWRAPPER, RedisConst.ARCHIVES_BLOG);
         log.info(millionBlog.toString());
         return ResponseUtils.successResponse("发表成功");
     }
@@ -100,6 +98,7 @@ public class MillionBlogServiceImpl implements MillionBlogService {
     /**
      * 获取博客页面数据
      * */
+    @Override
     public ResponseWrapper getBlogPageData() {
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("success");
         List <MillionLabel> millionLabels = millionLabelMapper.findAll(null);
@@ -112,6 +111,7 @@ public class MillionBlogServiceImpl implements MillionBlogService {
     /**
      * 获取博客数据
      * */
+    @Override
     public ResponseWrapper findAll(Map<String, Object> param) {
         Integer pageNo = Misc.getIntegerPage(Misc.getString(param.get("page")));
         ResponseWrapper responseWrapper = ResponseUtils.successResponse("success");
