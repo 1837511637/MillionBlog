@@ -1,6 +1,7 @@
 package com.kcy.common.constant;
 
 import com.kcy.system.model.MillionUser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,7 +95,12 @@ public class WebConst {
     /**
      * 图片上传路径前缀
      * */
-    public static String uploadImgPrefix = "E:";
+    public static String uploadImgPrefix;
+
+    /**
+     * 图片前缀
+     * */
+    public static String uploadImgPre;
 
     /**
      * 评论者信息缓存时间(30分钟)
@@ -106,7 +112,13 @@ public class WebConst {
      * */
     public static Integer loginErrorTime = 600;
 
+    @Value("${uploadImgPrefix}")
+    public void setUploadImgPrefix(String uploadImgPrefix) {
+        WebConst.uploadImgPrefix = uploadImgPrefix;
+    }
 
-
-
+    @Value("${uploadImgPre}")
+    public static void setUploadImgPre(String uploadImgPre) {
+        WebConst.uploadImgPre = uploadImgPre;
+    }
 }

@@ -35,4 +35,11 @@ public class CorsConfig extends WebMvcConfigurerAdapter {
         super.addInterceptors(registry);
     }
 
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //将请求定向到文件路径下
+        registry.addResourceHandler("/templates/**")
+                .addResourceLocations("classpath:/templates/");
+        super.addResourceHandlers(registry);
+    }
 }
