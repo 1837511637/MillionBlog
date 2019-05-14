@@ -1,16 +1,18 @@
 
 package com.kcy.common.config;
+import org.beetl.core.GroupTemplate;
 import org.beetl.core.resource.ClasspathResourceLoader;
-import org.beetl.core.resource.WebAppResourceLoader;
 import org.beetl.ext.spring.BeetlGroupUtilConfiguration;
 import org.beetl.ext.spring.BeetlSpringViewResolver;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternUtils;
+import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
@@ -19,19 +21,24 @@ public class BeetlConfig {
 
     @Bean(initMethod="init")
     public BeetlGroupUtilConfiguration beetlConfiguration(){
-
-        BeetlGroupUtilConfiguration configuration=new BeetlGroupUtilConfiguration();
-        ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
-        String path=null;
+        BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
+        //ResourcePatternResolver patternResolver = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader());
+        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+        if(classLoader == null){
+            classLoader = SpringBootApplication.class.getClassLoader();
+        }
         try {
-            path = patternResolver.getResource("classpath:/").getFile().getPath();
-            WebAppResourceLoader resourceLoader=new WebAppResourceLoader(path);
-            configuration.setResourceLoader(resourceLoader);
+            beetlGroupUtilConfiguration.setConfigProperties(PropertiesLoaderUtils.loadAllProperties("beetl.properties"));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        return configuration;
+        ClasspathResourceLoader cploder = new ClasspathResourceLoader(classLoader, "");
+        beetlGroupUtilConfiguration.setResourceLoader(cploder);
+        beetlGroupUtilConfiguration.init();
+        //如果使用了优化编译器，涉及到字节码操作，需要添加ClassLoader
+        GroupTemplate groupTemplate = beetlGroupUtilConfiguration.getGroupTemplate();
+        groupTemplate.setClassLoader(classLoader);
+        return beetlGroupUtilConfiguration;
     }
 
     @Bean
