@@ -49,7 +49,7 @@ public class FileUploadServiceImpl implements FileUploadService {
                 }
                 //保存图片
                 file.transferTo(new File(path));
-                urls.add("http://localhost:8085/" + path);
+                urls.add(WebConst.uploadImgPre + path);
             } else {
                 log.info("上传失败:" + fileName);
                 continue;
