@@ -88,7 +88,7 @@
 @include("/templates/views/header.html"){}
 <div id="body">
     <div class="container clearfix">
-        <div id="main">
+        <div id="main" style="width: 100%">
             <div class="breadcrumbs">
                 <a href="/">首页</a> &raquo; 编写
             </div>
@@ -98,7 +98,7 @@
                     <div id="editor" class="w-e-text-container"></div>
                     <textarea name="content" style="display:none;"></textarea>
                     <div class="w-e-text-label">
-                        <label>文章标签：</label>
+                        <label>：文章标签</label>
                         <select id="area" multiple="multiple" class="select2">
                             @for (label in result.dataWrapper.labels!){
                                 <option value="${label.id}">${label.name}</option>
@@ -131,7 +131,9 @@
             </form>
         </div>
         <!--右侧栏-->
-        @include("/templates/views/menu.html"){}
+        <!--
+            @include("/templates/views/menu.html"){}
+        -->
     </div>
 </div>
 @include("/templates/views/footer.html"){}

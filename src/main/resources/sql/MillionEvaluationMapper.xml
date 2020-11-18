@@ -34,13 +34,12 @@
     <if test="firstevalid!=null and firstevalid!=''">
       and FIRSTEVALID = #{firstevalid}
     </if>
-    <if test="ids!=null">
+    <if test="ids!=null and ids.size() > 0">
       and blogid in
       <foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
         #{item}
       </foreach>
     </if>
-    and status = 1
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -51,7 +50,7 @@
   <select id="findAll" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
-    from million_evaluation where 1 = 1
+    from million_evaluation where status = 1
     <include refid="where_sql"/>
     order by createtime desc
   </select>

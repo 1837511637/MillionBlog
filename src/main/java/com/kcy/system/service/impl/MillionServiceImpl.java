@@ -275,7 +275,7 @@ public class MillionServiceImpl implements MillionService {
             voWhispersLinkedHashMap.put(millionWhisper.getId(), voWhispers);
         }
         Map<String, Object> param = new HashMap();
-        param.put("ids", ids);
+        param.put("ids", ids.size() == 0 ? null : ids);
         param.put("type", "5");
         List <MillionEvaluation> millionEvaluations = millionEvaluationMapper.findAll(param);
         LinkedHashMap<Integer, List<VoWhisperEvaluate>> voWhisperEvaluateLinkedHashMap = new LinkedHashMap();
